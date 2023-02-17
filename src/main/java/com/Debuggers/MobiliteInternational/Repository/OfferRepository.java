@@ -1,4 +1,7 @@
 package com.Debuggers.MobiliteInternational.Repository;
 
-public interface OfferRepository {
+import com.Debuggers.MobiliteInternational.Entity.Offer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OfferRepository extends JpaRepository<Offer,Long> {
 }

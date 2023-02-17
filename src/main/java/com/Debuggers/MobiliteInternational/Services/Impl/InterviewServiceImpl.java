@@ -1,4 +1,8 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
-public class InterviewServiceImpl {
+import com.Debuggers.MobiliteInternational.Services.InterviewService;
+import org.springframework.stereotype.Service;
+
+@Service
+public class InterviewServiceImpl implements InterviewService {
 }

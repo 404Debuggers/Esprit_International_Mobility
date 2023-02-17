@@ -1,4 +1,7 @@
 package com.Debuggers.MobiliteInternational.Repository;
 
-public interface InterviewRepository {
+import com.Debuggers.MobiliteInternational.Entity.Interview;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface InterviewRepository extends JpaRepository<Interview,Long> {
 }

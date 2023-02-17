@@ -1,4 +1,4 @@
 package com.Debuggers.MobiliteInternational.Services;
 
-public interface ForumService {
+public interface PublicationService {
 }

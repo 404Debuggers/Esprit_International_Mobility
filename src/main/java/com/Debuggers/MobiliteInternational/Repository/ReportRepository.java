@@ -1,4 +1,7 @@
 package com.Debuggers.MobiliteInternational.Repository;
 
-public interface ReportRepository {
+import com.Debuggers.MobiliteInternational.Entity.Report;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ReportRepository extends JpaRepository<Report,Long> {
 }
