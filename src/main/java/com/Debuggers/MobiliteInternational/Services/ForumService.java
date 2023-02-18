@@ -1,4 +1,4 @@
 package com.Debuggers.MobiliteInternational.Services;
 
-public interface CandidacyService {
+public interface ForumService {
 }

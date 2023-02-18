@@ -1,4 +1,4 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
-public class InterviewServiceImpl {
+public class ForumServiceImpl {
 }

@@ -29,8 +29,8 @@ public class Candidacy implements Serializable {
     private String CoverLettre;
 
     private String attachements;
-    @Enumerated(EnumType.STRING)
-    private StudyField option;
+    //@Enumerated(EnumType.STRING)
+    //private StudyField option;
     @Enumerated(EnumType.STRING)
     private Niveau levelEng;
     @Enumerated(EnumType.STRING)
@@ -38,7 +38,7 @@ public class Candidacy implements Serializable {
     @Enumerated(EnumType.STRING)
     private Status status ;
     private Boolean archive;
-    @ManyToOne(cascade = CascadeType.ALL)
+   @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     private User user;
     @OneToMany(mappedBy = "candidacy")
