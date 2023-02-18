@@ -24,8 +24,10 @@ public class Interview implements Serializable {
     private Date calendar;
     private String link;
     private Boolean archive;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private Candidacy candidacy;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private University university;
 }
