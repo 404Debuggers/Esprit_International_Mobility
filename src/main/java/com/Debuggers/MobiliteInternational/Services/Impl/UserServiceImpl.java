@@ -4,5 +4,5 @@ import com.Debuggers.MobiliteInternational.Services.UniversityService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserServiceImpl implements UniversityService {
+public class UserServiceImpl implements UserService {
 }
