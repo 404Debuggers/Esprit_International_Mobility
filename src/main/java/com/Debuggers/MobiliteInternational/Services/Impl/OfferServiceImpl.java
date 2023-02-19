@@ -10,9 +10,6 @@ import java.util.List;
 
 @Service
 public class OfferServiceImpl implements OfferService {
-
-
-
         @Autowired
         OfferRepository offerRepository;
 

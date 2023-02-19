@@ -1,7 +1,6 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
 import com.Debuggers.MobiliteInternational.Entity.Blog;
-import com.Debuggers.MobiliteInternational.Entity.Comment;
 import com.Debuggers.MobiliteInternational.Repository.BlogRepository;
 import com.Debuggers.MobiliteInternational.Services.BlogService;
 import lombok.AllArgsConstructor;
@@ -40,4 +39,5 @@ public class BlogServiceImpl implements BlogService {
         blogRepository.deleteById(id);
 
     }
+
 }

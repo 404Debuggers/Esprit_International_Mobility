@@ -1,5 +1,4 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Interview;
 import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;

@@ -7,11 +7,8 @@ import java.util.List;
 public interface UniversityService {
 
     public University addUni(University university);
-
     public List<University> getAllUnis();
-
     public University updateUni(University university);
-
     public void suppUni (Long universiteId);
 
 }
