@@ -12,10 +12,10 @@ public class InterviewController {
     @Autowired
     InterviewService interviewService;
 
-    @PostMapping("/ajouterentretien/{candidatureId}")
-    public void createEntretien(@PathVariable("candidatureId")Long candidatureId, @RequestBody Interview interview) {
+    @PostMapping("/ajouterentretien/{candidatureId}/{universityId}")
+    public void createEntretien(@PathVariable("candidatureId")Long candidatureId,@PathVariable("universityId")Long universityId, @RequestBody Interview interview) {
 
-        interviewService.createEntretien(interview, candidatureId);
+        interviewService.createEntretien(interview, candidatureId,universityId);
     }
 
 
