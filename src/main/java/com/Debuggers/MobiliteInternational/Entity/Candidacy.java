@@ -25,7 +25,7 @@ public class Candidacy implements Serializable {
     @Id
     private Long candidatureId;
     private String CoverLettre;
-    private String attachementsCandidacy;
+    private String attachements;
     @Enumerated(EnumType.STRING)
     private StudyField option;
     @Enumerated(EnumType.STRING)

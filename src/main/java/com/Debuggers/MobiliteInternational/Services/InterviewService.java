@@ -5,7 +5,7 @@ import com.Debuggers.MobiliteInternational.Entity.Interview;
 import java.util.List;
 
 public interface InterviewService {
-    void createEntretien(Interview interview, Long candidatureId);
+    void createEntretien(Interview interview, Long candidatureId, Long universityId);
 
     void deleteEntretien(Long interviewId);
 
