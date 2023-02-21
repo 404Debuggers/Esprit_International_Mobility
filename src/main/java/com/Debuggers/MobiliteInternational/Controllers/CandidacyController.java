@@ -10,10 +10,10 @@ import java.util.List;
 public class CandidacyController {
     @Autowired
     CandidacyServiceImpl icandidacyService;
-    @PostMapping("/addCandidancy")
+    @PostMapping("/addCandidancy/{offerId}/{userId}")
     @ResponseBody
-    public Candidacy addCandidancy(@RequestBody Candidacy c){
-        return icandidacyService.addCandidature(c);
+    public Candidacy addCandidancy(@RequestBody Candidacy c , @PathVariable("offerId") Long offerId,@PathVariable("userId")Long userId ){
+        return icandidacyService.addCandidature(c,offerId,userId);
     }
     @GetMapping("/AllCandidancy")
     @ResponseBody
@@ -22,8 +22,23 @@ public class CandidacyController {
     }
     @GetMapping("/getCandidancyById/{id}")
     @ResponseBody
-    public Candidacy getDepartementById(@PathVariable("id")int id){
+    public Candidacy getCandidacyById(@PathVariable("id")Long id){
         return icandidacyService.getCandidancyById(id);
+    }
+    @GetMapping("/getCandidancyByOfferid/{idOffer}")
+    @ResponseBody
+    public List<Candidacy> getCandidacyByOfferid(@PathVariable("idOffer")Long idOffer){
+        return icandidacyService.getCandidacyByOffer(idOffer);
+    }
+    @GetMapping("/getCandidancyByUserid/{idUser}")
+    @ResponseBody
+    public List<Candidacy> getCandidacyByUserid(@PathVariable("idUser")Long idUser){
+        return icandidacyService.getCandiacyByUser(idUser);
+    }
+    @GetMapping("/getCandidancyByUseridAndOfferid/{idUser}/{idOffer}")
+    @ResponseBody
+    public List<Candidacy> getCandidacyByUseridAndOfferid(@PathVariable("idUser")Long idUser,@PathVariable("idOffer")Long idOffer){
+        return icandidacyService.getCandiacyByUserAndOffer(idUser,idOffer);
     }
     @PutMapping("/updateCandidancy")
     @ResponseBody
@@ -32,7 +47,7 @@ public class CandidacyController {
     }
     @DeleteMapping("/deleteCandidancy/{id}")
     @ResponseBody
-    public void deleteCandidancy(@PathVariable("id")int id){
+    public void deleteCandidancy(@PathVariable("id")Long id){
         icandidacyService.deleteCandidancy(id);
     }
 }

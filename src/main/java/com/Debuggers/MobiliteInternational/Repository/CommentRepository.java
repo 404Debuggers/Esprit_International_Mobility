@@ -1,4 +1,10 @@
 package com.Debuggers.MobiliteInternational.Repository;
 
-public interface CommentRepository {
+
+import com.Debuggers.MobiliteInternational.Entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CommentRepository extends JpaRepository<Comment,Long> {
+
+
 }

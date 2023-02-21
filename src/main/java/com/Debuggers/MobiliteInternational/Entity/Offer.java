@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,9 +36,9 @@ public class Offer implements Serializable {
     private Boolean archive;
     @ManyToOne
     private University university;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @NotNull
-    private Candidacy candidacy;
+    @OneToMany(mappedBy = "offer")
+    @JsonIgnore
+    private Set<Candidacy> candidacySet;
 
 
 
