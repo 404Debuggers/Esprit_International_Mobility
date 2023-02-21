@@ -30,6 +30,7 @@ public class Dormitories implements Serializable {
     @JsonIgnore
     private Set<Reservation>reservationSet;
     @ManyToOne
+    @JsonIgnore
     private University university;
 
 }

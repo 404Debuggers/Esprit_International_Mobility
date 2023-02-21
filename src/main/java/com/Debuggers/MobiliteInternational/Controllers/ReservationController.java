@@ -1,5 +1,5 @@
 package com.Debuggers.MobiliteInternational.Controllers;
-
+import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Reservation;
 import com.Debuggers.MobiliteInternational.Services.ReservationService;
 import lombok.AllArgsConstructor;
@@ -12,10 +12,10 @@ import java.util.List;
 public class ReservationController {
     ReservationService reservationService;
 
-    @PostMapping("/addReservation")
+    @PostMapping("/addReservation/{candidacyId}/{dormId}")
     @ResponseBody
-    public Reservation addReservation(@RequestBody Reservation r)
-    {return reservationService.addReservation(r);}
+    public Reservation addReservation(@RequestBody Reservation r,@PathVariable("candidacyId")Long candidacyId ,@PathVariable("dormId")Long dormId)
+    {return reservationService.addReservation(r,candidacyId,dormId);}
 
     @PutMapping("/UpdateReservation")
     @ResponseBody

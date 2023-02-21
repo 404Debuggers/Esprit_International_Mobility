@@ -1,5 +1,5 @@
 package com.Debuggers.MobiliteInternational.Controllers;
-
+import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Dormitories;
 import com.Debuggers.MobiliteInternational.Services.DormService;
 import lombok.AllArgsConstructor;
@@ -7,16 +7,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @AllArgsConstructor
 public class DormController {
 
     DormService dormitoriesService;
 
-    @PostMapping("/addDorm")
+    @PostMapping("/addDorm/{universiteId}")
     @ResponseBody
-    public Dormitories addDorm(@RequestBody Dormitories d)
-    { return dormitoriesService.addDorm(d); }
+    public Dormitories addDorm(@RequestBody Dormitories d,@PathVariable("universiteId")long universiteId)
+    { return dormitoriesService.addDorm(d,universiteId); }
 
     @PutMapping("/UpdateDorm")
     @ResponseBody
