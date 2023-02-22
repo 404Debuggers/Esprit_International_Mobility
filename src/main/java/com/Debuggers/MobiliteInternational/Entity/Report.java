@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
 import com.Debuggers.MobiliteInternational.Entity.Enum.StatusReport;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ public class Report implements Serializable {
     private StatusReport status;
     private String type;
     private String description;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+
     private User user;
 
 

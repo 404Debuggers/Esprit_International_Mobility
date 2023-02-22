@@ -23,7 +23,7 @@ import java.util.Set;
 public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long user_Id;
+    private Long userId;
     @NotNull
     private String firstName;
     @NotNull
