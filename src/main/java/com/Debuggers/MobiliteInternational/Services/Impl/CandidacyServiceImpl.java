@@ -11,7 +11,10 @@ import com.Debuggers.MobiliteInternational.Services.CandidacyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -99,6 +102,14 @@ public class CandidacyServiceImpl implements CandidacyService {
 
         return candidacyRepository.findCandidaciesByStatusAndUserAndOffer(status, userId, offerId);
     }
+
+    @Override
+    public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId) {
+        Offer o = offerRepository.findById(offerId).orElse(null);
+        return candidacyRepository.findCandidaciesByOfferOrderByMarksDesc(o);
+    }
+
+
 
 
 }

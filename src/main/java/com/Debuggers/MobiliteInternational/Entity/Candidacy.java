@@ -33,6 +33,7 @@ public class Candidacy implements Serializable {
     private Niveau levelFr;
     @Enumerated(EnumType.STRING)
     private Status status ;
+    private float marks;
     private Boolean archive;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;

@@ -16,6 +16,7 @@ public interface CandidacyService {
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);
     public List<Candidacy> getCandidacyByStatus(Status status, Long userId, Long offerId);
+    public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId);
 
 
 }

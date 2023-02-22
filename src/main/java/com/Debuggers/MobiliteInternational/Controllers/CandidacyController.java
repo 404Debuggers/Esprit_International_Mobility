@@ -64,4 +64,10 @@ public class CandidacyController {
                                                           @PathVariable("offerId") Long offerId){
         return icandidacyService.getCandidacyByStatus(status, userId, offerId);
     }
+    @GetMapping("/offers/{offerId}/candidacies")
+    @ResponseBody
+    public List<Candidacy> getCandidacyByOfferIdOrderByMarks(@PathVariable Long offerId) {
+        return icandidacyService.getCandidacyByOfferOrderByMarks(offerId);
+
+    }
 }

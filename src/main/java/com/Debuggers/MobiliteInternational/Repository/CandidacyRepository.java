@@ -12,6 +12,7 @@ import java.util.List;
 
 public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
     List<Candidacy> findCandidaciesByOffer(Offer offer);
+    List<Candidacy> findCandidaciesByOfferOrderByMarksDesc(Offer o);
     List<Candidacy> findCandidaciesByUser(User user);
     List<Candidacy> findCandidaciesByUserAndOffer(User user, Offer offer);
     @Query("SELECT c FROM Candidacy c WHERE c.status = :status AND c.user.user_Id = :userId AND c.offer.offerId = :offerId")
