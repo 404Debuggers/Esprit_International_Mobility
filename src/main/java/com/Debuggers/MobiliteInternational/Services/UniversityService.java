@@ -14,4 +14,6 @@ public interface UniversityService {
 
     public void suppUni (Long universiteId);
 
+    public University getUniversityById(Long universiteId);
+
 }

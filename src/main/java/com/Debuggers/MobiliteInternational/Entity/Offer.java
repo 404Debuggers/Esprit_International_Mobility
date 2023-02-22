@@ -10,7 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
+import java.util.*;
 
 @Getter
 @Setter
@@ -33,11 +33,17 @@ public class Offer implements Serializable {
     private String image;
     private Double frais;
     private Boolean archive;
+
     @ManyToOne
     private University university;
     @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     private Candidacy candidacy;
+
+
+
+
+
 
 
 

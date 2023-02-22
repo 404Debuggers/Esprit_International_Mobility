@@ -14,6 +14,12 @@ public class UniversityServiceImpl implements UniversityService {
     @Autowired
     UniversityRepository universityRepository ;
 
+
+    @Override
+    public University getUniversityById(Long universiteId) {
+         return universityRepository.findById(universiteId).orElse(null);
+    }
+
     @Override
     public University addUni(University university) {
         return universityRepository.save(university);
@@ -35,6 +41,8 @@ public class UniversityServiceImpl implements UniversityService {
 
         universityRepository.deleteById(universiteId);
     }
+
+
 
 
 }
