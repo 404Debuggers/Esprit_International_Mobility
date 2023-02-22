@@ -1,9 +1,12 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
+import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Services.Impl.CandidacyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,5 +55,13 @@ public class CandidacyController {
     @ResponseBody
     public void deleteCandidancy(@PathVariable("id")Long id){
         icandidacyService.deleteCandidancy(id);
+    }
+
+    @GetMapping("/getstatus/{status}/{userId}/{offerId}")
+    @ResponseBody
+    List<Candidacy> getCandidaciesByStatusAndUserAndOffer(@PathVariable("status") Status status,
+                                                          @PathVariable("userId") Long userId,
+                                                          @PathVariable("offerId") Long offerId){
+        return icandidacyService.getCandidacyByStatus(status, userId, offerId);
     }
 }

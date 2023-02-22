@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Services;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
+import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public interface CandidacyService {
     public List<Candidacy> getCandidacyByOffer(Long idOffer);
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);
+    public List<Candidacy> getCandidacyByStatus(Status status, Long userId, Long offerId);
 
 
 }
