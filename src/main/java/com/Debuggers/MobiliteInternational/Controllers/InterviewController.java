@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.Interview;
+import com.Debuggers.MobiliteInternational.Entity.Interview_Event;
 import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +14,7 @@ public class InterviewController {
     InterviewService interviewService;
 
     @PostMapping("/ajouterentretien/{candidatureId}/{universityId}")
-    public void createEntretien(@PathVariable("candidatureId")Long candidatureId,@PathVariable("universityId")Long universityId, @RequestBody Interview interview) {
+    public void createEntretien(@PathVariable("candidatureId")Long candidatureId, @PathVariable("universityId")Long universityId, @RequestBody Interview_Event interview) {
 
         interviewService.createEntretien(interview, candidatureId,universityId);
     }
@@ -28,7 +29,7 @@ public class InterviewController {
     public List<Interview> getAllEntretiens(){return interviewService.getAllEntretiens();}
 
     @PutMapping("/modifierrentretien/{interviewId}")
-    public Interview updateEntretien(@PathVariable ("interviewId")Long interviewId,@RequestBody Interview interview) {
+    public Interview updateEntretien(@PathVariable ("interviewId")Long interviewId,@RequestBody Interview_Event interview) {
         interviewService.updateEntretien(interviewId,interview);
         return interview;
     }

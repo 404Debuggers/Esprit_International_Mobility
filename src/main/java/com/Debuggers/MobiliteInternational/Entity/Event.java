@@ -1,6 +1,5 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,26 +10,21 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Interview implements Serializable {
-
+public class Event implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long interviewId;
-
-    private String link;
-    private Boolean archive;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Candidacy candidacy;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private University university;
-    @JsonIgnore
+    private Long id;
+    private String title;
+    private Date start;
+    private Date end;
+   @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
-    private Event event;
+    private Interview interview;
+
 }
