@@ -24,7 +24,7 @@ public class Post implements Serializable {
     private Integer dislikes;
     private Date date;
     private Boolean archive;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
     private Set<Comment>commentSet;

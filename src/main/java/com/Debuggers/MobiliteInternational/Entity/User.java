@@ -7,12 +7,15 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -20,6 +23,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicUpdate
 public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -41,20 +45,22 @@ public class User implements Serializable {
     private Sexe sexe;
     private String image;
     private Boolean Alumni;
-    @OneToOne(fetch = FetchType.EAGER)
-    private Role role;
+    private boolean enabled;
+
+    @ManyToMany(cascade = CascadeType.ALL , fetch= FetchType.EAGER)
+    private Set<Role> roles ;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Post> posts;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Candidacy> CandidacySet;
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
+    private Set<Candidacy> CandidacySet = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "user" , fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author")
+    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "author")
     @JsonIgnore
-    private Set<Blog> blogSet;
+    private Set<Blog> blogSet = new HashSet<>();
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Report> reportSet;

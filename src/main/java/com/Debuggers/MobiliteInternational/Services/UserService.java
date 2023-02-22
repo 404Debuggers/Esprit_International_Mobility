@@ -1,5 +1,6 @@
 package com.Debuggers.MobiliteInternational.Services;
 
+import com.Debuggers.MobiliteInternational.Entity.Enum.ERole;
 import com.Debuggers.MobiliteInternational.Entity.User;
 
 import java.util.List;
@@ -14,9 +15,14 @@ public interface UserService {
 
     public User getUserById(Long id );
 
+    public User findOne(String email);
 
-    public void assignRolesToUser(Long idUser ,Long idRole );
 
+
+    public void assignRoleToUser(Long idUser , Long roleId );
+
+
+    User loadUserByEmail(String email);
 
     int findByUserRoleAdmin();
     int findByUserRoleEmployee();
