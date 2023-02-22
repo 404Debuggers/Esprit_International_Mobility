@@ -1,12 +1,13 @@
 package com.Debuggers.MobiliteInternational.Entity;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,13 +21,22 @@ public class Post implements Serializable {
     private long postId;
     private String description;
     private String title;
-    private Integer likes;
-    private Integer dislikes;
+  @Temporal(TemporalType.DATE)
     private Date date;
     private Boolean archive;
+
+    @ManyToMany
+    @JsonIgnore
+    private Set<User> userLikes;
+
+    @ManyToMany
+    @JsonIgnore
+    private Set<User> userDislikes;
     @ManyToOne
+
     private User user;
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Comment>commentSet;
 
 
