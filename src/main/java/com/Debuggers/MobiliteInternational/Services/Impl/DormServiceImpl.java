@@ -20,6 +20,7 @@ public class DormServiceImpl implements DormService {
     DormRepository dormitoriesRepository;
     UniversityRepository universityRepository;
 
+
     @Override
     public List<Dormitories> getAllDorm() {
         return dormitoriesRepository.findAll();
@@ -47,21 +48,10 @@ public class DormServiceImpl implements DormService {
         dormitoriesRepository.deleteById(id);
     }
 
-
-    /*@Transactional
     @Override
-    public void decrementNbPlaces(Dormitories dormitory) {
+    public List<Dormitories> findDormitoriesByUniversity(Long universityId) {
+        return dormitoriesRepository.findByUniversityUniversiteId(universityId);
+    }
 
 
-            Set<Reservation> reservations = dormitory.getReservationSet();
-            int nbPlaces = dormitory.getNbPlaces();
-            if (reservations.size() >= nbPlaces) {
-                throw new RuntimeException("Dormitory is  full");
-            }
-            dormitory.setNbPlaces(nbPlaces - 1);
-            for (Reservation reservation : reservations) {
-                reservation.getDorm().setNbPlaces(nbPlaces - 1);
-            }
-            dormitoriesRepository.save(dormitory);
-        }*/
 }

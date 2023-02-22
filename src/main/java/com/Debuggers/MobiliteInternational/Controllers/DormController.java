@@ -37,4 +37,10 @@ public class DormController {
     {return dormitoriesService.getDormById(id);}
 
 
+
+    @GetMapping("/findDormitoriesByUniversity/{universityId}")
+    public List<Dormitories> findDormitoriesByUniversity(@PathVariable Long universityId) {
+        return dormitoriesService.findDormitoriesByUniversity(universityId);
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,8 +22,10 @@ public class Reservation implements Serializable {
     private Date reservationDate;
     private Boolean archive;
     @ManyToOne
+    @JsonIgnore
     private  Dormitories dorm;
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Candidacy candidacy;
 
 

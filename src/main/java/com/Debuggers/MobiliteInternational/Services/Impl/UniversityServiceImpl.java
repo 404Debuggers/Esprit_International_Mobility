@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+
 public class UniversityServiceImpl implements UniversityService {
 
 
@@ -37,5 +38,12 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
 
+
+
+
+    @Override
+    public University getUniversityById(Long universiteId) {
+        return universityRepository.findById(universiteId).orElse(null);
+    }
 
 }

@@ -11,6 +11,7 @@ import com.Debuggers.MobiliteInternational.Services.ReservationService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,6 +35,19 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
+    public List<Dormitories> getReservationAvailable() {
+        List<Dormitories> dormitories = dormRepository.findAll();
+        List<Dormitories> availableDormitories = new ArrayList<>();
+
+        for (Dormitories dormitory : dormitories) {
+            if (dormitory.getStatus() == DormStatus.Available) {
+                availableDormitories.add(dormitory);
+            }
+        }
+
+        return availableDormitories;
+    }
+    @Override
     public Reservation addReservation(Reservation r , Long candidacyId , Long dormId) {
         Candidacy c = candidacyRepository.findById(candidacyId).orElse(null);
         Dormitories dorm = dormRepository.findById(dormId).orElse(null);
@@ -50,6 +64,10 @@ public class ReservationServiceImpl implements ReservationService {
 
                 dorm.setNbPlaces(dorm.getNbPlaces() -1);
 
+                if(dorm.getNbPlaces()==0){
+                    dorm.setStatus(DormStatus.valueOf("Not_Available"));
+                }
+
                 return  reservationRepository.save(r);
             }
         }
@@ -57,13 +75,51 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation UpdateReservation(Reservation r) {
-        return reservationRepository.save(r);
+    public Reservation UpdateReservation(Long reservationId, Long newDormitoriesId) {
+
+        // Find the reservation object to update
+        Reservation reservation = reservationRepository.findById(reservationId).orElse(null);
+        if (reservation == null) {
+            return null;
+        }
+
+        // Find the new dormitory object to associate with the reservation
+        Dormitories newDormitory = dormRepository.findById(newDormitoriesId).orElse(null);
+        if (newDormitory == null) {
+            return null;
+        }
+
+        // Check if the new dormitory has available places
+        if (newDormitory.getStatus() != DormStatus.Available || newDormitory.getNbPlaces() == 0) {
+            return null;
+        }
+
+        // Update the reservation's dormitory and save the changes
+        reservation.getDorm().setNbPlaces(reservation.getDorm().getNbPlaces()+1);
+        reservation.setDorm(newDormitory);
+        newDormitory.getReservationSet().add(reservation);
+        newDormitory.setNbPlaces(newDormitory.getNbPlaces() - 1);
+        if (newDormitory.getNbPlaces() == 0) {
+            newDormitory.setStatus(DormStatus.Not_Available);
+        }
+        return reservationRepository.save(reservation);
+
+
+
     }
 
     @Override
     public void deleteReservation(long id) {
-        reservationRepository.deleteById(id);
+
+     Reservation reservation = reservationRepository.findById(id).orElse(null);
+        if (reservation != null) {
+            Dormitories dorm = reservation.getDorm();
+            dorm.setNbPlaces(dorm.getNbPlaces() + 1);
+            reservation.setArchive(true);
+            dorm.setStatus(DormStatus.valueOf("Available"));
+            reservationRepository.save(reservation);
+        }
+
     }
 
 }
