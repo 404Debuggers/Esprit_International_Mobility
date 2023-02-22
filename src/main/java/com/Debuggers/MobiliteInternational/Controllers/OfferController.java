@@ -7,8 +7,12 @@ import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Services.OfferService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
@@ -72,4 +76,14 @@ public class OfferController {
     @GetMapping("/test/{user_Id}")
     public List<Offer> findOffersWithSimilarProperties(@PathVariable Long user_Id){ return offerService.findOffersWithSimilarProperties(user_Id);}
 
+
+    @PostMapping("/offersaddwithdate")
+    public ResponseEntity<Offer> addOfferAtSpecificTime(@RequestBody Offer offer, @RequestHeader("X-Offer-Time") String offerTime) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        LocalDateTime dateTime = LocalDateTime.parse(offerTime, formatter);
+        offerService.addOfferAtSpecificTime(offer, dateTime);
+        return ResponseEntity.ok(offer);
+    }
+
 }
+

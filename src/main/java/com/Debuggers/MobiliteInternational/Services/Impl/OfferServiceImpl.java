@@ -14,9 +14,14 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -143,6 +148,27 @@ public class OfferServiceImpl implements OfferService {
         }
         return similarOffers;
     }
+
+
+    public Offer addOfferAtSpecificTime(Offer offer, LocalDateTime time) {
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        long delay = Duration.between(LocalDateTime.now(), time).toMillis();
+        executor.schedule(() -> {
+            List<String> userEmails = userService.getAllUserEmails();
+            String subject = "New offer available";
+            String body =  "Dear user,\n\n" +
+                    "A new offer has just been added to our website!\n\n" +
+                    "Title: " + offer.getTitle() + "\n" +
+                    "Description: " + offer.getDescription() + "\n" +
+                    "Link: https://www.example.com/offers/" + offer.getOfferId() + "\n\n" +
+                    "Thank you for using our service.\n" +
+                    "Best regards,\n" +
+                    "The Example Team";
+            sendEmail(userEmails, subject, body);
+            offerRepository.save(offer);
+        }, delay, TimeUnit.MILLISECONDS);
+        executor.shutdown();
+        return offer;}
     /*
     @Override
     public List<Offer> findSimilarOffersForUser(Long userId) {

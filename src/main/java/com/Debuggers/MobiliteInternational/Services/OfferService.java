@@ -4,6 +4,7 @@ import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Entity.UserOfferFav;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -26,6 +27,8 @@ public interface OfferService {
     public List<StudyField> extractPropertiesFromOffers(Long user_Id);
 
     public List<Offer> findOffersWithSimilarProperties(Long user_Id);
+
+    Offer addOfferAtSpecificTime(Offer offer, LocalDateTime time);
 
     //public List<Offer> findSimilarOffersForUser(Long userId);
 
