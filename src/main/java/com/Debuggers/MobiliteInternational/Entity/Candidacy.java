@@ -37,7 +37,6 @@ public class Candidacy implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;
     @ManyToOne
-
     private Offer offer;
     @OneToOne(fetch = FetchType.LAZY)
     private Reservation reservation;

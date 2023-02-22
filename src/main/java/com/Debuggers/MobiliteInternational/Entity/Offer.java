@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Offer implements Serializable {
     private Date dateFin;
     private String Title;
     private String description ;
-    private Date deadline;
+    private LocalDate deadline;
     @Enumerated(EnumType.STRING)
     private StudyField fieldOfStudy;
     private String prerequis;

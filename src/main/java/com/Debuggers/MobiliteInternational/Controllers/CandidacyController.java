@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
+import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Services.Impl.CandidacyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -40,10 +41,12 @@ public class CandidacyController {
     public List<Candidacy> getCandidacyByUseridAndOfferid(@PathVariable("idUser")Long idUser,@PathVariable("idOffer")Long idOffer){
         return icandidacyService.getCandiacyByUserAndOffer(idUser,idOffer);
     }
-    @PutMapping("/updateCandidancy")
+    @PutMapping("/updateCandidancy/{idCandidacy}")
     @ResponseBody
-    public Candidacy updateCandidancy(@RequestBody Candidacy c){
-        return icandidacyService.updateCandidancy(c);
+    public Candidacy  updateCandidancy(@RequestBody Candidacy c,@PathVariable Long idCandidacy){
+        return icandidacyService.updateCandidancy(c,idCandidacy);
+
+
     }
     @DeleteMapping("/deleteCandidancy/{id}")
     @ResponseBody
