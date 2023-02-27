@@ -25,6 +25,8 @@ public class Candidacy implements Serializable {
     private Long candidatureId;
     private String CoverLettre;
     private String attachements;
+    private String B2Eng;
+    private String B2Fr;
     @Enumerated(EnumType.STRING)
     private StudyField option;
     @Enumerated(EnumType.STRING)
@@ -33,7 +35,7 @@ public class Candidacy implements Serializable {
     private Niveau levelFr;
     @Enumerated(EnumType.STRING)
     private Status status ;
-    private float marks;
+    private Float marks;
     private Boolean archive;
     @ManyToOne(cascade = CascadeType.ALL)
     private User user;

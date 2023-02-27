@@ -6,18 +6,43 @@ import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Services.Impl.CandidacyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 @RestController
 public class CandidacyController {
     @Autowired
     CandidacyServiceImpl icandidacyService;
-    @PostMapping("/addCandidancy/{offerId}/{userId}")
+    @PostMapping(value = "/addCandidancy/{offerId}/{userId}")
     @ResponseBody
-    public Candidacy addCandidancy(@RequestBody Candidacy c , @PathVariable("offerId") Long offerId,@PathVariable("userId")Long userId ){
-        return icandidacyService.addCandidature(c,offerId,userId);
+    public Candidacy addCandidancy(@ModelAttribute Candidacy c,
+                                   @RequestParam("attachments") MultipartFile attachment,
+                                   @RequestParam("B2Francais") MultipartFile B2Fr,
+                                   @RequestParam("B2Anglais") MultipartFile B2Eng,
+                                   @PathVariable("offerId") Long offerId,
+                                   @PathVariable("userId")Long userId ) throws IOException {
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+        Path path = Paths.get(attachmentPath);
+        Files.copy(attachment.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        Path p = Paths.get(B2FrPath);
+        Files.copy(attachment.getInputStream(), p, StandardCopyOption.REPLACE_EXISTING);
+
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
+        Path pp = Paths.get(B2EngPath);
+        Files.copy(attachment.getInputStream(), pp, StandardCopyOption.REPLACE_EXISTING);
+
+
+        return icandidacyService.addCandidature(c,offerId,userId,attachment,B2Fr,B2Eng);
     }
     @GetMapping("/AllCandidancy")
     @ResponseBody

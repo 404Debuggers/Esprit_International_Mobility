@@ -11,10 +11,12 @@ import com.Debuggers.MobiliteInternational.Services.CandidacyService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -36,7 +38,31 @@ public class CandidacyServiceImpl implements CandidacyService {
         return candidacyRepository.findById(id).orElse(null);
     }
     @Override
-    public Candidacy addCandidature(Candidacy c, Long userId,Long offerId) {
+    public Candidacy addCandidature(Candidacy c, Long userId, Long offerId,
+                                    @RequestParam("attachments") MultipartFile attachment,
+                                    @RequestParam("B2Fr") MultipartFile B2Fr,
+                                    @RequestParam("B2Eng") MultipartFile B2Eng
+                                     )throws IOException {
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
+
+        FileOutputStream fileOutputStream = new FileOutputStream(attachmentPath);
+        fileOutputStream.write(attachment.getBytes());
+        fileOutputStream.close();
+        c.setAttachements(attachmentPath);
+
+        FileOutputStream fileOutputStreamfr = new FileOutputStream(B2FrPath);
+        fileOutputStreamfr.write(B2Fr.getBytes());
+        fileOutputStreamfr.close();
+        c.setB2Fr(B2FrPath);
+
+        FileOutputStream fileOutputStreamEng = new FileOutputStream(B2EngPath);
+        fileOutputStreamEng.write(B2EngPath.getBytes());
+        fileOutputStreamEng.close();
+        c.setB2Eng(B2EngPath);
+
+
         Offer of = offerRepository.findById(offerId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
         List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOffer(user,of);
