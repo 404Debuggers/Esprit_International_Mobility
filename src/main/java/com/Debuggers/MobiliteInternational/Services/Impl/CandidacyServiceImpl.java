@@ -9,11 +9,18 @@ import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.CandidacyService;
 import lombok.AllArgsConstructor;
+import org.apache.pdfbox.io.RandomAccessRead;
+import org.apache.pdfbox.pdfparser.PDFParser;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -52,6 +59,25 @@ public class CandidacyServiceImpl implements CandidacyService {
         fileOutputStream.close();
         c.setAttachements(attachmentPath);
 
+        File file = new File(attachmentPath);
+        PDDocument document = PDDocument.load(file);
+        PDFTextStripper stripper = new PDFTextStripper();
+
+        stripper.setSortByPosition(true);
+        stripper.setStartPage(0);
+        stripper.setEndPage(0);
+
+
+        stripper.setStartPage(1);
+        stripper.setEndPage(document.getNumberOfPages());
+        String text = stripper.getText(document);
+        int startIndex = text.indexOf("Moyenne générale :");
+        int endIndex = text.indexOf("\n", startIndex);
+        String moyenneGeneraleText = text.substring(startIndex + 19, endIndex).trim();
+        double moyenne = Double.parseDouble(moyenneGeneraleText);
+        c.setMarks(moyenne);
+
+
         FileOutputStream fileOutputStreamfr = new FileOutputStream(B2FrPath);
         fileOutputStreamfr.write(B2Fr.getBytes());
         fileOutputStreamfr.close();
@@ -61,6 +87,8 @@ public class CandidacyServiceImpl implements CandidacyService {
         fileOutputStreamEng.write(B2EngPath.getBytes());
         fileOutputStreamEng.close();
         c.setB2Eng(B2EngPath);
+
+
 
 
         Offer of = offerRepository.findById(offerId).orElse(null);
