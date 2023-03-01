@@ -1,7 +1,12 @@
 package com.Debuggers.MobiliteInternational.Controllers;
+import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Dormitories;
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormStatus;
+import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
+import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
+import com.Debuggers.MobiliteInternational.Repository.DormRepository;
 import com.Debuggers.MobiliteInternational.Services.DormService;
+import com.stripe.exception.StripeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,11 +22,15 @@ import java.util.List;
 public class ReservationController {
     ReservationService reservationService;
     DormService dormService;
+    CandidacyRepository candidacyRepository;
+    DormRepository dormRepository;
 
     @PostMapping("/addReservation/{candidacyId}/{dormId}")
     @ResponseBody
     public Reservation addReservation(@RequestBody Reservation r,@PathVariable("candidacyId")Long candidacyId ,@PathVariable("dormId")Long dormId)
     {return reservationService.addReservation(r,candidacyId,dormId);}
+
+
 
     @PutMapping("/UpdateReservation/{reservationId}/{newDormitoriesId}")
     @ResponseBody
@@ -45,9 +54,14 @@ public class ReservationController {
     @GetMapping("/getAvailableDormitories")
     public List<Dormitories> getAvailableDormitories() {
         List<Dormitories> dormitories = reservationService.getReservationAvailable();
+
         return dormitories;
     }
 
 
 
-}
+    }
+
+
+
+

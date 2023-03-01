@@ -1,5 +1,6 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
+import com.Debuggers.MobiliteInternational.Entity.Enum.PaiementStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -27,8 +28,8 @@ public class Reservation implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Candidacy candidacy;
-
-
+    @Enumerated(EnumType.STRING)
+    private PaiementStatus paiementStatus;
 
 
 }

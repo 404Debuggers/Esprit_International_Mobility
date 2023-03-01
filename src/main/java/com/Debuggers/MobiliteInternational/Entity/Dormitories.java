@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormStatus;
+import com.Debuggers.MobiliteInternational.Entity.Enum.DormType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -26,6 +27,10 @@ public class Dormitories implements Serializable {
     private Float lattitude;
     private Float longitude;
     private boolean archive;
+    private Float prix;
+    @Enumerated(EnumType.STRING)
+    private DormType dormType;
+
     @OneToMany (mappedBy = "dorm",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Reservation>reservationSet;

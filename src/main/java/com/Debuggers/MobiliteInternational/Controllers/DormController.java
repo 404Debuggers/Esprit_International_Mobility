@@ -1,4 +1,6 @@
 package com.Debuggers.MobiliteInternational.Controllers;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Dormitories;
 import com.Debuggers.MobiliteInternational.Services.DormService;
@@ -42,5 +44,12 @@ public class DormController {
     public List<Dormitories> findDormitoriesByUniversity(@PathVariable Long universityId) {
         return dormitoriesService.findDormitoriesByUniversity(universityId);
     }
+
+    @GetMapping("/LessExpensiveDorm")
+    public List<Dormitories> LessExpensiveDorm(){
+        List<Dormitories> dorm= dormitoriesService.LessExpensiveDorm();
+        return dorm;
+    }
+
 
 }
