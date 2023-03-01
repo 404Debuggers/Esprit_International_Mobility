@@ -5,6 +5,7 @@ import com.Debuggers.MobiliteInternational.Repository.EventRepository;
 import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.InterviewRepository;
 import com.Debuggers.MobiliteInternational.Repository.UniversityRepository;
+import com.Debuggers.MobiliteInternational.Services.EmailSenderService;
 import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @Service
 public class InterviewServiceImpl implements InterviewService {
+
     @Autowired
     InterviewRepository interviewRepository;
     @Autowired
@@ -22,7 +24,9 @@ public class InterviewServiceImpl implements InterviewService {
     UniversityRepository universityRepository;
     @Autowired
    EventRepository eventRepository;
-    public void createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
+    @Autowired
+    EmailSenderService emailSenderService;
+    public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
         Interview newInteriew = new Interview();
         Event newEvent = new Event();
 
@@ -33,7 +37,7 @@ public class InterviewServiceImpl implements InterviewService {
 
         newInteriew.setLink(interview.getLink());
         newInteriew.setArchive(interview.getArchive());
-        interviewRepository.save(newInteriew);
+        Interview interview1= interviewRepository.save(newInteriew);
 
 
         newEvent.setTitle(newInteriew.getCandidacy().getUser().getFirstName());
@@ -41,6 +45,12 @@ public class InterviewServiceImpl implements InterviewService {
         newEvent.setEnd(interview.getEventDate());
         newEvent.setInterview(newInteriew);
         eventRepository.save(newEvent);
+
+        emailSenderService.sendEmail(interview1);
+        return interview1;
+
+
+
 
 
     }

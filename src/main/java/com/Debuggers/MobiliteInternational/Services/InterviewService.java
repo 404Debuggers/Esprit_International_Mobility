@@ -6,7 +6,7 @@ import com.Debuggers.MobiliteInternational.Entity.Interview_Event;
 import java.util.List;
 
 public interface InterviewService {
-    void createEntretien(Interview_Event interview, Long candidatureId, Long universityId);
+    Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId);
 
     void deleteEntretien(Long interviewId);
 

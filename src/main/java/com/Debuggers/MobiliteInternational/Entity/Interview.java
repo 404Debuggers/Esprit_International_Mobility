@@ -30,7 +30,7 @@ public class Interview implements Serializable {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private University university;
+    @OneToOne
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
     private Event event;
 }

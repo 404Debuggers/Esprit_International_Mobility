@@ -14,9 +14,10 @@ public class InterviewController {
     InterviewService interviewService;
 
     @PostMapping("/ajouterentretien/{candidatureId}/{universityId}")
-    public void createEntretien(@PathVariable("candidatureId")Long candidatureId, @PathVariable("universityId")Long universityId, @RequestBody Interview_Event interview) {
+    @ResponseBody
+    public Interview createEntretien(@PathVariable("candidatureId")Long candidatureId, @PathVariable("universityId")Long universityId, @RequestBody Interview_Event interview) {
 
-        interviewService.createEntretien(interview, candidatureId,universityId);
+        return interviewService.createEntretien(interview, candidatureId,universityId);
     }
 
 
@@ -29,6 +30,7 @@ public class InterviewController {
     public List<Interview> getAllEntretiens(){return interviewService.getAllEntretiens();}
 
     @PutMapping("/modifierrentretien/{interviewId}")
+    @ResponseBody
     public Interview updateEntretien(@PathVariable ("interviewId")Long interviewId,@RequestBody Interview_Event interview) {
         interviewService.updateEntretien(interviewId,interview);
         return interview;

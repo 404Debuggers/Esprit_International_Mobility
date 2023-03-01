@@ -23,8 +23,7 @@ public class Event implements Serializable {
     private String title;
     private Date start;
     private Date end;
-   @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     private Interview interview;
 
 }
