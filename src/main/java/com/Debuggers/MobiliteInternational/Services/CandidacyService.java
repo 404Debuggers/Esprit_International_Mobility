@@ -13,7 +13,7 @@ public interface CandidacyService {
     public Candidacy getCandidancyById(Long id);
     public Candidacy addCandidature(Candidacy c, Long offerId, Long userId, MultipartFile attachment, MultipartFile B2Fr, MultipartFile B2Eng) throws IOException;
     public Candidacy updateCandidancy(Candidacy c,Long idCandidacy);
-    public void deleteCandidancy(Long id);
+    void deleteCandidacy(Long id);
     public List<Candidacy> getCandidacyByOffer(Long idOffer);
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);

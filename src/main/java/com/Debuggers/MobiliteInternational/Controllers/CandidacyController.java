@@ -76,11 +76,12 @@ public class CandidacyController {
 
 
     }
-    @DeleteMapping("/deleteCandidancy/{id}")
+    @PutMapping ("/deleteCandidancy/{id}")
     @ResponseBody
     public void deleteCandidancy(@PathVariable("id")Long id){
-        icandidacyService.deleteCandidancy(id);
+        icandidacyService.deleteCandidacy(id);
     }
+
 
     @GetMapping("/getstatus/{status}/{userId}/{offerId}")
     @ResponseBody

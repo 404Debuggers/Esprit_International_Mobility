@@ -9,8 +9,6 @@ import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.CandidacyService;
 import lombok.AllArgsConstructor;
-import org.apache.pdfbox.io.RandomAccessRead;
-import org.apache.pdfbox.pdfparser.PDFParser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +16,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -100,6 +97,7 @@ public class CandidacyServiceImpl implements CandidacyService {
                 c.setOffer(of);
                 c.setUser(user);
                 c.setStatus(Status.ON_HOLD);
+                c.setArchive(true);
                 of.getCandidacySet().add(c);
                 user.getCandidacySet().add(c);
                 System.out.println("candidature ajouté");
@@ -128,14 +126,21 @@ public class CandidacyServiceImpl implements CandidacyService {
         return null;
     }
     @Override
-    public void deleteCandidancy(Long id) {
-        candidacyRepository.deleteById(id);
+    public void deleteCandidacy(Long id) {
+        Optional<Candidacy> candidacyOptional = candidacyRepository.findById(id);
+        if (candidacyOptional.isPresent()) {
+            Candidacy candidacy = candidacyOptional.get();
+            candidacy.setArchive(false);
+            candidacyRepository.save(candidacy);
+        } else {
+            // handle candidacy not found error
+        }
     }
 
     @Override
     public List<Candidacy> getCandidacyByOffer(Long idOffer) {
         Offer offer = offerRepository.findById(idOffer).orElse(null);
-        return candidacyRepository.findCandidaciesByOffer(offer);
+        return candidacyRepository.findCandidaciesByOfferAndArchive(offer,true);
     }
 
     @Override
