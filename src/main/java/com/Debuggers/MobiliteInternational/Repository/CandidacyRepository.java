@@ -5,6 +5,7 @@ import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -21,5 +22,7 @@ public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
     List<Candidacy> findCandidaciesByUserAndArchive(User user,boolean archive);
     List<Candidacy> findCandidaciesByUserAndOfferAndArchive(User user, Offer offer,boolean archive);
     @Query("SELECT c FROM Candidacy c WHERE c.status = :status AND c.user.user_Id = :userId AND c.offer.offerId = :offerId AND c.archive = true ")
-    List<Candidacy> findCandidaciesByStatusAndUserAndOffer(@Param("status") Status status, @Param("userId") Long userId, @Param("offerId") Long offerId);
+    List<Candidacy> findCandidaciesByStatusAndUserAndOffer(@Param("status") Status status,
+                                                           @Param("userId") Long userId,
+                                                           @Param("offerId") Long offerId);
 }

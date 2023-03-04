@@ -14,11 +14,14 @@ public interface CandidacyService {
     public Candidacy addCandidature(Candidacy c, Long offerId, Long userId, MultipartFile attachment, MultipartFile B2Fr, MultipartFile B2Eng) throws IOException;
     public Candidacy updateCandidancy(Candidacy c,Long idCandidacy);
     void deleteCandidacy(Long id);
+    void RestoreCandidacy(Long id);
+
     public List<Candidacy> getCandidacyByOffer(Long idOffer);
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);
     public List<Candidacy> getCandidacyByStatus(Status status, Long userId, Long offerId);
     public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId);
+
 
 
 }

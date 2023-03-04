@@ -82,6 +82,12 @@ public class CandidacyController {
         icandidacyService.deleteCandidacy(id);
     }
 
+    @PutMapping ("/restoreCandidancy/{id}")
+    @ResponseBody
+    public void RestoreCandidancy(@PathVariable("id")Long id){
+        icandidacyService.RestoreCandidacy(id);
+    }
+
 
     @GetMapping("/getstatus/{status}/{userId}/{offerId}")
     @ResponseBody
@@ -94,6 +100,6 @@ public class CandidacyController {
     @ResponseBody
     public List<Candidacy> getCandidacyByOfferIdOrderByMarks(@PathVariable Long offerId) {
         return icandidacyService.getCandidacyByOfferOrderByMarks(offerId);
-
     }
+
 }

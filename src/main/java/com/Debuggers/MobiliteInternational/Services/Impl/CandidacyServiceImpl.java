@@ -137,6 +137,17 @@ public class CandidacyServiceImpl implements CandidacyService {
             // handle candidacy not found error
         }
     }
+    @Override
+    public void RestoreCandidacy(Long id) {
+        Optional<Candidacy> candidacyOptional = candidacyRepository.findById(id);
+        if (candidacyOptional.isPresent()) {
+            Candidacy candidacy = candidacyOptional.get();
+            candidacy.setArchive(true);
+            candidacyRepository.save(candidacy);
+        } else {
+            // handle candidacy not found error
+        }
+    }
 
     @Override
     public List<Candidacy> getCandidacyByOffer(Long idOffer) {
@@ -168,6 +179,7 @@ public class CandidacyServiceImpl implements CandidacyService {
         Offer o = offerRepository.findById(offerId).orElse(null);
         return candidacyRepository.findCandidaciesByOfferOrderedByMarksDescWhereArchiveIsTrue(o);
     }
+
 
 
 
