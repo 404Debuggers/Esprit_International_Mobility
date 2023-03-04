@@ -35,11 +35,12 @@ public class CandidacyServiceImpl implements CandidacyService {
     public UserRepository userRepository;
     @Override
     public List<Candidacy> getAllCandidancy() {
+
         return candidacyRepository.findAll();
     }
     @Override
     public Candidacy getCandidancyById(Long id) {
-        return candidacyRepository.findById(id).orElse(null);
+        return candidacyRepository.findCandidaciesByCandidatureIdAndArchiveTrue(id);
     }
     @Override
     public Candidacy addCandidature(Candidacy c, Long userId, Long offerId,
@@ -90,7 +91,7 @@ public class CandidacyServiceImpl implements CandidacyService {
 
         Offer of = offerRepository.findById(offerId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
-        List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOffer(user,of);
+        List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOfferAndArchive(user,of,true);
         LocalDate d = of.getDeadline();
         if(candidacies.isEmpty()) {
             if( LocalDate.now().isBefore(d)){
@@ -146,14 +147,14 @@ public class CandidacyServiceImpl implements CandidacyService {
     @Override
     public List<Candidacy> getCandiacyByUser(Long idUser) {
         User user = userRepository.findById(idUser).orElse(null);
-        return candidacyRepository.findCandidaciesByUser(user);
+        return candidacyRepository.findCandidaciesByUserAndArchive(user,true);
     }
 
     @Override
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser, Long idOffer) {
         User user = userRepository.findById(idUser).orElse(null);
         Offer offer = offerRepository.findById(idOffer).orElse(null);
-        return candidacyRepository.findCandidaciesByUserAndOffer(user,offer);
+        return candidacyRepository.findCandidaciesByUserAndOfferAndArchive(user,offer,true);
     }
 
     @Override
@@ -165,7 +166,7 @@ public class CandidacyServiceImpl implements CandidacyService {
     @Override
     public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId) {
         Offer o = offerRepository.findById(offerId).orElse(null);
-        return candidacyRepository.findCandidaciesByOfferOrderByMarksDesc(o);
+        return candidacyRepository.findCandidaciesByOfferOrderedByMarksDescWhereArchiveIsTrue(o);
     }
 
 

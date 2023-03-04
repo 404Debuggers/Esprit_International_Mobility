@@ -29,15 +29,15 @@ public class CandidacyController {
                                    @RequestParam("B2Anglais") MultipartFile B2Eng,
                                    @PathVariable("offerId") Long offerId,
                                    @PathVariable("userId")Long userId ) throws IOException {
-        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         Path path = Paths.get(attachmentPath);
         Files.copy(attachment.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
         Path p = Paths.get(B2FrPath);
         Files.copy(attachment.getInputStream(), p, StandardCopyOption.REPLACE_EXISTING);
 
-        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
         Path pp = Paths.get(B2EngPath);
         Files.copy(attachment.getInputStream(), pp, StandardCopyOption.REPLACE_EXISTING);
 

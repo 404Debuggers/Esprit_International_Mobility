@@ -13,10 +13,13 @@ import java.util.List;
 public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
     @Query("SELECT c FROM Candidacy c WHERE c.archive = true")
     List<Candidacy> findAll();
+    @Query("SELECT c from Candidacy c WHERE c.candidatureId = ?1 AND c.archive=true ")
+    Candidacy findCandidaciesByCandidatureIdAndArchiveTrue(long id);
     List<Candidacy> findCandidaciesByOfferAndArchive(Offer offer,boolean archive);
-    List<Candidacy> findCandidaciesByOfferOrderByMarksDesc(Offer o);
-    List<Candidacy> findCandidaciesByUser(User user);
-    List<Candidacy> findCandidaciesByUserAndOffer(User user, Offer offer);
-    @Query("SELECT c FROM Candidacy c WHERE c.status = :status AND c.user.user_Id = :userId AND c.offer.offerId = :offerId")
+    @Query("SELECT c FROM Candidacy c WHERE c.offer = ?1 AND c.archive = true ORDER BY c.marks DESC")
+    List<Candidacy> findCandidaciesByOfferOrderedByMarksDescWhereArchiveIsTrue(Offer o);
+    List<Candidacy> findCandidaciesByUserAndArchive(User user,boolean archive);
+    List<Candidacy> findCandidaciesByUserAndOfferAndArchive(User user, Offer offer,boolean archive);
+    @Query("SELECT c FROM Candidacy c WHERE c.status = :status AND c.user.user_Id = :userId AND c.offer.offerId = :offerId AND c.archive = true ")
     List<Candidacy> findCandidaciesByStatusAndUserAndOffer(@Param("status") Status status, @Param("userId") Long userId, @Param("offerId") Long offerId);
 }
