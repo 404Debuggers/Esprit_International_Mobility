@@ -1,10 +1,12 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
+import com.Debuggers.MobiliteInternational.DTO.PasswordResetRequestModel;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.RoleRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Request.LoginRequest;
 import com.Debuggers.MobiliteInternational.Response.JwtResponse;
+import com.Debuggers.MobiliteInternational.Security.Jwt.JwtUtils;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,7 +26,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/auth")
 public class AuthController {
 
-  /*  AuthenticationManager authenticationManager;
+    AuthenticationManager authenticationManager;
     UserRepository utilisateurRepository;
     RoleRepository roleRepository;
     UserService utilisateurService;
@@ -62,5 +64,19 @@ public class AuthController {
 
     }
 
-   */
+
+    @CrossOrigin(origins = "*")
+    @PostMapping("/password-reset-request")
+
+    public boolean requestReset(@RequestBody PasswordResetRequestModel passwordResetRequestModel) throws Exception {
+
+        boolean operationResult = utilisateurService.requestPasswordReset(passwordResetRequestModel.getEmail());
+
+        if (operationResult) {
+            return true;
+        }
+        return false;
+    }
+
+
 }

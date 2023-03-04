@@ -3,6 +3,8 @@ package com.Debuggers.MobiliteInternational.Services;
 import com.Debuggers.MobiliteInternational.Entity.Enum.ERole;
 import com.Debuggers.MobiliteInternational.Entity.User;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface UserService {
@@ -24,7 +26,8 @@ public interface UserService {
 
     User loadUserByEmail(String email);
 
-    int findByUserRoleAdmin();
-    int findByUserRoleEmployee();
-    int findByUserRoleManager();
+
+    boolean requestPasswordReset(String email) throws Exception;
+
+    boolean resetPasswordMail(String email, String token) throws UnsupportedEncodingException, MessagingException;
 }

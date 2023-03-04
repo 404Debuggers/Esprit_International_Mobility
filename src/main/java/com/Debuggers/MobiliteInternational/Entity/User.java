@@ -47,6 +47,9 @@ public class User implements Serializable {
     private Boolean Alumni;
     private boolean enabled;
 
+
+    private String token;
+
     @ManyToMany(cascade = CascadeType.ALL , fetch= FetchType.EAGER)
     private Set<Role> roles ;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

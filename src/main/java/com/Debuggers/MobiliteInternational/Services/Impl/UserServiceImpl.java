@@ -1,16 +1,24 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
+import com.Debuggers.MobiliteInternational.Entity.PasswordResetTokenEntity;
 import com.Debuggers.MobiliteInternational.Entity.Role;
 import com.Debuggers.MobiliteInternational.Entity.User;
+import com.Debuggers.MobiliteInternational.Repository.PasswordResetTokenRepository;
 import com.Debuggers.MobiliteInternational.Repository.RoleRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
+import com.Debuggers.MobiliteInternational.Security.Jwt.JwtUtils;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Service
@@ -23,7 +31,16 @@ public class UserServiceImpl implements UserService {
 
     RoleRepository roleRepository;
 
-    private  PasswordEncoder passwordEncoder;
+
+    PasswordEncoder passwordEncoder;
+
+    PasswordResetTokenRepository passwordResetTokenRepository;
+
+    JwtUtils utils;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
     @Override
     public List<User> getAllUsers() {
         log.info("Getting all users : ");
@@ -114,18 +131,57 @@ public class UserServiceImpl implements UserService {
     public User loadUserByEmail(String email) {
         return userRepository.findUserByEmail(email);
     }
-    @Override
-    public int findByUserRoleAdmin() {
-        return 0;
-    }
+
 
     @Override
-    public int findByUserRoleEmployee() {
-        return 0;
+    public boolean requestPasswordReset(String email) throws Exception{
+        boolean returnValue = false;
+        User userEntity = userRepository.findUserByEmail(email);
+
+        if(userEntity==null) {
+            return returnValue;
+        }
+
+        String token =  utils.generateEmailVerificationToken(userEntity.getEmail());
+
+        PasswordResetTokenEntity passwordResetTokenEntity = new PasswordResetTokenEntity();
+        passwordResetTokenEntity.setToken(token);
+        passwordResetTokenEntity.setUserDetails(userEntity);
+        passwordResetTokenRepository.save(passwordResetTokenEntity);
+
+        returnValue = resetPasswordMail (userEntity.getEmail(),token);
+        return returnValue;
     }
 
+
     @Override
-    public int findByUserRoleManager() {
-        return 0;
+    public boolean resetPasswordMail(String email, String token) throws UnsupportedEncodingException, MessagingException{
+        String subject = "Request for reset password";
+        String senderName = "404Debuggers Mobility International platform";
+
+        String mailContent = "<p> Someone has requested to reset your password with our project .If it were not you , please ignore it otherwise please click on the link below : </p>";
+        String verifyURL = "http://localhost:4200/forget-password?token=" + token;
+
+        mailContent += "<h2><a href=" + verifyURL + ">Click this link to reset password</a></h2>";
+
+        mailContent += "<p> thank you<br> 404 Debuggers team</p>";
+
+        MimeMessage message = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom("btravel020@gmail.com", senderName);
+        helper.setTo(email);
+        helper.setSubject(subject);
+        helper.setText(mailContent, true);
+
+        mailSender.send(message);
+        if(message !=null &&(message.getMessageID()!=null && !message.getMessageID().isEmpty())){
+            System.out.println("email sent");
+            return true;
+        }
+
+        return false;
+
     }
+
 }

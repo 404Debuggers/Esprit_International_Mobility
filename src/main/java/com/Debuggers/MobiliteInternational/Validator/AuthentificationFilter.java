@@ -59,13 +59,13 @@ public class AuthentificationFilter extends UsernamePasswordAuthenticationFilter
                 .withIssuer(request.getRequestURI().toString())
                 .withClaim("roles" , user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(algorithm);
-		String refreshToken = JWT.create()
+		/*String refreshToken = JWT.create()
 				.withSubject(user.getUsername())
 				.withExpiresAt(new Date(System.currentTimeMillis()+30 * 60 * 1000))
 				.withIssuer(request.getRequestURI().toString())
 				.sign(algorithm);
 		response.setHeader("access-token", accessToken);
-		response.setHeader("refresh-token", refreshToken);
+		response.setHeader("refresh-token", refreshToken);*/
         Map<String , String> tokens = new HashMap<>();
         tokens.put("access-token", accessToken);
         /*tokens.put("refresh-token", refreshToken);*/

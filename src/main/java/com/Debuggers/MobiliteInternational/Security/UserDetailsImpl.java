@@ -1,45 +1,55 @@
 package com.Debuggers.MobiliteInternational.Security;
 
-import com.Debuggers.MobiliteInternational.Entity.Role;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
 
-    private User user;
+    private Long id;
+    private String email;
+    @JsonIgnore
+    private String password;
+    private Collection<? extends GrantedAuthority> authorities;
 
-
-    public UserDetailsImpl(User user) {
-        this.user = user;
+    public UserDetailsImpl(Long id, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.authorities = authorities;
     }
 
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getNom().name()))
+                .collect(Collectors.toList());
+
+        return new UserDetailsImpl(
+                user.getUser_Id(),
+                user.getEmail(),
+                user.getPassword(),
+                authorities);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<Role> roles = user.getRoles();
-        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-
-        for (Role role : roles) {
-            authorities.add(new SimpleGrantedAuthority(role.getNom().name()));
-        }
-
         return authorities;
     }
 
     @Override
     public String getPassword() {
-        return user.getPassword();
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return email;
     }
 
     @Override
@@ -59,6 +69,16 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isEnabled();
+        return true;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        UserDetailsImpl utilisateur = (UserDetailsImpl) o;
+        return Objects.equals(id, utilisateur.id);
     }
 }
