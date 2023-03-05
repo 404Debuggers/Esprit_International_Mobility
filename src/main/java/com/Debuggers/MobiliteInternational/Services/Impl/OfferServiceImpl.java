@@ -18,8 +18,6 @@ public class OfferServiceImpl implements OfferService {
 
         @Override
         public Offer addOffer(Offer offer) {
-            Set<Candidacy> vd1 = new HashSet<>();
-            offer.setCandidacySet(vd1);
             return offerRepository.save(offer);
         }
 

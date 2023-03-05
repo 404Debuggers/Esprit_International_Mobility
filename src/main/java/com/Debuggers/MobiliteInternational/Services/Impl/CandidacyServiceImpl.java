@@ -20,8 +20,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -74,21 +76,14 @@ public class CandidacyServiceImpl implements CandidacyService {
         String moyenneGeneraleText = text.substring(startIndex + 19, endIndex).trim();
         double moyenne = Double.parseDouble(moyenneGeneraleText);
         c.setMarks(moyenne);
-
-
         FileOutputStream fileOutputStreamfr = new FileOutputStream(B2FrPath);
         fileOutputStreamfr.write(B2Fr.getBytes());
         fileOutputStreamfr.close();
         c.setB2Fr(B2FrPath);
-
         FileOutputStream fileOutputStreamEng = new FileOutputStream(B2EngPath);
         fileOutputStreamEng.write(B2EngPath.getBytes());
         fileOutputStreamEng.close();
         c.setB2Eng(B2EngPath);
-
-
-
-
         Offer of = offerRepository.findById(offerId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
         List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOfferAndArchive(user,of,true);
@@ -99,13 +94,11 @@ public class CandidacyServiceImpl implements CandidacyService {
                 c.setUser(user);
                 c.setStatus(Status.ON_HOLD);
                 c.setArchive(true);
-                of.getCandidacySet().add(c);
-                user.getCandidacySet().add(c);
                 System.out.println("candidature ajouté");
                 return candidacyRepository.save(c);
             }
             System.out.println("candidature fermé");
-            return null;
+           return null;
         }
         System.out.println("candidature déja ajouté");
         return null;
@@ -147,6 +140,10 @@ public class CandidacyServiceImpl implements CandidacyService {
         } else {
             // handle candidacy not found error
         }
+    }
+    @Override
+    public void deleteCandidacyFromDB(long candidatureId) {
+         candidacyRepository.deleteById(candidatureId);
     }
 
     @Override

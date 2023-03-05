@@ -85,9 +85,14 @@ public class CandidacyController {
     @PutMapping ("/restoreCandidancy/{id}")
     @ResponseBody
     public void RestoreCandidancy(@PathVariable("id")Long id){
+
         icandidacyService.RestoreCandidacy(id);
     }
 
+    @DeleteMapping("/deleteCandidacyFromDb/{id}")
+    public void deleteCandidacyFromDb(@PathVariable("id")Long candidatureId){
+        icandidacyService.deleteCandidacyFromDB(candidatureId);
+    }
 
     @GetMapping("/getstatus/{status}/{userId}/{offerId}")
     @ResponseBody

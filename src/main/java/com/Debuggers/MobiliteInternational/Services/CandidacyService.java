@@ -15,7 +15,7 @@ public interface CandidacyService {
     public Candidacy updateCandidancy(Candidacy c,Long idCandidacy);
     void deleteCandidacy(Long id);
     void RestoreCandidacy(Long id);
-
+    void deleteCandidacyFromDB(long candidatureId);
     public List<Candidacy> getCandidacyByOffer(Long idOffer);
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);

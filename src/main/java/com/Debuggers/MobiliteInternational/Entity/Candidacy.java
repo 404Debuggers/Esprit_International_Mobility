@@ -37,7 +37,7 @@ public class Candidacy implements Serializable {
     private Status status ;
     private double marks;
     private Boolean archive;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private User user;
     @ManyToOne
     private Offer offer;

@@ -21,13 +21,11 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     @Override
     public List<User> getAllUsers() {
-        return
-                userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public User save(User utilisateur,Long idRole) {
-
 
         Role role = roleRepository.findById(idRole).orElse(null);
         utilisateur.setRole(role);
@@ -38,7 +36,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User utilisateur) {
-
         return userRepository.save(utilisateur);
     }
 
