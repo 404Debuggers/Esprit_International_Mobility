@@ -27,6 +27,7 @@ public class EmailSenderImpl implements EmailSenderService {
     }
 
 
+
     @Override
     public void sendEmail(Interview interview) {
          String message="Comme vous avez constater vous avez été accepter, felicitations. veuillez consulter le calendrier donc notre site " +
@@ -41,4 +42,6 @@ public class EmailSenderImpl implements EmailSenderService {
 
         this.mailSender.send(simpleMailMessage);
     }
+
+
 }

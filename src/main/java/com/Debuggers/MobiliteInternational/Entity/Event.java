@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -20,9 +21,12 @@ public class Event implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
+
+
+
     private String title;
-    private Date start;
-    private Date end;
+    private LocalDateTime start;
+    private LocalDateTime end;
     @OneToOne(fetch = FetchType.EAGER)
     private Interview interview;
 

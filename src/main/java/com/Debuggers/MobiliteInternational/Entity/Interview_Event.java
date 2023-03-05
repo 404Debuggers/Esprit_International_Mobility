@@ -1,8 +1,10 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
 
-import java.util.Date;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 
 
@@ -13,8 +15,9 @@ public class Interview_Event extends Interview {
     private Date eventDate;
 
 
-    public Date getEventDate() {
-        return eventDate;
+    public LocalDateTime getEventDate() {
+        LocalDateTime localDateTime = eventDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return localDateTime;
     }
 
 

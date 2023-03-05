@@ -10,6 +10,7 @@ import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +24,11 @@ public class InterviewServiceImpl implements InterviewService {
     @Autowired
     UniversityRepository universityRepository;
     @Autowired
-   EventRepository eventRepository;
+    EventRepository eventRepository;
     @Autowired
     EmailSenderService emailSenderService;
+    @Autowired
+    ReminderSchedulerImpl reminderScheduler;
     public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
         Interview newInteriew = new Interview();
         Event newEvent = new Event();
@@ -45,8 +48,10 @@ public class InterviewServiceImpl implements InterviewService {
         newEvent.setEnd(interview.getEventDate());
         newEvent.setInterview(newInteriew);
         eventRepository.save(newEvent);
+        System.out.println(interview1);
 
         emailSenderService.sendEmail(interview1);
+        reminderScheduler.scheduleReminder(newEvent,interview1, 1);
         return interview1;
 
 
