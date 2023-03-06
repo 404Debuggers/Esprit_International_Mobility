@@ -1,14 +1,12 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-
 import com.Debuggers.MobiliteInternational.Entity.Role;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.RoleRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
-import com.Debuggers.MobiliteInternational.Services.UniversityService;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,8 +16,7 @@ public class UserServiceImpl implements UserService {
     RoleRepository roleRepository;
     @Override
     public List<User> getAllUsers() {
-        return
-                userRepository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
