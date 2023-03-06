@@ -1,6 +1,7 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
+import com.Debuggers.MobiliteInternational.Entity.Enum.Niveau;
 import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Entity.User;
@@ -20,10 +21,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 
 @Service
@@ -63,10 +62,10 @@ public class CandidacyServiceImpl implements CandidacyService {
         PDDocument document = PDDocument.load(file);
         PDFTextStripper stripper = new PDFTextStripper();
 
+
         stripper.setSortByPosition(true);
         stripper.setStartPage(0);
         stripper.setEndPage(0);
-
 
         stripper.setStartPage(1);
         stripper.setEndPage(document.getNumberOfPages());
@@ -76,31 +75,68 @@ public class CandidacyServiceImpl implements CandidacyService {
         String moyenneGeneraleText = text.substring(startIndex + 19, endIndex).trim();
         double moyenne = Double.parseDouble(moyenneGeneraleText);
         c.setMarks(moyenne);
+
         FileOutputStream fileOutputStreamfr = new FileOutputStream(B2FrPath);
         fileOutputStreamfr.write(B2Fr.getBytes());
         fileOutputStreamfr.close();
         c.setB2Fr(B2FrPath);
+
+        PDDocument b2fr = PDDocument.load(new File(B2FrPath));
+        PDFTextStripper pdfStripper = new PDFTextStripper();
+        String txt = pdfStripper.getText(b2fr);
+
+
+        if (txt.contains("Niveau d’orientation : B2") ) {
+            c.setLevelFr(Niveau.Valid);
+        } else {
+            c.setLevelFr(Niveau.Invalid);
+        }
+
+        b2fr.close();
+
+
         FileOutputStream fileOutputStreamEng = new FileOutputStream(B2EngPath);
-        fileOutputStreamEng.write(B2EngPath.getBytes());
+        fileOutputStreamEng.write(B2Eng.getBytes());
         fileOutputStreamEng.close();
         c.setB2Eng(B2EngPath);
+
+        PDDocument b2Ang = PDDocument.load(new File(B2EngPath));
+        PDFTextStripper pStripper = new PDFTextStripper();
+        String t = pStripper.getText(b2Ang);
+
+
+        if (t.contains("ORIENTATION LEVEL : B2") ) {
+            c.setLevelEng(Niveau.Valid);
+        } else {
+            c.setLevelEng(Niveau.Invalid);
+        }
+
+        b2Ang.close();
+
+
+
         Offer of = offerRepository.findById(offerId).orElse(null);
         User user = userRepository.findById(userId).orElse(null);
+
         List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOfferAndArchive(user,of,true);
         LocalDate d = of.getDeadline();
-        if(candidacies.isEmpty()) {
-            if( LocalDate.now().isBefore(d)){
-                c.setOffer(of);
-                c.setUser(user);
-                c.setStatus(Status.ON_HOLD);
-                c.setArchive(true);
-                System.out.println("candidature ajouté");
-                return candidacyRepository.save(c);
+        if (user !=null) {
+            if (candidacies.isEmpty()) {
+                if (LocalDate.now().isBefore(d)) {
+                    c.setOffer(of);
+                    c.setUser(user);
+                    c.setStatus(Status.ON_HOLD);
+                    c.setArchive(true);
+                    System.out.println("candidature ajouté");
+                    return candidacyRepository.save(c);
+                }
+                System.out.println("candidature fermé");
+                return null;
             }
-            System.out.println("candidature fermé");
-           return null;
+            System.out.println("candidature déja ajouté ou ut");
+            return null;
         }
-        System.out.println("candidature déja ajouté");
+        System.out.println("utilisateur introuvable");
         return null;
     }
 
@@ -176,9 +212,46 @@ public class CandidacyServiceImpl implements CandidacyService {
         Offer o = offerRepository.findById(offerId).orElse(null);
         return candidacyRepository.findCandidaciesByOfferOrderedByMarksDescWhereArchiveIsTrue(o);
     }
+    @Override
+    public void acceptBestCandidatures(Long offerId) {
+        Offer offer = offerRepository.findById(offerId).orElseThrow(() -> new RuntimeException("Offer not found"));
 
+        if (offer.getNbPlace() > 0) {
+            List<Candidacy> candidacies = getCandidacyByOfferOrderByMarks(offerId);
 
+            int availablePlaces = offer.getNbPlace();
+
+            for (Candidacy candidacy : candidacies) {
+                if (availablePlaces == 0) {
+                    break;
+                }
+
+                candidacy.setStatus(Status.ACCEPTED);
+                candidacyRepository.save(candidacy);
+
+                availablePlaces--;
+            }
+
+            offer.setNbPlace(availablePlaces);
+            offerRepository.save(offer);
+        }
+    }
 
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

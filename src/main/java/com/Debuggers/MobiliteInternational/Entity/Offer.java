@@ -26,6 +26,7 @@ public class Offer implements Serializable {
     private Long offerId;
     private Date dateDebut;
     private Date dateFin;
+    private int nbPlace;
     private String Title;
     private String description ;
     private LocalDate deadline;
@@ -40,13 +41,5 @@ public class Offer implements Serializable {
     @OneToMany(mappedBy = "offer")
     @JsonIgnore
     private Set<Candidacy> candidacySet;
-
-
-
-
-
-
-
-
 
 }

@@ -23,5 +23,5 @@ public interface CandidacyService {
     public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId);
 
 
-
+    void acceptBestCandidatures(Long offerId);
 }

@@ -106,5 +106,10 @@ public class CandidacyController {
     public List<Candidacy> getCandidacyByOfferIdOrderByMarks(@PathVariable Long offerId) {
         return icandidacyService.getCandidacyByOfferOrderByMarks(offerId);
     }
+    @PutMapping("/{offerId}/accept-best-candidatures")
+    public ResponseEntity<?> acceptBestCandidatures(@PathVariable Long offerId) {
+        icandidacyService.acceptBestCandidatures(offerId);
+        return ResponseEntity.ok("Best candidatures accepted");
+    }
 
 }
