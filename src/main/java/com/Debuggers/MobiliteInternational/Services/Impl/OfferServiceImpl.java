@@ -1,9 +1,12 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
+import com.Debuggers.MobiliteInternational.Entity.Candidacy;
+import com.Debuggers.MobiliteInternational.Entity.Enum.Sexe;
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Entity.UserOfferFav;
+import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserOfferFavRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
@@ -14,11 +17,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.*;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -42,6 +42,8 @@ public class OfferServiceImpl implements OfferService {
     private final JavaMailSender javaMailSender;
     @Autowired
    UserServiceImpl userService;
+    @Autowired
+    private CandidacyRepository candidacyRepository;
 
     public OfferServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
@@ -129,7 +131,6 @@ public class OfferServiceImpl implements OfferService {
       List<Offer> offer = (List<Offer>) getFavOffers(user_Id);
     List<StudyField> properties = new ArrayList<>();
     for (Offer offers : offer) {
-
         properties.add(offers.getFieldOfStudy());
         //properties.add(offer.getFieldOfStudy());
 
@@ -139,7 +140,7 @@ public class OfferServiceImpl implements OfferService {
 }
 
 
-  public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
+  /*public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
         List<Offer> similarOffers = new ArrayList<>();
         List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(user_Id);
         for (StudyField property : properties) {
@@ -147,6 +148,50 @@ public class OfferServiceImpl implements OfferService {
             similarOffers.addAll(offers);
         }
         return similarOffers;
+    }*/
+
+   /* public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
+        List<Offer> similarOffers = new ArrayList<>();
+        List<Offer> dissimilarOffers = new ArrayList<>();
+        List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(user_Id);
+        for (StudyField property : properties) {
+            List<Offer> offers = offerRepository.findOffersByStudyField(property);
+            for (Offer offer : offers) {
+                if (offer.getFieldOfStudy().equals(property)) {
+                    similarOffers.add(offer);
+                } else if (offer.getFieldOfStudy().equals(property) == false ) {
+                    dissimilarOffers.add(offer);
+                }
+            }
+        }
+        List<Offer> finalOffers = similarOffers;
+        for (Offer o :dissimilarOffers
+             ) {
+            finalOffers.add(o);
+
+        }
+
+        return dissimilarOffers;
+    }
+*/
+
+    public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
+        List<Offer> similarOffers = new ArrayList<>();
+        List<Offer> dissimilarOffers = new ArrayList<>();
+        List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(user_Id);
+        for (StudyField property : properties) {
+            List<Offer> offers = offerRepository.findAll();
+            for (Offer offer : offers) {
+                if (offer.getFieldOfStudy().equals(property))  {
+                    similarOffers.add(offer);
+                } else {
+                    dissimilarOffers.add(offer);
+                }
+            }
+        }
+        List<Offer> finalOffers = new ArrayList<>(similarOffers);
+        finalOffers.addAll(dissimilarOffers);
+        return finalOffers ;
     }
 
 
@@ -179,5 +224,59 @@ public class OfferServiceImpl implements OfferService {
     }*/
 
 
+
+
+
+
+    public Map<String, Double> generateCharts(Offer offer) {
+
+        List<Candidacy> candidacies = candidacyRepository.findByOffer(offer);
+        int total = candidacies.size();
+        Map<String, Integer> counts = new HashMap<>();
+        for (Candidacy candidacy : candidacies) {
+            User user = candidacy.getUser();
+            String category = user.getSexe() + "," + getAgeCategory(calculateAge(user.getDateNaissance()));
+            counts.put(category, counts.getOrDefault(category, 0) + 1);
+        }
+        Map<String, Double> percentages = new HashMap<>();
+        for (String category : counts.keySet()) {
+            int count = counts.get(category);
+            double percentage = ((double) count / total) * 100.0;
+            percentages.put(category, percentage);
+        }
+        return percentages;
+    }
+    public static int calculateAge(Date birthDate) {
+        if (birthDate == null) {
+            return 0;
+        }
+        Calendar birthCal = Calendar.getInstance();
+        birthCal.setTime(birthDate);
+        Calendar nowCal = Calendar.getInstance();
+        int age = nowCal.get(Calendar.YEAR) - birthCal.get(Calendar.YEAR);
+        if (nowCal.get(Calendar.DAY_OF_YEAR) < birthCal.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+        return age;
+    }
+
+    // Helper method to categorize age into age groups
+    private String getAgeCategory(int age) {
+        if (age < 18) {
+            return "Under 18";
+        } else if (age < 25) {
+            return "18-24";
+        } else if (age < 35) {
+            return "25-34";
+        } else if (age < 45) {
+            return "35-44";
+        } else if (age < 55) {
+            return "45-54";
+        } else if (age < 65) {
+            return "55-64";
+        } else {
+            return "65 and over";
+        }
+    }
 
 }

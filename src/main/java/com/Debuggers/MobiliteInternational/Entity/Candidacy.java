@@ -41,9 +41,16 @@ public class Candidacy implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @NotNull
     private User user;
-    @OneToMany(mappedBy = "candidacy")
+    /*
+    @OneToMany(mappedBy = "")
     @JsonIgnore
     private Set<Offer> offerSet;
+
+     */
+    @ManyToOne
+    @JoinColumn(name = "offerId")
+    private Offer offer;
+
     @OneToOne(fetch = FetchType.LAZY)
     private Reservation reservation;
 

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 @AllArgsConstructor
 @RestController
@@ -21,8 +23,8 @@ public class OfferController {
 
     @Autowired
     OfferService offerService ;
-
-
+    @Autowired
+    private OfferRepository offerRepository;
 
 
     @PostMapping("/add_Offer")
@@ -73,7 +75,7 @@ public class OfferController {
     public List<StudyField> extractPropertiesFromOffers(@PathVariable Long user_Id )
     { return offerService.extractPropertiesFromOffers(user_Id);}
 
-    @GetMapping("/test/{user_Id}")
+    @GetMapping("/findOffersWithS/{user_Id}")
     public List<Offer> findOffersWithSimilarProperties(@PathVariable Long user_Id){ return offerService.findOffersWithSimilarProperties(user_Id);}
 
 
@@ -84,6 +86,22 @@ public class OfferController {
         offerService.addOfferAtSpecificTime(offer, dateTime);
         return ResponseEntity.ok(offer);
     }
+
+
+    @GetMapping("/offers/{id}/charts")
+    public ResponseEntity<Map<String, Double>> generateChartsForOffer(@PathVariable Long id) {
+        Optional<Offer> optionalOffer = offerRepository.findById(id);
+        if (optionalOffer.isPresent()) {
+            Offer offer = optionalOffer.get();
+            Map<String, Double> charts = offerService.generateCharts(offer);
+            return ResponseEntity.ok(charts);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
+
 
 }
 

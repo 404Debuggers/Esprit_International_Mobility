@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
             emails.add(user.getEmail());
         }
         return emails;
+
     }
 }
 
