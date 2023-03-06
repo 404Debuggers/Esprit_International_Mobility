@@ -78,20 +78,22 @@ public class CandidacyController {
     }
     @PutMapping ("/deleteCandidancy/{id}")
     @ResponseBody
-    public void deleteCandidancy(@PathVariable("id")Long id){
+    public ResponseEntity<String> deleteCandidancy(@PathVariable("id")Long id){
         icandidacyService.deleteCandidacy(id);
+        return ResponseEntity.ok("Votre Candidature est archivé");
     }
 
     @PutMapping ("/restoreCandidancy/{id}")
     @ResponseBody
-    public void RestoreCandidancy(@PathVariable("id")Long id){
-
+    public ResponseEntity RestoreCandidancy(@PathVariable("id")Long id){
         icandidacyService.RestoreCandidacy(id);
+        return ResponseEntity.ok("Votre candidature est restauré");
     }
 
     @DeleteMapping("/deleteCandidacyFromDb/{id}")
-    public void deleteCandidacyFromDb(@PathVariable("id")Long candidatureId){
+    public ResponseEntity deleteCandidacyFromDb(@PathVariable("id")Long candidatureId){
         icandidacyService.deleteCandidacyFromDB(candidatureId);
+        return ResponseEntity.ok("Votre candidature est supprimé définitivement");
     }
 
     @GetMapping("/getstatus/{status}/{userId}/{offerId}")
