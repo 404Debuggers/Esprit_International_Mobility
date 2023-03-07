@@ -25,4 +25,8 @@ public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
     List<Candidacy> findCandidaciesByStatusAndUserAndOffer(@Param("status") Status status,
                                                            @Param("userId") Long userId,
                                                            @Param("offerId") Long offerId);
+
+
+    List<Candidacy> findByOffer(Offer offer);
+
 }

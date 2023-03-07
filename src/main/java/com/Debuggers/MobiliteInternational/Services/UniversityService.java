@@ -10,5 +10,7 @@ public interface UniversityService {
     public List<University> getAllUnis();
     public University updateUni(University university);
     public void suppUni (Long universiteId);
+    public University getUniversityById(Long universiteId);
+
 
 }
