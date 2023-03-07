@@ -1,5 +1,4 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-
 import com.Debuggers.MobiliteInternational.Entity.University;
 import com.Debuggers.MobiliteInternational.Repository.UniversityRepository;
 import com.Debuggers.MobiliteInternational.Services.UniversityService;
@@ -11,13 +10,13 @@ import java.util.List;
 @Service
 public class UniversityServiceImpl implements UniversityService {
 
+
     @Autowired
     UniversityRepository universityRepository ;
 
-
     @Override
     public University getUniversityById(Long universiteId) {
-         return universityRepository.findById(universiteId).orElse(null);
+        return universityRepository.findById(universiteId).orElse(null);
     }
 
     @Override
@@ -41,7 +40,6 @@ public class UniversityServiceImpl implements UniversityService {
 
         universityRepository.deleteById(universiteId);
     }
-
 
 
 

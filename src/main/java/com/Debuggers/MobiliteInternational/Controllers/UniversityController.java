@@ -10,23 +10,15 @@ import java.util.List;
 @RestController
 public class UniversityController {
 
+
+
     @Autowired
     UniversityService universityService;
-
-
-    @GetMapping("/getunibyid/{universiteId}")
-    public University getUniversityById( @PathVariable Long universiteId) {
-
-        return universityService.getUniversityById(universiteId);
-    }
-
 
     @PostMapping("/add_Uni")
     public University addUni (@RequestBody University university) {
         return universityService.addUni(university);
     }
-
-
 
     @GetMapping("/getAllunis")
 
@@ -48,5 +40,12 @@ public class UniversityController {
         return  universityService.updateUni(university);
     }
 
+
+
+    @GetMapping("/getunibyid/{universiteId}")
+    public University getUniversityById( @PathVariable Long universiteId) {
+
+        return universityService.getUniversityById(universiteId);
+    }
 
 }

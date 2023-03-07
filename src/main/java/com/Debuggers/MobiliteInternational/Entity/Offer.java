@@ -2,19 +2,23 @@ package com.Debuggers.MobiliteInternational.Entity;
 
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 public class Offer implements Serializable {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,32 +26,20 @@ public class Offer implements Serializable {
     private Long offerId;
     private Date dateDebut;
     private Date dateFin;
+    private int nbPlace;
     private String Title;
     private String description ;
-    private Date deadline;
+    private LocalDate deadline;
     @Enumerated(EnumType.STRING)
     private StudyField fieldOfStudy;
     private String prerequis;
     private String image;
     private Double frais;
     private Boolean archive;
-
     @ManyToOne
     private University university;
-    /*
-    @ManyToOne(cascade = CascadeType.ALL)
-    @NotNull
-    private Candidacy candidacy;
-
-     */
-
+    @OneToMany(mappedBy = "offer")
     @JsonIgnore
-
-    @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
-    private Set<Candidacy> candidacies ;
-
-
-
-
+    private Set<Candidacy> candidacySet;
 
 }

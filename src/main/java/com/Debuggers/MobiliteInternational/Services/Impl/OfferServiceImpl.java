@@ -1,7 +1,6 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
-import com.Debuggers.MobiliteInternational.Entity.Enum.Sexe;
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Entity.User;
@@ -12,29 +11,28 @@ import com.Debuggers.MobiliteInternational.Repository.UserOfferFavRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.time.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
+
 
 @Service
 public class OfferServiceImpl implements OfferService {
 
+    @Autowired
+    OfferRepository offerRepository;
+    @Autowired
+    UserRepository userRepository;
 
-        @Autowired
-        OfferRepository offerRepository;
-        @Autowired
-        UserRepository userRepository;
-
-        @Autowired
+    @Autowired
     UserOfferFavRepository userOfferFavRepository;
 
 
@@ -42,46 +40,47 @@ public class OfferServiceImpl implements OfferService {
 
     private final JavaMailSender javaMailSender;
     @Autowired
-   UserServiceImpl userService;
+    UserServiceImpl userService;
     @Autowired
     private CandidacyRepository candidacyRepository;
+
 
     public OfferServiceImpl(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
 
-        @Override
-        public Offer addOffer(Offer offer) {
+    @Override
+    public Offer addOffer(Offer offer) {
 
-            List<String> userEmails = userService.getAllUserEmails();
-            String subject = "New offer available";
-            String body =  "Dear user,\n\n" +
-                    "A new offer has just been added to our website!\n\n" +
-                    "Title: " + offer.getTitle() + "\n" +
-                    "Description: " + offer.getDescription() + "\n" +
-                    "Link: https://www.example.com/offers/" + offer.getOfferId() + "\n\n" +
-                    "Thank you for using our service.\n" +
-                    "Best regards,\n" +
-                    "The Example Team";
-            sendEmail(userEmails, subject, body);
+        List<String> userEmails = userService.getAllUserEmails();
+        String subject = "New offer available";
+        String body =  "Dear user,\n\n" +
+                "A new offer has just been added to our website!\n\n" +
+                "Title: " + offer.getTitle() + "\n" +
+                "Description: " + offer.getDescription() + "\n" +
+                "Link: https://www.example.com/offers/" + offer.getOfferId() + "\n\n" +
+                "Thank you for using our service.\n" +
+                "Best regards,\n" +
+                "The Example Team";
+        sendEmail(userEmails, subject, body);
         return offerRepository.save(offer);
-        }
+    }
 
-        @Override
-        public List<Offer> getAllOffers() {
-            List<Offer> offer = (List<Offer>) offerRepository.findAll();
-            return offer;
-        }
+    @Override
+    public List<Offer> getAllOffers() {
+        List<Offer> offer = (List<Offer>) offerRepository.findAll();
+        return offer;
+    }
 
-        @Override
-        public Offer updateOffer(Offer offer) {
-            return offerRepository.save(offer);
-        }
+    @Override
+    public Offer updateOffer(Offer offer) {
+        return offerRepository.save(offer);
+    }
 
-        @Override
-        public void suppOffer(Long offerId) {
-    offerRepository.deleteById(offerId);
-        }
+    @Override
+    public void suppOffer(Long offerId) {
+        offerRepository.deleteById(offerId);
+    }
 
     @Override
     public void sendEmail(List<String> to, String subject, String body) {
@@ -119,7 +118,7 @@ public class OfferServiceImpl implements OfferService {
         List<UserOfferFav> listfav = user.getUserFavOffers();
         List<Offer> favoriteOffers = new ArrayList<>();
         for (UserOfferFav uof: listfav
-             ) {
+        ) {
             favoriteOffers.add(uof.getOffer());
 
         }
@@ -128,17 +127,17 @@ public class OfferServiceImpl implements OfferService {
         return favoriteOffers ;
     }
 
-  public List<StudyField> extractPropertiesFromOffers(Long user_Id) {
-      List<Offer> offer = (List<Offer>) getFavOffers(user_Id);
-    List<StudyField> properties = new ArrayList<>();
-    for (Offer offers : offer) {
-        properties.add(offers.getFieldOfStudy());
-        //properties.add(offer.getFieldOfStudy());
+    public List<StudyField> extractPropertiesFromOffers(Long user_Id) {
+        List<Offer> offer = (List<Offer>) getFavOffers(user_Id);
+        List<StudyField> properties = new ArrayList<>();
+        for (Offer offers : offer) {
+            properties.add(offers.getFieldOfStudy());
+            //properties.add(offer.getFieldOfStudy());
 
-        // Add more properties as needed
+            // Add more properties as needed
+        }
+        return properties;
     }
-    return properties;
-}
 
 
   /*public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
@@ -184,7 +183,7 @@ public class OfferServiceImpl implements OfferService {
         List<Offer> offers = offerRepository.findAll();
         for (Offer offer : offers) {
             var = 0 ;
-        for (StudyField property : properties) {
+            for (StudyField property : properties) {
 
                 if (offer.getFieldOfStudy().equals(property))  {
                     similarOffers.add(offer);
@@ -193,8 +192,8 @@ public class OfferServiceImpl implements OfferService {
                     var = var+1 ;
                 }
             }
-        if (var == properties.size())
-        {  dissimilarOffers.add(offer) ;}
+            if (var == properties.size())
+            {  dissimilarOffers.add(offer) ;}
         }
 
         List<Offer> finalOffers = new ArrayList<>(similarOffers);
@@ -300,4 +299,6 @@ public class OfferServiceImpl implements OfferService {
         }
     }
 
+
 }
+

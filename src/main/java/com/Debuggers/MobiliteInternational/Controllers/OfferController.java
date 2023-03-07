@@ -1,13 +1,11 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
+
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
-import com.Debuggers.MobiliteInternational.Entity.UserOfferFav;
 import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Services.OfferService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,8 +14,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
-@AllArgsConstructor
+
 @RestController
 public class OfferController {
 
@@ -100,8 +97,4 @@ public class OfferController {
         }
     }
 
-
-
-
 }
-
