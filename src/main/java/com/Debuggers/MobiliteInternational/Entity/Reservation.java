@@ -21,6 +21,8 @@ public class Reservation implements Serializable {
     private Long reservationId;
     private String documents;
     private Date reservationDate;
+    @Enumerated(EnumType.STRING)
+    private PaiementStatus paiementStatus;
     private Boolean archive;
     @ManyToOne
     @JsonIgnore
@@ -28,8 +30,4 @@ public class Reservation implements Serializable {
     @OneToOne(fetch = FetchType.EAGER)
     @JsonIgnore
     private Candidacy candidacy;
-    @Enumerated(EnumType.STRING)
-    private PaiementStatus paiementStatus;
-
-
 }

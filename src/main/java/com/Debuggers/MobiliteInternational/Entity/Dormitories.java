@@ -2,6 +2,7 @@ package com.Debuggers.MobiliteInternational.Entity;
 
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormStatus;
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormType;
+import com.Debuggers.MobiliteInternational.Entity.Enum.PaiementStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -20,7 +21,7 @@ public class Dormitories implements Serializable {
     @Id
     private Long DormitoriesId;
     @Enumerated(EnumType.STRING)
-    private DormStatus status;
+    private DormStatus Dormstatus;
     private Double rent;
     private Integer NbPlaces;
     private String location;
@@ -31,11 +32,12 @@ public class Dormitories implements Serializable {
     @Enumerated(EnumType.STRING)
     private DormType dormType;
 
+    private Double rating;
+
     @OneToMany (mappedBy = "dorm",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Reservation>reservationSet;
     @ManyToOne
     @JsonIgnore
     private University university;
-
 }
