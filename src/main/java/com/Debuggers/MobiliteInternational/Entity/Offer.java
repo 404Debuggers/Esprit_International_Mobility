@@ -41,9 +41,13 @@ public class Offer implements Serializable {
 
      */
 
+    @JsonIgnore
 
     @OneToMany(mappedBy = "offer", cascade = CascadeType.ALL)
     private Set<Candidacy> candidacies ;
+
+
+
 
 
 }

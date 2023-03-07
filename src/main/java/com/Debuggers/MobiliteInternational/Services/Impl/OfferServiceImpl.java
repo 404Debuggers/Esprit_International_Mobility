@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.*;
@@ -175,20 +176,27 @@ public class OfferServiceImpl implements OfferService {
     }
 */
 
-    public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
+    public List<Offer>  findOffersWithSimilarProperties(Long user_Id) {
         List<Offer> similarOffers = new ArrayList<>();
         List<Offer> dissimilarOffers = new ArrayList<>();
+        int var = 0 ;
         List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(user_Id);
+        List<Offer> offers = offerRepository.findAll();
+        for (Offer offer : offers) {
+            var = 0 ;
         for (StudyField property : properties) {
-            List<Offer> offers = offerRepository.findAll();
-            for (Offer offer : offers) {
+
                 if (offer.getFieldOfStudy().equals(property))  {
                     similarOffers.add(offer);
-                } else {
-                    dissimilarOffers.add(offer);
+                } else  {
+
+                    var = var+1 ;
                 }
             }
+        if (var == properties.size())
+        {  dissimilarOffers.add(offer) ;}
         }
+
         List<Offer> finalOffers = new ArrayList<>(similarOffers);
         finalOffers.addAll(dissimilarOffers);
         return finalOffers ;
@@ -276,6 +284,19 @@ public class OfferServiceImpl implements OfferService {
             return "55-64";
         } else {
             return "65 and over";
+        }
+    }
+
+
+
+    @Scheduled(cron ="0 * * * * ?" ) // Run at midnight every day
+    public void updateArchivedOffers() {
+        List<Offer> offers = offerRepository.findAll();
+        for (Offer offer : offers) {
+            if (offer.getDateFin() != null && offer.getDateFin().before(new Date()) && offer.getArchive()==true) {
+                offer.setArchive(false);
+                offerRepository.save(offer);
+            }
         }
     }
 
