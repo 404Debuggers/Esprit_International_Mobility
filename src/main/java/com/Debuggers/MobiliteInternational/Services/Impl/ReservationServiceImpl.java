@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -216,6 +217,23 @@ public class ReservationServiceImpl implements ReservationService {
         return token.getId();
     }
 
+    @Scheduled(cron ="0 * * * * ?" ) // Run at midnight every day
+    public void updateArchivedOffers() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_MONTH, -7);
+        Date sevenDaysAgo = calendar.getTime();
+
+        List<Reservation> reservations = reservationRepository.findAll();
+        for (Reservation reservation : reservations) {
+            if (reservation.getReservationDate() != null &&
+                    reservation.getReservationDate().before(sevenDaysAgo) &&
+                    reservation.getPaiementStatus().equals(PaiementStatus.PENDING) &&
+                    reservation.getArchive() == true) {
+                reservation.setArchive(false);
+                reservationRepository.save(reservation);
+            }
+        }
+    }
 
 
 }
