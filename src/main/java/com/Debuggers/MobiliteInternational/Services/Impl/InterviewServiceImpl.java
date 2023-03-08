@@ -32,22 +32,15 @@ public class InterviewServiceImpl implements InterviewService {
     TwiliosmsServiceImpl twiliosmsService;
 
     public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
-
-
-
         Interview newInteriew = new Interview();
         Event newEvent = new Event();
-
         Candidacy candidacy = candidacyRepository.findById(candidatureId).orElse(null);
         newInteriew.setCandidacy(candidacy);
         University university = universityRepository.findById(universityId).orElse(null);
         newInteriew.setUniversity(university);
-
         newInteriew.setLink(interview.getLink());
         newInteriew.setArchive(interview.getArchive());
         Interview interview1= interviewRepository.save(newInteriew);
-
-
         newEvent.setTitle(newInteriew.getCandidacy().getUser().getFirstName());
         newEvent.setStart(interview.getEventDate());
         newEvent.setEnd(interview.getEventDate());
@@ -64,15 +57,7 @@ public class InterviewServiceImpl implements InterviewService {
         //String tophone="+21696456266";
         //String smsmessage="consulter notre site pour voir le calendrier";
         //twiliosmsService.sendSms(tophone,smsmessage);
-
-
-
         return interview1;
-
-
-
-
-
     }
 
     @Override

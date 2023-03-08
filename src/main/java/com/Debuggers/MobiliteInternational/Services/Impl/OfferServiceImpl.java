@@ -169,9 +169,7 @@ public class OfferServiceImpl implements OfferService {
         for (Offer o :dissimilarOffers
              ) {
             finalOffers.add(o);
-
         }
-
         return dissimilarOffers;
     }
 */
@@ -302,4 +300,3 @@ public class OfferServiceImpl implements OfferService {
 
 
 }
-

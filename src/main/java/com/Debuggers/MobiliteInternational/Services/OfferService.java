@@ -1,11 +1,11 @@
 package com.Debuggers.MobiliteInternational.Services;
-
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
+
+
 
 public interface OfferService {
     public Offer addOffer(Offer offer);
@@ -36,5 +36,6 @@ public interface OfferService {
 
 
     //public List<Offer> findSimilarOffersForUser(Long userId);
+
 
 }

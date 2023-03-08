@@ -48,7 +48,7 @@ public class CandidacyServiceImpl implements CandidacyService {
                                     @RequestParam("attachments") MultipartFile attachment,
                                     @RequestParam("B2Fr") MultipartFile B2Fr,
                                     @RequestParam("B2Eng") MultipartFile B2Eng
-                                     )throws IOException {
+    )throws IOException {
 
         String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
@@ -181,7 +181,7 @@ public class CandidacyServiceImpl implements CandidacyService {
     }
     @Override
     public void deleteCandidacyFromDB(long candidatureId) {
-         candidacyRepository.deleteById(candidatureId);
+        candidacyRepository.deleteById(candidatureId);
     }
 
     @Override
@@ -231,26 +231,7 @@ public class CandidacyServiceImpl implements CandidacyService {
                 candidacy.setStatus(Status.REJECTED);
                 candidacyRepository.save(candidacy);
             }
+            }
         }
     }
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

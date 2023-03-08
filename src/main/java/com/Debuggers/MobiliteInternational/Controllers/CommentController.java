@@ -1,11 +1,15 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
+
+
+
 import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Comment;
 import com.Debuggers.MobiliteInternational.Services.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 @RestController
 
@@ -13,30 +17,32 @@ import java.util.List;
     public class CommentController {
         CommentService commentService;
 
+    @GetMapping("/GET")
+    public List<Comment> listdesComments()
+    {
+        return commentService.ListdesComment();
+    }
 
-        @GetMapping("/allcomment")
-        public List<Comment> getAllComments() {
-            return commentService.getAllComments();
-        }
 
-        @GetMapping("/getc{id}")
-        public Comment getCommentById(@PathVariable Long id) {
-            return commentService.getCommentById(id);
-        }
+    @PostMapping("/Comm/{id}/{idUser}")
+    public Comment CommentPost(@RequestBody Comment comment ,@PathVariable(name = "id") long idPost , @PathVariable(name = "idUser") long idUser) throws IOException {
+        return commentService.Addcoment(comment, idPost,idUser);
 
-        @PostMapping("/addc")
-        public void addComment(@RequestBody Comment comment) {
-            commentService.addComment(comment);
-        }
+    }
+    @DeleteMapping("/DELETE/{id}")
+    public void DELETEONE(@PathVariable long id)
+    {
+        commentService.Delete(id);
+    }
+    @PutMapping("/PUT/{id}")
+    public void UpdateComment(@PathVariable(name="id") long id , @RequestBody Comment comment )
+    {
+        commentService.updateComment(id, comment);
+    }
 
-        @PutMapping("/upc")
-        public void updateComment(@RequestBody Comment comment) {
-            commentService.updateComment(comment);
-        }
 
-        @DeleteMapping("/delc{id}")
-        @ResponseBody
-        public void deleteComment(@PathVariable("id") Long id){
-            commentService.deleteComment(id);
-        }
+
+
+
+
 }

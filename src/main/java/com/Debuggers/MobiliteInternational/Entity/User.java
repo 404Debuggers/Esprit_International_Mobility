@@ -1,13 +1,8 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
-
 import com.Debuggers.MobiliteInternational.Entity.Enum.Sexe;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,6 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -54,7 +50,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "author")
     @JsonIgnore
     private Set<Blog> blogSet;
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
@@ -62,4 +58,13 @@ public class User implements Serializable {
     private Set<Report> reportSet;
     @OneToMany
     private List<UserOfferFav> userFavOffers = new ArrayList<>();
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userLikes")
+    @ToString.Exclude
+    private Set<Post> userLikes=new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userDislikes")
+    @ToString.Exclude
+    private Set<Post> userDislikes=new HashSet<>();
 }
+

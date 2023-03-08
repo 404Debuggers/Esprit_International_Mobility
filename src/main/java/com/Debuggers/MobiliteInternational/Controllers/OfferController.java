@@ -1,5 +1,5 @@
-package com.Debuggers.MobiliteInternational.Controllers;
 
+package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
@@ -8,7 +8,6 @@ import com.Debuggers.MobiliteInternational.Services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -61,9 +60,7 @@ public class OfferController {
     }
 
    /*@GetMapping("/getSmilarFavOffers/{user_Id}")
-
     public List<Offer> findSimilarOffersForUser(@PathVariable Long userId){
-
         return offerService.findSimilarOffersForUser(userId);
     }*/
 

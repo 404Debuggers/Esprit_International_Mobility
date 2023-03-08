@@ -12,6 +12,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
+
     @Query("SELECT c FROM Candidacy c WHERE c.archive = true")
     List<Candidacy> findAll();
     @Query("SELECT c from Candidacy c WHERE c.candidatureId = ?1 AND c.archive=true ")
@@ -28,5 +29,6 @@ public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
 
 
     List<Candidacy> findByOffer(Offer offer);
+
 
 }

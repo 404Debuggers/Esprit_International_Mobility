@@ -1,7 +1,6 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
-import com.Debuggers.MobiliteInternational.Entity.Enum.Category;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.Debuggers.MobiliteInternational.Entity.Enum.ReactionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,27 +8,21 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Blog implements Serializable {
+public class BlogReaction implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long blogId;
+    private Long reactionId;
     @Enumerated(EnumType.STRING)
-    private Category category ;
-    private String title;
-    private String description;
-    private Double rating;
+    private ReactionType reactionType;
 
-    private String image;
-    private  Boolean archive;
     @ManyToOne
+    private User user;
 
-    private User author;
-
-
+    @ManyToOne
+    private Blog blog;
 }

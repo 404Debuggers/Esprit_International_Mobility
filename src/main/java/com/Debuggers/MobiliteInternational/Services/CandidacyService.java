@@ -1,4 +1,5 @@
 package com.Debuggers.MobiliteInternational.Services;
+
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,4 +21,5 @@ public interface CandidacyService {
     public List<Candidacy> getCandidacyByStatus(Status status, Long userId, Long offerId);
     public List<Candidacy> getCandidacyByOfferOrderByMarks(Long offerId);
     void acceptBestCandidatures(Long offerId);
+
 }
