@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class ReminderEventImpl implements Runnable {
 
     @Autowired
-   private  EmailSenderService emailSenderService;
+    private  EmailSenderService emailSenderService;
     private Event event;
     private Interview interview;
 
@@ -27,10 +27,13 @@ public class ReminderEventImpl implements Runnable {
         // For example:
 
         System.out.println(interview.getInterviewId());
-        System.out.println("Reminder: " + event.getTitle() + " is in 24 hours.");
+        System.out.println("Mr/Mme " + event.getTitle() + " je vous rappele que votre entretien ce passe demain a cette heure");
 
-
-       // emailSenderService.sendEmail(interview);
+        /*String message="Bonjour" + event.getInterview().getCandidacy().getUser().getFirstName() +"," +
+                "Comme vous avez constater vous avez été accepter, felicitations. Veuillez consulter le calendrier donc notre site " +
+                "pour consulter les horaires de l'entretien. En plus de cela, vous serez notifié un jour avant l'entretien";
+        String subject="entretien mobilité";
+       emailSenderService.sendEmail(event.getInterview(),message,subject);*/
     }
 
 }

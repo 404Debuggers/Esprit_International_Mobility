@@ -10,6 +10,9 @@ import java.util.Date;
 import java.util.List;
 
 public interface InterviewRepository extends JpaRepository<Interview,Long> {
-
+    @Transactional
+    @Modifying
+    @Query("update Interview i set i.link = ?1 where i.calendar = ?2")
+    int updateLinkByCalendar(String link, Date calendar);
     public List<Interview> findInterviewByCandidacy_CandidatureId(Long candidatureId);
 }

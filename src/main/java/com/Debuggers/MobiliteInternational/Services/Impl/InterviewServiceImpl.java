@@ -10,7 +10,6 @@ import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +29,9 @@ public class InterviewServiceImpl implements InterviewService {
     @Autowired
     ReminderSchedulerImpl reminderScheduler;
     public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
+
+
+
         Interview newInteriew = new Interview();
         Event newEvent = new Event();
 
@@ -49,9 +51,16 @@ public class InterviewServiceImpl implements InterviewService {
         newEvent.setInterview(newInteriew);
         eventRepository.save(newEvent);
         System.out.println(interview1);
-
-        emailSenderService.sendEmail(interview1);
+        String message="Bonjour" + interview1.getCandidacy().getUser().getFirstName() +"," +
+                "Comme vous avez constater vous avez été accepter, felicitations. Veuillez consulter le calendrier donc notre site " +
+                "pour consulter les horaires de l'entretien. En plus de cela, vous serez notifié un jour avant l'entretien";
+        String subject="entretien mobilité";
+        emailSenderService.sendEmail(interview1,message,subject);
         reminderScheduler.scheduleReminder(newEvent,interview1, 1);
+
+
+
+
         return interview1;
 
 
@@ -98,8 +107,8 @@ public class InterviewServiceImpl implements InterviewService {
             }
             if (interview.getEventDate() != null) {
                 //interviewId laazem tetbadel il eventId t3daha hata heya parametre fel url il fok
-               Event existingEvent = eventRepository.findById(interviewId).orElse(null);
-               existingEvent.setStart(interview.getEventDate());
+                Event existingEvent = eventRepository.findById(interviewId).orElse(null);
+                existingEvent.setStart(interview.getEventDate());
                 existingEvent.setEnd(interview.getEventDate());
                 eventRepository.save(existingEvent);
 

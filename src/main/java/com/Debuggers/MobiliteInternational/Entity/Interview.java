@@ -21,7 +21,7 @@ public class Interview implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long interviewId;
-
+    private Date calendar;
     private String link;
     private Boolean archive;
     @JsonIgnore
@@ -30,7 +30,4 @@ public class Interview implements Serializable {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private University university;
-    @OneToOne
-    @JsonIgnore
-    private Event event;
 }

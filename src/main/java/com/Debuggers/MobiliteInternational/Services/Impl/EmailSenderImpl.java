@@ -29,13 +29,14 @@ public class EmailSenderImpl implements EmailSenderService {
 
 
     @Override
-    public void sendEmail(Interview interview) {
-         String message="Comme vous avez constater vous avez été accepter, felicitations. veuillez consulter le calendrier donc notre site " +
-                "pour consulter les horaires de l'entretien";
-         String subject="entretien mobilité";
-         String to=interview.getCandidacy().getUser().getEmail();
+    public void sendEmail(Interview interview,String message,String subject) {
+        /*String message="Bonjour" + interview.getCandidacy().getUser().getFirstName() +"," +
+                 "Comme vous avez constater vous avez été accepter, felicitations. Veuillez consulter le calendrier donc notre site " +
+                "pour consulter les horaires de l'entretien. En plus de cela, vous serez notifié un jour avant l'entretien";
+         String subject="entretien mobilité";*/
+        String to=interview.getCandidacy().getUser().getEmail();
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom("intmob94@gmail.com");
+        simpleMailMessage.setFrom("mobilityinternational29@gmail.com");
         simpleMailMessage.setTo(to);
         simpleMailMessage.setSubject(subject);
         simpleMailMessage.setText(message);
