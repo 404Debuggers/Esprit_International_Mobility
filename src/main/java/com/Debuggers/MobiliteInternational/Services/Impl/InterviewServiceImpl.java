@@ -28,6 +28,8 @@ public class InterviewServiceImpl implements InterviewService {
     EmailSenderService emailSenderService;
     @Autowired
     ReminderSchedulerImpl reminderScheduler;
+    @Autowired
+    TwiliosmsServiceImpl twiliosmsService;
 
     public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
 
@@ -59,6 +61,9 @@ public class InterviewServiceImpl implements InterviewService {
         emailSenderService.sendEmail(interview1,message,subject);
         reminderScheduler.scheduleReminder(newEvent,interview1, 1);
 
+        //String tophone="+21696456266";
+        //String smsmessage="consulter notre site pour voir le calendrier";
+        //twiliosmsService.sendSms(tophone,smsmessage);
 
 
 
