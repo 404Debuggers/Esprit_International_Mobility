@@ -49,9 +49,11 @@ public class CandidacyServiceImpl implements CandidacyService {
                                     @RequestParam("B2Fr") MultipartFile B2Fr,
                                     @RequestParam("B2Eng") MultipartFile B2Eng
                                      )throws IOException {
+
         String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
         String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
+
 
         FileOutputStream fileOutputStream = new FileOutputStream(attachmentPath);
         fileOutputStream.write(attachment.getBytes());

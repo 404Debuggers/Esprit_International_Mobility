@@ -1,11 +1,12 @@
 package com.Debuggers.MobiliteInternational.Services;
 
 import com.Debuggers.MobiliteInternational.Entity.Interview;
+import com.Debuggers.MobiliteInternational.Entity.Interview_Event;
 
 import java.util.List;
 
 public interface InterviewService {
-    void createEntretien(Interview interview, Long candidatureId, Long universityId);
+    Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId);
 
     void deleteEntretien(Long interviewId);
 
@@ -13,7 +14,7 @@ public interface InterviewService {
 
     Interview getEntretienById(Long interviewId);
 
-    Interview updateEntretien(Long interviewId, Interview interview);
+    Interview updateEntretien(Long interviewId, Interview_Event interview);
 
 
     Interview updateEntretienne(Interview interview);

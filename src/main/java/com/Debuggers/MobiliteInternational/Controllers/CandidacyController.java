@@ -29,6 +29,7 @@ public class CandidacyController {
                                    @RequestParam("B2Anglais") MultipartFile B2Eng,
                                    @PathVariable("offerId") Long offerId,
                                    @PathVariable("userId")Long userId ) throws IOException {
+
         String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         Path path = Paths.get(attachmentPath);
         Files.copy(attachment.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);

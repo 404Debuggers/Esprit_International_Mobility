@@ -1,32 +1,73 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-import com.Debuggers.MobiliteInternational.Entity.Candidacy;
-import com.Debuggers.MobiliteInternational.Entity.Interview;
-import com.Debuggers.MobiliteInternational.Entity.University;
+
+import com.Debuggers.MobiliteInternational.Entity.*;
+import com.Debuggers.MobiliteInternational.Repository.EventRepository;
 import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.InterviewRepository;
 import com.Debuggers.MobiliteInternational.Repository.UniversityRepository;
+import com.Debuggers.MobiliteInternational.Services.EmailSenderService;
 import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InterviewServiceImpl implements InterviewService {
+
     @Autowired
     InterviewRepository interviewRepository;
     @Autowired
     CandidacyRepository candidacyRepository;
     @Autowired
     UniversityRepository universityRepository;
-    public void createEntretien(Interview interview, Long candidatureId,Long universityId) {
+    @Autowired
+    EventRepository eventRepository;
+    @Autowired
+    EmailSenderService emailSenderService;
+    @Autowired
+    ReminderSchedulerImpl reminderScheduler;
+
+    public Interview createEntretien(Interview_Event interview, Long candidatureId, Long universityId) {
+
+
+
+        Interview newInteriew = new Interview();
+        Event newEvent = new Event();
+
         Candidacy candidacy = candidacyRepository.findById(candidatureId).orElse(null);
-        //if(candidacy==null){return 0};
-        interview.setCandidacy(candidacy);
-        System.out.println(interview);
+        newInteriew.setCandidacy(candidacy);
         University university = universityRepository.findById(universityId).orElse(null);
-        interview.setUniversity(university);
-        interviewRepository.save(interview);
+        newInteriew.setUniversity(university);
+
+        newInteriew.setLink(interview.getLink());
+        newInteriew.setArchive(interview.getArchive());
+        Interview interview1= interviewRepository.save(newInteriew);
+
+
+        newEvent.setTitle(newInteriew.getCandidacy().getUser().getFirstName());
+        newEvent.setStart(interview.getEventDate());
+        newEvent.setEnd(interview.getEventDate());
+        newEvent.setInterview(newInteriew);
+        eventRepository.save(newEvent);
+        System.out.println(interview1);
+        String message="Bonjour" + interview1.getCandidacy().getUser().getFirstName() +"," +
+                "Comme vous avez constater vous avez été accepter, felicitations. Veuillez consulter le calendrier donc notre site " +
+                "pour consulter les horaires de l'entretien. En plus de cela, vous serez notifié un jour avant l'entretien";
+        String subject="entretien mobilité";
+        emailSenderService.sendEmail(interview1,message,subject);
+        reminderScheduler.scheduleReminder(newEvent,interview1, 1);
+
+
+
+
+        return interview1;
+
+
+
+
+
     }
 
     @Override
@@ -34,7 +75,12 @@ public class InterviewServiceImpl implements InterviewService {
         Interview interview = interviewRepository.findById(interviewId)
                 .orElse(null);
 
+        Event existingEvent = eventRepository.findById(interviewId).orElse(null);
+
+
         interviewRepository.delete(interview);
+        eventRepository.delete(existingEvent);
+
     }
 
     @Override
@@ -49,21 +95,25 @@ public class InterviewServiceImpl implements InterviewService {
     }
 
     @Override
-    public Interview updateEntretien(Long interviewId, Interview interview) {
+    public Interview updateEntretien(Long interviewId, Interview_Event interview) {
         Interview existingInterview = interviewRepository.findById(interviewId)
                 .orElse(null);
-
-
-
         if (existingInterview != null) {
             if (interview.getArchive() != null) {
                 existingInterview.setArchive(interview.getArchive());
             }
-            if (interview.getCalendar() != null) {
-                existingInterview.setCalendar(interview.getCalendar());
-            }
+
             if (interview.getLink() != null) {
                 existingInterview.setLink(interview.getLink());
+            }
+            if (interview.getEventDate() != null) {
+                //interviewId laazem tetbadel il eventId t3daha hata heya parametre fel url il fok
+                Event existingEvent = eventRepository.findById(interviewId).orElse(null);
+                existingEvent.setStart(interview.getEventDate());
+                existingEvent.setEnd(interview.getEventDate());
+                eventRepository.save(existingEvent);
+
+
             }
             return interviewRepository.save(existingInterview);
 
