@@ -1,5 +1,7 @@
 package com.Debuggers.MobiliteInternational.Entity;
 
+import com.Debuggers.MobiliteInternational.Entity.Enum.PaiementStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -19,13 +21,13 @@ public class Reservation implements Serializable {
     private Long reservationId;
     private String documents;
     private Date reservationDate;
+    @Enumerated(EnumType.STRING)
+    private PaiementStatus paiementStatus;
     private Boolean archive;
     @ManyToOne
+    @JsonIgnore
     private  Dormitories dorm;
     @OneToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Candidacy candidacy;
-
-
-
-
 }

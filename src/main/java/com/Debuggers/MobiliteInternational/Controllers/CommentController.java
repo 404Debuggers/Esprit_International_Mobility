@@ -13,9 +13,9 @@ import java.io.IOException;
 import java.util.List;
 @RestController
 
-    @AllArgsConstructor
-    public class CommentController {
-        CommentService commentService;
+@AllArgsConstructor
+public class CommentController {
+    CommentService commentService;
 
     @GetMapping("/GET")
     public List<Comment> listdesComments()

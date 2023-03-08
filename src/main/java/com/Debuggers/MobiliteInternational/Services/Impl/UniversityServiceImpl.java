@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+
 public class UniversityServiceImpl implements UniversityService {
 
 
@@ -20,6 +21,7 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
+
     public University addUni(University university) {
         return universityRepository.save(university);
     }
@@ -42,5 +44,5 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
 
-
 }
+

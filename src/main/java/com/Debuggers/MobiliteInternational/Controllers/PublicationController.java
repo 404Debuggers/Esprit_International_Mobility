@@ -1,9 +1,9 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.BestPost;
+import com.Debuggers.MobiliteInternational.Services.PublicationService;
 import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Post;
-import com.Debuggers.MobiliteInternational.Services.PublicationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class PublicationController {
 
-     PublicationService publicationService;
+    PublicationService publicationService;
 
     @GetMapping("/sayHello")
     public String sayHello(){

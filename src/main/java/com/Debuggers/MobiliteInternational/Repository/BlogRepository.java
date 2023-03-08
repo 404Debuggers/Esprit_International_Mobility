@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface BlogRepository extends JpaRepository<Blog,Long> {
 
+
     List<Blog> findByCategory(Category category);
     @Query(value = "SELECT first_name , user.last_name  , COUNT( blog.blog_id ) nbrdesBlog "
             + "FROM user  LEFT JOIN blog ON user.user_id = blog.author_user_id "
@@ -16,5 +17,6 @@ public interface BlogRepository extends JpaRepository<Blog,Long> {
             + "ORDER BY nbrdesBlog DESC"
             + " LIMIT 1"  , nativeQuery = true)
     public BestAlumni AlumniDinamique();
+
 
 }

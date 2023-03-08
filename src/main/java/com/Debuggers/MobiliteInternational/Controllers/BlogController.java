@@ -27,7 +27,7 @@ public class BlogController {
     BlogService blogService;
     UserService userService;
     BlogReactionService blogReactionService;
-    
+
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
     private final BlogReactionRepository blogReactionRepository;
@@ -124,4 +124,3 @@ public class BlogController {
 
 
 }
-

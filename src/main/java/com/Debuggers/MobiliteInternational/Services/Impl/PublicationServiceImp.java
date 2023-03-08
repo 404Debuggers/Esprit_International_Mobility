@@ -74,18 +74,18 @@ public class PublicationServiceImp implements PublicationService {
     @Override
     public Post addPostWithUser(Post post, Long userId) throws IOException {
 
-            User user = userRepository.findById(userId).orElse(null);
-            post.setUser(user);
-            user.getPosts().add(post);
+        User user = userRepository.findById(userId).orElse(null);
+        post.setUser(user);
+        user.getPosts().add(post);
 
         post.setDescription(PostUtils.filterBadWords(post.getDescription()));
         post.setTitle(PostUtils.filterBadWords(post.getTitle()));
 
-            return publicationRepository.save(post);
-        }
+        return publicationRepository.save(post);
+    }
 
 
-        @Override
+    @Override
     public void likeAPost(long idPost, long id) {
         Post p = publicationRepository.findById(idPost).orElseGet(null);
         User e = userRepository.findById(id).orElseGet(null);
@@ -139,7 +139,6 @@ public class PublicationServiceImp implements PublicationService {
 
 
 }
-
 
 
 

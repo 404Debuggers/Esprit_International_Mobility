@@ -1,6 +1,5 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
-
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -18,9 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class UserController {
 
+
 /*
 =======
 >>>>>>> gestion_forum_blog
+=======
+>>>>>>> gestion_foyer
     UserService userService;
     private final UserRepository userRepository;
 
@@ -52,6 +54,7 @@ public class UserController {
     public void deleteUser(@PathVariable Long id){
         userService.delete(id);
 <<<<<<< HEAD
+<<<<<<< HEAD
     }*/
 
 
@@ -62,5 +65,6 @@ public class UserController {
     public List<String> getAllUserEmails() {
         return userService.getAllUserEmails();
     }
+
 
 }

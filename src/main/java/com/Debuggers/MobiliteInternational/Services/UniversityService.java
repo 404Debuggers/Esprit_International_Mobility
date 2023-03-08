@@ -13,4 +13,7 @@ public interface UniversityService {
     public University getUniversityById(Long universiteId);
 
 
+
 }
+
+

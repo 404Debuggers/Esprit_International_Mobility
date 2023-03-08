@@ -3,6 +3,7 @@ package com.Debuggers.MobiliteInternational.Services;
 import com.Debuggers.MobiliteInternational.Entity.BestPost;
 import com.Debuggers.MobiliteInternational.Entity.Comment;
 import com.Debuggers.MobiliteInternational.Entity.Post;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;

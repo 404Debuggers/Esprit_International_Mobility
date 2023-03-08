@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface UserService {
 
+
     //public List<User> getAllUsers();
     //public User save(User utilisateur,Long idRole);
     //public User update(User utilisateur);
@@ -16,6 +17,7 @@ public interface UserService {
     //int findByUserRoleEmployee();
     //int findByUserRoleManager();
     List<String> getAllUserEmails();
+
 
 
 
