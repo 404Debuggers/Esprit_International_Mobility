@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import com.Debuggers.MobiliteInternational.Services.BlogService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,7 +49,7 @@ public class BlogController {
 
 
     @PutMapping("/UpdateBlog/{id}")
-    public Blog UpdateBlog(@PathVariable(name = "id") long id, @RequestBody Blog blog) {
+    public Blog UpdateBlog(@PathVariable(name = "id") long id, @RequestBody Blog blog) throws IOException {
         return blogService.updateBlog(id, blog);
     }
 
