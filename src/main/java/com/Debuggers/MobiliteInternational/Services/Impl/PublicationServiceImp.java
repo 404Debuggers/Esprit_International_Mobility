@@ -1,26 +1,35 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-<<<<<<< Updated upstream
-
-import com.Debuggers.MobiliteInternational.Entity.Post;
-=======
 import com.Debuggers.MobiliteInternational.Entity.*;
 import com.Debuggers.MobiliteInternational.Repository.CommentRepository;
->>>>>>> Stashed changes
 import com.Debuggers.MobiliteInternational.Repository.PublicationRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.PublicationService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
 import lombok.AllArgsConstructor;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class PublicationServiceImp implements PublicationService {
+
     private final PublicationRepository publicationRepository;
     UserRepository userRepository;
     CommentRepository commentRepository;
+
 
 
     @Override
@@ -45,7 +54,6 @@ public class PublicationServiceImp implements PublicationService {
         p.setTitle(post.getTitle());
 
 
-
         return publicationRepository.save(p);
     }
 
@@ -54,9 +62,6 @@ public class PublicationServiceImp implements PublicationService {
     public void deletePublication(Long id) {
         publicationRepository.deleteById(id);
     }
-<<<<<<< Updated upstream
-=======
-
 
 
     @Override
@@ -66,32 +71,34 @@ public class PublicationServiceImp implements PublicationService {
 
 
     @Override
-        public Post addPostWithUser(Post post, Long userId) {
+    public Post addPostWithUser(Post post, Long userId) throws IOException {
 
-        User user = userRepository.findById(userId).orElse(null);
-        post.setUser(user);
-        user.getPosts().add(post);
+            User user = userRepository.findById(userId).orElse(null);
+            post.setUser(user);
+            user.getPosts().add(post);
 
-      return   publicationRepository.save(post);
-    }
+        post.setDescription(PostUtils.filterBadWords(post.getDescription()));
+        post.setTitle(PostUtils.filterBadWords(post.getTitle()));
+
+            return publicationRepository.save(post);
+        }
 
 
-    @Override
+        @Override
     public void likeAPost(long idPost, long id) {
         Post p = publicationRepository.findById(idPost).orElseGet(null);
         User e = userRepository.findById(id).orElseGet(null);
         Set<User> l = p.getUserLikes();
-        if(p.getUserDislikes().contains(e))
-        {
+        if (p.getUserDislikes().contains(e)) {
             p.getUserDislikes().remove(e);
             l.add(e);
             p.getUserLikes();
-        }
-        else
-        {	if(p.getUserLikes().contains(e)) {
-            p.getUserDislikes().remove(e);
-        }
-        else {l.add(e);}
+        } else {
+            if (p.getUserLikes().contains(e)) {
+                p.getUserLikes().remove(e);
+            } else {
+                l.add(e);
+            }
         }
         publicationRepository.save(p);
     }
@@ -101,17 +108,16 @@ public class PublicationServiceImp implements PublicationService {
         Post p = publicationRepository.findById(idPost).orElseGet(null);
         User e = userRepository.findById(id).orElseGet(null);
         Set<User> l = p.getUserDislikes();
-        if(p.getUserLikes().contains(e))
-        {
+        if (p.getUserLikes().contains(e)) {
             p.getUserLikes().remove(e);
             l.add(e);
             p.getUserDislikes();
-        }
-        else
-        {	if(p.getUserDislikes().contains(e)) {
-            p.getUserDislikes().remove(e);
-        }
-        else {l.add(e);}
+        } else {
+            if (p.getUserDislikes().contains(e)) {
+                p.getUserDislikes().remove(e);
+            } else {
+                l.add(e);
+            }
         }
         publicationRepository.save(p);
 
@@ -122,8 +128,18 @@ public class PublicationServiceImp implements PublicationService {
     public BestPost best() {
         return publicationRepository.best();
     }
->>>>>>> Stashed changes
+
+
+
+
+
+
+
+
 }
+
+
+
 
 
 

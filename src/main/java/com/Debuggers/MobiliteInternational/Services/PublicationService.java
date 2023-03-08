@@ -4,6 +4,7 @@ import com.Debuggers.MobiliteInternational.Entity.BestPost;
 import com.Debuggers.MobiliteInternational.Entity.Comment;
 import com.Debuggers.MobiliteInternational.Entity.Post;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface PublicationService {
@@ -14,7 +15,7 @@ public interface PublicationService {
     public void deletePublication(Long id);
 
     public void deletePostLikes(long postId);
-    public Post addPostWithUser(Post post, Long userId) ;
+    public Post addPostWithUser(Post post, Long userId) throws IOException;
     public void likeAPost(long idPost , long id);
     public void DislikeAPost(long idPost , long id);
     public BestPost best();

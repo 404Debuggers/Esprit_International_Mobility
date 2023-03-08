@@ -11,26 +11,26 @@ import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
 @AllArgsConstructor
 public class CommentServiceImpl implements CommentService {
-<<<<<<< Updated upstream
-
-=======
     private UserService userService;
->>>>>>> Stashed changes
     private CommentRepository commentRepository;
     PublicationRepository publicationRepository;
     UserRepository userRepository;
 
 
     @Override
-    public Comment Addcoment(Comment comment, long idPost, long idUser) {
+    public Comment Addcoment(Comment comment, long idPost, long idUser) throws IOException {
         comment.setPost(publicationRepository.findById(idPost).orElseGet(null));
         comment.setUser(userRepository.findById(idUser).orElseGet(null));
         comment.setDate(new Date());
+
+        comment.setDescription(PostUtils.filterBadWords(comment.getDescription()));
+
         return commentRepository.save(comment)  ;
     }
 
@@ -54,26 +54,9 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    @Override
-    public Comment addCommentToComment(Long userId, Long parentCommentId, Comment newComment) {
-        Optional<Comment> parentCommentOptional = commentRepository.findById(parentCommentId);
-        if (parentCommentOptional.isPresent()) {
-            Comment parentComment = parentCommentOptional.get();
-            Optional<User> userOptional = userRepository.findById(userId);
-            if (userOptional.isPresent()) {
-                User user = userOptional.get();
-                newComment.setUser(user);
-                newComment.setParentComment(parentComment);
-                return commentRepository.save(newComment);
-            }
-        }
-        return null;
-    }
-<<<<<<< Updated upstream
-=======
 
 
 
 
->>>>>>> Stashed changes
+
 }

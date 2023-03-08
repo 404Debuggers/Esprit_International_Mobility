@@ -50,7 +50,7 @@ public class User implements Serializable {
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "author")
+    @OneToMany (cascade = CascadeType.ALL, mappedBy = "author")
     @JsonIgnore
     private Set<Blog> blogSet;
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")

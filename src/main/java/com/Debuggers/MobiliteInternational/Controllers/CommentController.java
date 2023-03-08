@@ -1,18 +1,14 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
-<<<<<<< Updated upstream
-=======
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> Stashed changes
 import com.Debuggers.MobiliteInternational.Entity.Comment;
 import com.Debuggers.MobiliteInternational.Services.CommentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-
 @RestController
 
     @AllArgsConstructor
@@ -26,9 +22,8 @@ import java.util.List;
     }
 
 
-    @PostMapping("/POST/{id}/{idUser}")
-    public Comment CommentPost(@RequestBody Comment comment ,@PathVariable(name = "id") long idPost , @PathVariable(name = "idUser") long idUser)
-    {
+    @PostMapping("/Comm/{id}/{idUser}")
+    public Comment CommentPost(@RequestBody Comment comment ,@PathVariable(name = "id") long idPost , @PathVariable(name = "idUser") long idUser) throws IOException {
         return commentService.Addcoment(comment, idPost,idUser);
 
     }
@@ -42,10 +37,7 @@ import java.util.List;
     {
         commentService.updateComment(id, comment);
     }
-    @PostMapping("/add-to-comment/{userId}/{parentCommentId}")
-    public Comment addCommentToComment(@PathVariable Long userId, @PathVariable Long parentCommentId, @RequestBody Comment newComment) {
-        return commentService.addCommentToComment(userId, parentCommentId, newComment);
-    }
+
 
 
 

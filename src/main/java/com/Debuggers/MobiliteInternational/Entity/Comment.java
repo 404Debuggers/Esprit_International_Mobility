@@ -30,8 +30,7 @@ public class Comment implements Serializable {
     @ManyToOne
     @JsonIgnore
     private Post post;
-    @ManyToOne
-    private Comment parentComment;
+
 
 
 }

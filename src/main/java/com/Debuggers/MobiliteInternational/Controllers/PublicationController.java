@@ -1,23 +1,14 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
-<<<<<<< Updated upstream
-=======
 import com.Debuggers.MobiliteInternational.Entity.BestPost;
-import com.Debuggers.MobiliteInternational.Entity.Comment;
-import com.Debuggers.MobiliteInternational.Entity.User;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.RestController;
->>>>>>> Stashed changes
-import com.Debuggers.MobiliteInternational.Entity.Post;
 
+import org.springframework.web.bind.annotation.RestController;
+import com.Debuggers.MobiliteInternational.Entity.Post;
 import com.Debuggers.MobiliteInternational.Services.PublicationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+
 
 @RestController
 @AllArgsConstructor
@@ -40,8 +31,10 @@ public class PublicationController {
     }
 
     @PostMapping("/addPost")
+    @ResponseBody
     public void addPost(@RequestBody Post post) {
         publicationService.addPublication(post);
+        System.out.println("success");
     }
 
     @PutMapping("/UpdatePost/{id}")
@@ -60,7 +53,7 @@ public class PublicationController {
 
 
     @PostMapping("/POST/{id}")
-    public Post AddPost(@RequestBody Post post, @PathVariable(name = "id") long idUser) {
+    public Post AddPost(@RequestBody Post post, @PathVariable(name = "id") long idUser) throws Exception {
         return publicationService.addPostWithUser(post, idUser);
 
     }
