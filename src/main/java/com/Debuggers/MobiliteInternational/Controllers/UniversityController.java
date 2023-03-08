@@ -47,4 +47,5 @@ public class UniversityController {
 
         return universityService.getUniversityById(universiteId);
     }
+
 }

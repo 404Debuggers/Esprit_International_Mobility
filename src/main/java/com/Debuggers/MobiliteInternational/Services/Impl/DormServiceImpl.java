@@ -1,21 +1,15 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
-import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Dormitories;
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormStatus;
 import com.Debuggers.MobiliteInternational.Entity.Enum.DormType;
-import com.Debuggers.MobiliteInternational.Entity.Enum.PaiementStatus;
 import com.Debuggers.MobiliteInternational.Entity.University;
 import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.DormRepository;
 import com.Debuggers.MobiliteInternational.Repository.UniversityRepository;
 import com.Debuggers.MobiliteInternational.Services.DormService;
-import com.stripe.exception.StripeException;
-import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import lombok.AllArgsConstructor;;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.*;
 
@@ -45,7 +39,7 @@ public class DormServiceImpl implements DormService {
     public Dormitories addDorm(Dormitories d,Long universiteId) {
         University u = universityRepository.findById(universiteId).orElse(null);
         if(d.getDormType()== DormType.Single){
-           d.setNbPlaces(1);
+            d.setNbPlaces(1);
         }
         if(d.getDormType()== DormType.Double){
             d.setNbPlaces(2);
@@ -99,14 +93,14 @@ public class DormServiceImpl implements DormService {
         List<Dormitories> dormitories= dormRepository.findAll();
         List<Dormitories> LessExpensive = new ArrayList<>();
 
-         for (Dormitories dorm : dormitories){
-             if (dorm.getDormstatus() == DormStatus.Available && dorm.getPrix() != null && dorm.getPrix() < 100){
-                 LessExpensive.add(dorm);
-             }
+        for (Dormitories dorm : dormitories){
+            if (dorm.getDormstatus() == DormStatus.Available && dorm.getPrix() != null && dorm.getPrix() < 100){
+                LessExpensive.add(dorm);
+            }
 
 
-         }
-         return LessExpensive;
+        }
+        return LessExpensive;
     }
 
     /**
@@ -134,6 +128,6 @@ public class DormServiceImpl implements DormService {
             return null;
         }
     }
-    }
+}
 
 

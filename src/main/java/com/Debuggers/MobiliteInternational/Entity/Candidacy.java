@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Set;
 
@@ -26,6 +25,8 @@ public class Candidacy implements Serializable {
     private Long candidatureId;
     private String CoverLettre;
     private String attachements;
+    private String B2Eng;
+    private String B2Fr;
     @Enumerated(EnumType.STRING)
     private StudyField option;
     @Enumerated(EnumType.STRING)
@@ -34,13 +35,12 @@ public class Candidacy implements Serializable {
     private Niveau levelFr;
     @Enumerated(EnumType.STRING)
     private Status status ;
+    private double marks;
     private Boolean archive;
-    @ManyToOne(cascade = CascadeType.ALL)
-    @NotNull
+    @ManyToOne
     private User user;
-    @OneToMany(mappedBy = "candidacy")
-    @JsonIgnore
-    private Set<Offer> offerSet;
+    @ManyToOne
+    private Offer offer;
     @OneToOne(fetch = FetchType.LAZY)
     private Reservation reservation;
 

@@ -11,7 +11,7 @@ public interface ReservationService {
     public List<Reservation> getAllReservation();
     public Reservation getReservationById(long id);
 
-  public  Reservation addReservation(Reservation r, Long candidacyId, Long dormId) ;
+    public  Reservation addReservation(Reservation r, Long candidacyId, Long dormId) ;
 
     public Reservation UpdateReservation(Long reservationId, Long newDormitoriesId);
     public void deleteReservation(long id);

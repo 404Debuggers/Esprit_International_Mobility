@@ -8,12 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-
 public class UniversityServiceImpl implements UniversityService {
 
 
     @Autowired
     UniversityRepository universityRepository ;
+
+    @Override
+    public University getUniversityById(Long universiteId) {
+        return universityRepository.findById(universiteId).orElse(null);
+    }
 
     @Override
     public University addUni(University university) {
@@ -38,12 +42,5 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
 
-
-
-
-    @Override
-    public University getUniversityById(Long universiteId) {
-        return universityRepository.findById(universiteId).orElse(null);
-    }
 
 }

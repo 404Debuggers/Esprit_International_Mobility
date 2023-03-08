@@ -1,10 +1,9 @@
 package com.Debuggers.MobiliteInternational.Entity.Enum;
 
 public enum DormType {
-
-   Single,
+    Single,
     Double,
-     ThreeBedRoom,
-      FourBedRoom
+    ThreeBedRoom,
+    FourBedRoom
 
 }

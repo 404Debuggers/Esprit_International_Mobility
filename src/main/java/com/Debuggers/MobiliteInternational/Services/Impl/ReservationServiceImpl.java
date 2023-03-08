@@ -8,7 +8,7 @@ import com.Debuggers.MobiliteInternational.Entity.Reservation;
 import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.DormRepository;
 import com.Debuggers.MobiliteInternational.Repository.ResrvationRepository;
-import com.Debuggers.MobiliteInternational.Security.Services.IMailService;
+import com.Debuggers.MobiliteInternational.Services.IMailService;
 import com.Debuggers.MobiliteInternational.Services.ReservationService;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -147,7 +147,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservation(long id) {
 
-     Reservation reservation = reservationRepository.findById(id).orElse(null);
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
         if (reservation != null) {
             Dormitories dorm = reservation.getDorm();
             dorm.setNbPlaces(dorm.getNbPlaces() + 1);
@@ -189,7 +189,7 @@ public class ReservationServiceImpl implements ReservationService {
                 }
                 dormRepository.save(dorm);
             }
-            String subject = "New offer available";
+            String subject = "Dormitories fees Payment";
             String body =  "Dear user,\n\n" +
                     "Payement avec succées";
 

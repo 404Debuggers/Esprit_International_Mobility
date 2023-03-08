@@ -1,5 +1,6 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 import com.Debuggers.MobiliteInternational.Entity.Interview;
+import com.Debuggers.MobiliteInternational.Entity.Interview_Event;
 import com.Debuggers.MobiliteInternational.Services.InterviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -8,10 +9,13 @@ import java.util.List;
 public class InterviewController {
     @Autowired
     InterviewService interviewService;
-    @PostMapping("/ajouterentretien/{candidatureId}/{universityId}")
-    public void createEntretien(@PathVariable("candidatureId")Long candidatureId,@PathVariable("universityId")Long universityId, @RequestBody Interview interview) {
 
-        interviewService.createEntretien(interview, candidatureId,universityId);
+    @PostMapping("/ajouterentretien/{candidatureId}/{universityId}")
+    @ResponseBody
+    public Interview createEntretien(@PathVariable("candidatureId")Long candidatureId, @PathVariable("universityId")Long universityId, @RequestBody Interview_Event interview) {
+
+        return interviewService.createEntretien(interview, candidatureId,universityId);
+
     }
     @DeleteMapping("/supprimerentretien/{interviewId}")
     public void deleteEntretien(@PathVariable("interviewId") Long interviewId){
@@ -20,13 +24,9 @@ public class InterviewController {
     @GetMapping("/affichertoutentretien")
     public List<Interview> getAllEntretiens(){return interviewService.getAllEntretiens();}
     @PutMapping("/modifierrentretien/{interviewId}")
-    public Interview updateEntretien(@PathVariable ("interviewId")Long interviewId,@RequestBody Interview interview) {
+    @ResponseBody
+    public Interview updateEntretien(@PathVariable ("interviewId")Long interviewId,@RequestBody Interview_Event interview) {
         interviewService.updateEntretien(interviewId,interview);
-        return interview;
-    }
-    @PutMapping("/modifierrentretienne")
-    public Interview updateEntretienne(@RequestBody Interview interview) {
-        interviewService.updateEntretienne(interview);
         return interview;
     }
     @GetMapping("/getEntretienbyCandidature/{candidatureId}")

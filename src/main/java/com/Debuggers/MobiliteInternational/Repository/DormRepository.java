@@ -11,4 +11,5 @@ public interface DormRepository extends JpaRepository <Dormitories,Long> {
     @Query("select d from Dormitories  d where d.archive=true ")
     List<Dormitories> findAll();
     List<Dormitories> findByUniversityUniversiteId(Long universityId);
+
 }
