@@ -6,6 +6,7 @@ import com.Debuggers.MobiliteInternational.Repository.BlogReactionRepository;
 import com.Debuggers.MobiliteInternational.Repository.BlogRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.BlogReactionService;
+import com.Debuggers.MobiliteInternational.Services.Impl.BlogServiceImpl;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +14,8 @@ import com.Debuggers.MobiliteInternational.Services.BlogService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
+import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -26,7 +26,8 @@ public class BlogController {
     BlogService blogService;
     UserService userService;
     BlogReactionService blogReactionService;
-    
+    BlogServiceImpl blogServiceIm;
+
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
     private final BlogReactionRepository blogReactionRepository;
@@ -41,15 +42,24 @@ public class BlogController {
         return blogService.getBlogById(id);
     }
     @PostMapping("/BLOG/{id}")
-    public Blog AddPost(@RequestBody Blog blog, @PathVariable(name = "id") long idUser) {
-        return blogService.addBlogWithUser(blog, idUser);
+    public ResponseEntity<String> AddPost(@RequestBody Blog blog, @PathVariable(name = "id") long idUser) {
+       if ( blogService.addBlogWithUser(blog, idUser)==null){
+           return ResponseEntity.ok("impossible ce user n'est pas un allumni");
+
+        }
+        else{
+            return ResponseEntity.ok("ajoutee avec succee");
+        }
+
 
     }
 
 
-    @PutMapping("/UpdateBlog/{id}")
-    public Blog UpdateBlog(@PathVariable(name = "id") long id, @RequestBody Blog blog) {
-        return blogService.updateBlog(id, blog);
+    @PutMapping("/PUTB/{userId}")
+    public Blog UpdateBlog(@PathVariable("userId") long userId, @RequestBody Blog blog) throws IOException {
+        return blogServiceIm.updateBlog(userId, blog);
+
+
     }
 
     @DeleteMapping("/delb/{id}")

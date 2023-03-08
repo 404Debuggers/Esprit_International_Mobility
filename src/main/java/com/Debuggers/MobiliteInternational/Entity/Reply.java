@@ -9,24 +9,24 @@ import java.util.Date;
 
 @Entity
 
-    @AllArgsConstructor
-    @NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 
-    @Getter
-    @Setter
-    @ToString
-    public class Reply implements Serializable {
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        @Id
-        private Long replyId;
-        private String description;
-        @Temporal(TemporalType.DATE)
-        private Date date;
-        @ManyToOne
-        @JsonIgnore
-        private User user;
-        @ManyToOne
-        @JsonIgnore
-        private Comment comment;
-    }
+@Getter
+@Setter
+@ToString
+public class Reply implements Serializable {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    private Long replyId;
+    private String description;
+    @Temporal(TemporalType.DATE)
+    private Date date;
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+    @ManyToOne
+    @JsonIgnore
+    private Comment comment;
+}
 

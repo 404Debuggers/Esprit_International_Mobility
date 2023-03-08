@@ -9,9 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -56,6 +54,9 @@ public class User implements Serializable {
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Report> reportSet;
+    @OneToMany
+    private List<UserOfferFav> userFavOffers = new ArrayList<>();
+
 
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userLikes")

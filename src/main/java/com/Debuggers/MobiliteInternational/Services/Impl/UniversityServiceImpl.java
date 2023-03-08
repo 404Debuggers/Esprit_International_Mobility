@@ -15,6 +15,11 @@ public class UniversityServiceImpl implements UniversityService {
     UniversityRepository universityRepository ;
 
     @Override
+    public University getUniversityById(Long universiteId) {
+        return universityRepository.findById(universiteId).orElse(null);
+    }
+
+    @Override
     public University addUni(University university) {
         return universityRepository.save(university);
     }

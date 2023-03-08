@@ -17,10 +17,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -48,13 +45,14 @@ public class PublicationServiceImp implements PublicationService {
     }
 
     @Override
-    public Post UpdatePost(long idPost, Post post) {
-        Post p = publicationRepository.findById(idPost).orElse(null);
-        p.setDescription(post.getDescription());
-        p.setTitle(post.getTitle());
+        public Post UpdatePost(Post post,Long userId) throws IOException {
+        User user = userRepository.findById(userId).orElse(null);
+        post.setUser(user);
+        post.setDescription(PostUtils.filterBadWords(post.getDescription()));
+        post.setTitle(PostUtils.filterBadWords(post.getTitle()));
 
+        return publicationRepository.save(post);
 
-        return publicationRepository.save(p);
     }
 
 
@@ -73,18 +71,19 @@ public class PublicationServiceImp implements PublicationService {
     @Override
     public Post addPostWithUser(Post post, Long userId) throws IOException {
 
-            User user = userRepository.findById(userId).orElse(null);
-            post.setUser(user);
-            user.getPosts().add(post);
+        User user = userRepository.findById(userId).orElse(null);
+        post.setUser(user);
+        user.getPosts().add(post);
 
         post.setDescription(PostUtils.filterBadWords(post.getDescription()));
         post.setTitle(PostUtils.filterBadWords(post.getTitle()));
+        post.setDate(new Date());
 
-            return publicationRepository.save(post);
-        }
+        return publicationRepository.save(post);
+    }
 
 
-        @Override
+    @Override
     public void likeAPost(long idPost, long id) {
         Post p = publicationRepository.findById(idPost).orElseGet(null);
         User e = userRepository.findById(id).orElseGet(null);

@@ -1,18 +1,21 @@
 package com.Debuggers.MobiliteInternational.Controllers;
 
-
-import com.Debuggers.MobiliteInternational.Entity.User;
-import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
 
 @RestController
 @AllArgsConstructor
 
 public class UserController {
+/*
     UserService userService;
     private final UserRepository userRepository;
 
@@ -43,7 +46,14 @@ public class UserController {
     @ResponseBody
     public void deleteUser(@PathVariable Long id){
         userService.delete(id);
+    }*/
+
+
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/emails")
+    public List<String> getAllUserEmails() {
+        return userService.getAllUserEmails();
     }
-
-
 }

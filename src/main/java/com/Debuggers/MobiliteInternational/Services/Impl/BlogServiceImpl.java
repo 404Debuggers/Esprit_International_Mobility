@@ -1,10 +1,7 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
-import com.Debuggers.MobiliteInternational.Entity.BestAlumni;
-import com.Debuggers.MobiliteInternational.Entity.Blog;
-import com.Debuggers.MobiliteInternational.Entity.BlogReaction;
+import com.Debuggers.MobiliteInternational.Entity.*;
 import com.Debuggers.MobiliteInternational.Entity.Enum.ReactionType;
-import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.BlogReactionRepository;
 import com.Debuggers.MobiliteInternational.Repository.BlogRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
@@ -12,6 +9,7 @@ import com.Debuggers.MobiliteInternational.Services.BlogService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -23,7 +21,7 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public List<Blog> getAllBlogs() {
-       return blogRepository.findAll();
+        return blogRepository.findAll();
     }
 
     @Override
@@ -33,23 +31,30 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public Blog addBlogWithUser(Blog blog, Long userId) {
+
+        User user = userRepository.findById(userId).orElse(null);
+if(user.getAlumni()) {
+    blog.setAuthor(user);
+    user.getBlogSet().add(blog);
+    return blogRepository.save(blog);
+}
+
+else{
+    return null;
+        }
+    }
+
+
+
+    @Override
+    public Blog updateBlog(Long userId, Blog blog) throws IOException {
         User user = userRepository.findById(userId).orElse(null);
         blog.setAuthor(user);
-        user.getBlogSet().add(blog);
+
+        blog.setDescription(PostUtils.filterBadWords(blog.getDescription()));
 
 
         return blogRepository.save(blog);
-    }
-
-    @Override
-    public Blog updateBlog(long idBlog, Blog blog) {
-        Blog b = blogRepository.findById(idBlog).orElse(null);
-        b.setDescription(blog.getDescription());
-        b.setTitle(blog.getTitle());
-        b.setCategory(blog.getCategory());
-
-
-        return blogRepository.save(b);
     }
 
 

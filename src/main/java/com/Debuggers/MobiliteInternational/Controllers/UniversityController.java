@@ -41,4 +41,11 @@ public class UniversityController {
     }
 
 
+
+    @GetMapping("/getunibyid/{universiteId}")
+    public University getUniversityById( @PathVariable Long universiteId) {
+
+        return universityService.getUniversityById(universiteId);
+    }
+
 }

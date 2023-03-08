@@ -1,13 +1,12 @@
 package com.Debuggers.MobiliteInternational.Entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
-import org.springframework.beans.factory.annotation.Value;
+
 
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
+
 import java.util.Set;
 
 @Entity
@@ -21,7 +20,7 @@ public class Post implements Serializable {
     private long postId;
     private String description;
     private String title;
-  @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date date;
     private Boolean archive;
 

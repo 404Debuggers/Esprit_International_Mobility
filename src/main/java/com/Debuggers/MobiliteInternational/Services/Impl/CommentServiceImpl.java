@@ -1,7 +1,6 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
 
 import com.Debuggers.MobiliteInternational.Entity.Comment;
-import com.Debuggers.MobiliteInternational.Entity.Post;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.CommentRepository;
 import com.Debuggers.MobiliteInternational.Repository.PublicationRepository;
@@ -25,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment Addcoment(Comment comment, long idPost, long idUser) throws IOException {
-        comment.setPost(publicationRepository.findById(idPost).orElseGet(null));
+        comment.setPost(publicationRepository.findById(idPost).orElseGet(   null));
         comment.setUser(userRepository.findById(idUser).orElseGet(null));
         comment.setDate(new Date());
 
@@ -46,13 +45,15 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public void updateComment(long idComment, Comment comment) {
-        Comment c = commentRepository.findById(idComment).orElseGet(null);
-        c.setDescription(comment.getDescription());
-        c.setDate(comment.getDate());
-        commentRepository.save(c);
-
+    public Comment updateComment(Long userId, Comment comment) throws IOException {
+        User user = userRepository.findById(userId).orElse(null);
+        comment.setDescription(comment.getDescription());
+        comment.setDate(new Date());
+        comment.setDescription(PostUtils.filterBadWords(comment.getDescription()));
+        return commentRepository.save(comment) ;
     }
+
+
 
 
 

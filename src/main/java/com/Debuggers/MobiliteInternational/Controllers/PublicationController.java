@@ -2,11 +2,15 @@ package com.Debuggers.MobiliteInternational.Controllers;
 
 import com.Debuggers.MobiliteInternational.Entity.BestPost;
 
+import com.Debuggers.MobiliteInternational.Services.Impl.PublicationServiceImp;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Post;
 import com.Debuggers.MobiliteInternational.Services.PublicationService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.util.List;
 
 
@@ -14,7 +18,9 @@ import java.util.List;
 @AllArgsConstructor
 public class PublicationController {
 
-     PublicationService publicationService;
+    PublicationService publicationService;
+    PublicationServiceImp publicationServiceImp;
+
 
     @GetMapping("/sayHello")
     public String sayHello(){
@@ -37,9 +43,9 @@ public class PublicationController {
         System.out.println("success");
     }
 
-    @PutMapping("/UpdatePost/{id}")
-    public Post UpdatePost(@PathVariable(name = "id") long id, @RequestBody Post post) {
-        return publicationService.UpdatePost(id, post);
+    @PutMapping("/UpdatePost/{userId}")
+    public Post UpdatePost(@PathVariable("userId") long userId, @RequestBody Post post) throws IOException {
+        return publicationServiceImp.UpdatePost(post,userId);
     }
 
     @DeleteMapping("/delp/{id}")

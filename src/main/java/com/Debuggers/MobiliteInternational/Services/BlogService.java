@@ -1,10 +1,8 @@
 package com.Debuggers.MobiliteInternational.Services;
 
-import com.Debuggers.MobiliteInternational.Entity.BestAlumni;
-import com.Debuggers.MobiliteInternational.Entity.Blog;
-import com.Debuggers.MobiliteInternational.Entity.Comment;
-import com.Debuggers.MobiliteInternational.Entity.Post;
+import com.Debuggers.MobiliteInternational.Entity.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface BlogService {
@@ -13,7 +11,7 @@ public interface BlogService {
     public Blog addBlogWithUser(Blog blog, Long userId) ;
 
 
-     public  Blog updateBlog(long idBlog, Blog blog);
+    public Blog updateBlog(Long userId , Blog blog  ) throws IOException;
 
     public  void deleteBlog(Long id);
 

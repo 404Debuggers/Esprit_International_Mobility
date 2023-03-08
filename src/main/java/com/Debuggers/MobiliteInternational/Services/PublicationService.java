@@ -11,7 +11,7 @@ public interface PublicationService {
     public List<Post> getAllPublication();
     public Post getPublicationById(Long id);
     public void addPublication(Post post);
-    public Post UpdatePost(long idPost , Post post );
+    public Post UpdatePost( Post post,Long userId ) throws IOException;
     public void deletePublication(Long id);
 
     public void deletePostLikes(long postId);

@@ -12,6 +12,8 @@ import com.Debuggers.MobiliteInternational.Services.ReplyService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,8 +34,11 @@ public class ReplyServiceImpl implements ReplyService {
                 User user = userOptional.get();
                 newReply.setUser(user);
                 newReply.setComment(parentComment);
+                newReply.setDate(new Date());
                 return replyRepository.save(newReply);
+
             }
+
         }
         return null;
     }
@@ -49,10 +54,14 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
-    public Reply UpdateReply(long idComment, Reply reply) {
-        Reply r = replyRepository.findById(idComment).orElse(null);
-        r.setDescription(reply.getDescription());
-       return replyRepository.save(r);
+    public Reply UpdateReply(Long userId  , Reply reply ) throws IOException {
+        User user = userRepository.findById(userId).orElse(null);
+        reply.setDescription(reply.getDescription());
+        reply.setDate(new Date());
+        reply.setDescription(PostUtils.filterBadWords(reply.getDescription()));
+
+        return replyRepository.save(reply) ;
+
     }
 
     @Override

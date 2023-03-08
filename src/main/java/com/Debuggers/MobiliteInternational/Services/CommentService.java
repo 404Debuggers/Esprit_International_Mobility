@@ -9,7 +9,7 @@ public interface CommentService {
     public Comment Addcoment(Comment comment , long idPost , long idUser) throws IOException;
     public List<Comment> ListdesComment();
     public void Delete(long idComment);
-    public void updateComment(long idComment , Comment comment );
+    public Comment updateComment(Long userId , Comment comment  ) throws IOException;
 
 
 
