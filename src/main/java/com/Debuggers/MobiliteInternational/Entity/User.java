@@ -12,7 +12,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -23,7 +25,7 @@ import java.util.Set;
 public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long userId;
+    private Long user_Id;
     @NotNull
     private String firstName;
     @NotNull
@@ -58,4 +60,10 @@ public class User implements Serializable {
     @OneToMany (cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     @JsonIgnore
     private Set<Report> reportSet;
+    @OneToMany
+    private List<UserOfferFav> userFavOffers = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+
+    private Set<ReponseReport> reponseReports ;
+
 }

@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,6 +28,11 @@ public class Report implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
 
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy="report")
+    @JsonIgnore
+    private Set<ReponseReport> reponseReports;
+
 
 
 
