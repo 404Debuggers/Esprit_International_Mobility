@@ -21,7 +21,6 @@ public class UniversityServiceImpl implements UniversityService {
     }
 
     @Override
-
     public University addUni(University university) {
         return universityRepository.save(university);
     }
@@ -42,7 +41,6 @@ public class UniversityServiceImpl implements UniversityService {
 
         universityRepository.deleteById(universiteId);
     }
-
 
 }
 

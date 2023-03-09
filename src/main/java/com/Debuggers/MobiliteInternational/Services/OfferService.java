@@ -11,12 +11,18 @@ import com.Debuggers.MobiliteInternational.Entity.Offer;
 
 import java.util.List;
 
+import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
+import com.Debuggers.MobiliteInternational.Entity.Offer;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
+
 public interface OfferService {
     public Offer addOffer(Offer offer);
     public List<Offer> getAllOffers();
     public Offer updateOffer(Offer offer);
     public void suppOffer (Long offerId);
-
 
     void sendEmail(List<String> to, String subject, String body);
 

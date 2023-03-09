@@ -47,8 +47,7 @@ public class CandidacyServiceImpl implements CandidacyService {
     public Candidacy addCandidature(Candidacy c, Long userId, Long offerId,
                                     @RequestParam("attachments") MultipartFile attachment,
                                     @RequestParam("B2Fr") MultipartFile B2Fr,
-                                    @RequestParam("B2Eng") MultipartFile B2Eng
-    )throws IOException {
+                                    @RequestParam("B2Eng") MultipartFile B2Eng)throws IOException {
 
         String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
@@ -235,3 +234,4 @@ public class CandidacyServiceImpl implements CandidacyService {
         }
     }
 }
+

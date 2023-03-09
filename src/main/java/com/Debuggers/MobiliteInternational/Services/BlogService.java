@@ -3,6 +3,10 @@ package com.Debuggers.MobiliteInternational.Services;
 import com.Debuggers.MobiliteInternational.Entity.*;
 
 import java.io.IOException;
+
+import com.Debuggers.MobiliteInternational.Entity.Blog;
+import com.Debuggers.MobiliteInternational.Entity.Comment;
+
 import java.util.List;
 
 public interface BlogService {
@@ -19,3 +23,4 @@ public interface BlogService {
     public Double calculateRatingForBlog(Long blogId);
     public Double getRatingForBlog(Long blogId);
 }
+

@@ -6,12 +6,14 @@ import com.Debuggers.MobiliteInternational.Entity.Post;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 import java.util.List;
 
 public interface PublicationService {
     public List<Post> getAllPublication();
     public Post getPublicationById(Long id);
     public void addPublication(Post post);
+
     public Post UpdatePost(long idPost , Post post );
     public void deletePublication(Long id);
 
@@ -24,3 +26,4 @@ public interface PublicationService {
 
 
 }
+

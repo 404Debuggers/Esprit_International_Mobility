@@ -148,7 +148,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public void deleteReservation(long id) {
 
-     Reservation reservation = reservationRepository.findById(id).orElse(null);
+        Reservation reservation = reservationRepository.findById(id).orElse(null);
         if (reservation != null) {
             Dormitories dorm = reservation.getDorm();
             dorm.setNbPlaces(dorm.getNbPlaces() + 1);
@@ -221,4 +221,3 @@ public class ReservationServiceImpl implements ReservationService {
 
 
 }
-

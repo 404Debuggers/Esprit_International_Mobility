@@ -1,6 +1,5 @@
 package com.Debuggers.MobiliteInternational.Repository;
 
-
 import com.Debuggers.MobiliteInternational.Entity.BestPost;
 import com.Debuggers.MobiliteInternational.Entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;

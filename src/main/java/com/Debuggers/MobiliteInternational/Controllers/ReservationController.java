@@ -82,15 +82,14 @@ public class ReservationController {
             reservationService.payDormFees(cardNumber, expMonth, expYear, cvc, amount, currency ,reservationId,recipientEmail);
             ResponseEntity.ok( "Payment successful!");
         } catch (Exception e) {
-             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
 
         return "Payment successful!";
     }
 
 
-    }
-
+}
 
 
 

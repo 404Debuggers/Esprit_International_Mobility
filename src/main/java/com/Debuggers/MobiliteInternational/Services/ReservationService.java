@@ -17,7 +17,4 @@ public interface ReservationService {
     public void deleteReservation(long id);
     public List<Dormitories> getReservationAvailable();
 
-
-
-
 }

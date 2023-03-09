@@ -10,19 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
-
 @RestController
 @AllArgsConstructor
 
 public class UserController {
 
 
+
 /*
-=======
->>>>>>> gestion_forum_blog
-=======
->>>>>>> gestion_foyer
+>>>>>>> gestion_reclamation
     UserService userService;
     private final UserRepository userRepository;
 
@@ -55,6 +51,9 @@ public class UserController {
         userService.delete(id);
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> gestion_reclamation
     }*/
 
 
@@ -65,6 +64,5 @@ public class UserController {
     public List<String> getAllUserEmails() {
         return userService.getAllUserEmails();
     }
-
 
 }

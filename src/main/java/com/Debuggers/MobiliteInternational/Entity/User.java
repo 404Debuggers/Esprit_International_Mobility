@@ -66,5 +66,9 @@ public class User implements Serializable {
     @ManyToMany(cascade = CascadeType.ALL, mappedBy = "userDislikes")
     @ToString.Exclude
     private Set<Post> userDislikes=new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+
+    private Set<ReponseReport> reponseReports ;
+
 }
 
