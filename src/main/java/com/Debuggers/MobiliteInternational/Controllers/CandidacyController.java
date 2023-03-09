@@ -3,11 +3,19 @@ package com.Debuggers.MobiliteInternational.Controllers;
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
+import com.Debuggers.MobiliteInternational.Entity.User;
+import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
+import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
+import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.Impl.CandidacyServiceImpl;
+import com.Debuggers.MobiliteInternational.Services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,34 +24,51 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 @RestController
+@RequestMapping("/api/test")
+@AllArgsConstructor
 public class CandidacyController {
+
+
+
+    @Autowired
+    public OfferRepository offerRepository;
+    @Autowired
+    public UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
+
     @Autowired
     CandidacyServiceImpl icandidacyService;
-    @PostMapping(value = "/addCandidancy/{offerId}/{userId}")
+    @Autowired
+    private CandidacyRepository candidacyRepository;
+
+    @PostMapping(value = "/addCandidancy/{offerId}")
+    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
     @ResponseBody
     public Candidacy addCandidancy(@ModelAttribute Candidacy c,
                                    @RequestParam("attachments") MultipartFile attachment,
                                    @RequestParam("B2Francais") MultipartFile B2Fr,
                                    @RequestParam("B2Anglais") MultipartFile B2Eng,
                                    @PathVariable("offerId") Long offerId,
-                                   @PathVariable("userId")Long userId ) throws IOException {
-
-        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+                                   Principal principal) throws IOException {
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
         Path path = Paths.get(attachmentPath);
         Files.copy(attachment.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 
-        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
         Path p = Paths.get(B2FrPath);
         Files.copy(attachment.getInputStream(), p, StandardCopyOption.REPLACE_EXISTING);
 
-        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi push\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documentsB2Anglais" + B2Eng.getOriginalFilename();
         Path pp = Paths.get(B2EngPath);
         Files.copy(attachment.getInputStream(), pp, StandardCopyOption.REPLACE_EXISTING);
 
 
-        return icandidacyService.addCandidature(c,offerId,userId,attachment,B2Fr,B2Eng);
+        return icandidacyService.addCandidature(c,offerId,attachment,B2Fr,B2Eng,principal);
     }
     @GetMapping("/AllCandidancy")
     @ResponseBody
@@ -115,6 +140,15 @@ public class CandidacyController {
         return ResponseEntity.ok("Best candidatures accepted");
     }
 
+    @GetMapping("/current-user/candidacies")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<List<Candidacy>> getCurrentUserCandidacy(Principal principal) {
+        String email = principal.getName();
+
+        List<Candidacy> candidacies = candidacyRepository.findByUserEmail(email);
+        return ResponseEntity.ok(candidacies);
+
+
+
+    }
 }
-
-

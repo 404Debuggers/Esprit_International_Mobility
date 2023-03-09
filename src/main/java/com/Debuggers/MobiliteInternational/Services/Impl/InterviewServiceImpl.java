@@ -54,9 +54,9 @@ public class InterviewServiceImpl implements InterviewService {
         emailSenderService.sendEmail(interview1,message,subject);
         reminderScheduler.scheduleReminder(newEvent,interview1, 1);
 
-        //String tophone="+21696456266";
-        //String smsmessage="consulter notre site pour voir le calendrier";
-        //twiliosmsService.sendSms(tophone,smsmessage);
+        String tophone="+21696456266";
+        String smsmessage="consulter notre site pour voir le calendrier";
+        twiliosmsService.sendSms(tophone,smsmessage);
         return interview1;
     }
 

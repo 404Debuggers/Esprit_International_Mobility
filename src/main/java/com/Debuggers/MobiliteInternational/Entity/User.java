@@ -3,48 +3,48 @@ package com.Debuggers.MobiliteInternational.Entity;
 import com.Debuggers.MobiliteInternational.Entity.Enum.Sexe;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name="users" , uniqueConstraints = {
+        @UniqueConstraint(columnNames = "email")})
 public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long user_Id;
-    @NotNull
     private String firstName;
-    @NotNull
     private String lastName;
-    @NotNull
     private Date dateNaissance;
-    @NotNull
     private String  phone;
     private String email;
-    @Size(min = 6, message = "Length must be more than 6")
     private String password ;
-    @NotNull
+
+    private String cin;
     private String adresse;
     @Enumerated(EnumType.STRING)
     private Sexe sexe;
     private String image;
     private Boolean Alumni;
-    @OneToOne(fetch = FetchType.EAGER)
-    private Role role;
+    private boolean enabled;
+
+
+    private String token;
+    @ManyToMany(fetch= FetchType.LAZY)
+    @JoinTable(  name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles  = new HashSet<>();
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Post> posts;
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JsonIgnore
     private Set<Candidacy> CandidacySet;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "user")
@@ -67,8 +67,22 @@ public class User implements Serializable {
     @ToString.Exclude
     private Set<Post> userDislikes=new HashSet<>();
     @OneToMany(cascade = CascadeType.ALL)
-
     private Set<ReponseReport> reponseReports ;
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private Set<University> universities;
+
+
+    public User(String firstName, String lastName, Date dateNaissance, String phone, String email, String password, String adresse ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateNaissance = dateNaissance;
+        this.phone = phone;
+        this.email = email;
+        this.password = password;
+        this.adresse = adresse;
+    }
 
 }
 

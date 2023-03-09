@@ -9,6 +9,7 @@ import com.Debuggers.MobiliteInternational.Repository.CandidacyRepository;
 import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.CandidacyService;
+import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -20,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,8 @@ public class CandidacyServiceImpl implements CandidacyService {
     public OfferRepository offerRepository;
     @Autowired
     public UserRepository userRepository;
+    @Autowired
+    public UserService userService;
     @Override
     public List<Candidacy> getAllCandidancy() {
 
@@ -44,15 +48,14 @@ public class CandidacyServiceImpl implements CandidacyService {
         return candidacyRepository.findCandidaciesByCandidatureIdAndArchiveTrue(id);
     }
     @Override
-    public Candidacy addCandidature(Candidacy c, Long userId, Long offerId,
+    public Candidacy addCandidature(Candidacy c, Long offerId,
                                     @RequestParam("attachments") MultipartFile attachment,
                                     @RequestParam("B2Fr") MultipartFile B2Fr,
-                                    @RequestParam("B2Eng") MultipartFile B2Eng)throws IOException {
-
-        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
-        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
-        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\Projet Pi 5edma\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
-
+                                    @RequestParam("B2Eng") MultipartFile B2Eng
+            , Principal principal)throws IOException {
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\B2Anglais" + B2Eng.getOriginalFilename();
 
         FileOutputStream fileOutputStream = new FileOutputStream(attachmentPath);
         fileOutputStream.write(attachment.getBytes());
@@ -117,7 +120,11 @@ public class CandidacyServiceImpl implements CandidacyService {
 
 
         Offer of = offerRepository.findById(offerId).orElse(null);
-        User user = userRepository.findById(userId).orElse(null);
+        //  User user = userRepository.findById(userId).orElse(null);
+
+        String email = principal.getName();
+        User user = userService.findOne(email);
+        System.out.println(email);
 
         List<Candidacy> candidacies = candidacyRepository.findCandidaciesByUserAndOfferAndArchive(user,of,true);
         LocalDate d = of.getDeadline();
@@ -140,7 +147,6 @@ public class CandidacyServiceImpl implements CandidacyService {
         System.out.println("utilisateur introuvable");
         return null;
     }
-
 
     @Override
     public Candidacy updateCandidancy(Candidacy c,Long idCandidacy ) {

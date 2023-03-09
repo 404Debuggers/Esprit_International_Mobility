@@ -5,6 +5,7 @@ import com.Debuggers.MobiliteInternational.Entity.Post;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 
 
 public interface PublicationRepository extends JpaRepository<Post,Long> {
@@ -15,6 +16,7 @@ public interface PublicationRepository extends JpaRepository<Post,Long> {
             + " LIMIT 1" ,
             nativeQuery = true)
     public BestPost best();
+    List<Post> findByUserEmail(String email);
 
 
 }

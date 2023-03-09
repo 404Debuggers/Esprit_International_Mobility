@@ -1,9 +1,11 @@
 package com.Debuggers.MobiliteInternational.Services;
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
 import com.Debuggers.MobiliteInternational.Entity.Enum.Status;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 import com.Debuggers.MobiliteInternational.Entity.Candidacy;
@@ -16,8 +18,15 @@ import java.util.List;
 public interface CandidacyService {
     List<Candidacy> getAllCandidancy();
     public Candidacy getCandidancyById(Long id);
-    public Candidacy addCandidature(Candidacy c, Long offerId, Long userId, MultipartFile attachment, MultipartFile B2Fr, MultipartFile B2Eng) throws IOException;
-    public Candidacy updateCandidancy(Candidacy c,Long idCandidacy);
+
+
+    Candidacy addCandidature(Candidacy c, Long offerId,
+                             @RequestParam("attachments") MultipartFile attachment,
+                             @RequestParam("B2Fr") MultipartFile B2Fr,
+                             @RequestParam("B2Eng") MultipartFile B2Eng
+            , Principal principal)throws IOException;
+
+    public Candidacy updateCandidancy(Candidacy c, Long idCandidacy);
     void deleteCandidacy(Long id);
     void RestoreCandidacy(Long id);
     void deleteCandidacyFromDB(long candidatureId);

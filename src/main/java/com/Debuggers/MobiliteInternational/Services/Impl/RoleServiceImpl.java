@@ -1,6 +1,4 @@
-package com.Debuggers.MobiliteInternational.Services.Impl;
-
-
+import com.Debuggers.MobiliteInternational.Entity.Enum.ERole;
 import com.Debuggers.MobiliteInternational.Entity.Role;
 import com.Debuggers.MobiliteInternational.Repository.RoleRepository;
 import com.Debuggers.MobiliteInternational.Response.MessageResponse;
@@ -9,45 +7,50 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
 
+
     RoleRepository roleRepository;
-    @Override
-    public MessageResponse save(Role role) {
 
-        boolean existe = roleRepository.existsByNom(role.getNom());
-        if (existe){
-            return new MessageResponse(false,"Echec !","Cette nom existe déja !");
+    @Override
+    public Role save(ERole roleName) {
+
+        Optional<Role> existeRole = roleRepository.findByNom(roleName);
+        if (existeRole.isPresent()){
+            return existeRole.get();
         }
-        roleRepository.save(role);
-        return new MessageResponse(true,"Succès","Opération réalisée avec succès.");
+        else {
+            Role role = new  Role();
+            role.setNom(roleName);
+            return   roleRepository.save(role);
+
+        }
+
     }
 
     @Override
-    public MessageResponse update(Role role) {
+    public Role update(Role role) {
 
-        boolean existe = roleRepository.existsById(role.getRoleId());
-        if (!existe){
-            boolean existe1 = roleRepository.existsByNom(role.getNom());
-            return new MessageResponse(false,"Echec !","Cette role existe déja !");
+        Optional <Role> existeRole = roleRepository.findByNom(role.getNom());
+        if (existeRole.isPresent()){
+            return existeRole.get();
+
         }
-        roleRepository.save(role);
-        return new MessageResponse(true,"Succès","Opération réalisée avec succès.");
+        return roleRepository.save(role);
     }
 
     @Override
-    public MessageResponse delete(Long id) {
+    public void delete(Long id) {
 
         Role role = findById(id);
         if (role==null){
-            return new MessageResponse(false,"Echec","Cet enregistrement n'existe pas !");
         }
         roleRepository.delete(role);
-        return new MessageResponse(true,"Succès", "L'enregistrement à été supprimé avec succès.");
     }
 
     @Override
