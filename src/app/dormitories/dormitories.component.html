@@ -1,0 +1,36 @@
+
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+  <div class="row">
+    <div class="col-lg-3" *ngFor="let dorm of dorms">
+      <div class="card" style="display: flex; flex-wrap: wrap;" >
+        <img src="assets/img/img-1.jpg" class="card-img-top " alt="..." style="width: 272px; height: 300px;margin-bottom: 1rem;">
+        <div class="card-body">
+          <div>
+            <span><span style="font-weight: bolder; color:#012970">Status : </span> {{dorm.dormstatus}}</span>
+          </div>
+          <div>
+            <span><span style="font-weight: bolder; color:#012970">Dorm Type : </span> {{dorm.dormType}} </span>
+          </div>
+          <div>
+            <span><span style="font-weight: bolder; color:#012970">Location : </span> {{dorm.location}}</span>
+          </div>
+          <div>
+            <span><span style="font-weight: bolder; color:#012970">Price: </span> {{dorm.prix}}$</span>
+          </div>
+          <div>
+            <span><span style="font-weight: bolder; color:#012970">Number of place : </span> {{dorm.nbPlaces}}</span>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center">
+            <button style="background-color: #EC3636;margin-top: 1rem;" class="btn btn-primary">Reservation</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:4200")
 @org.springframework.web.bind.annotation.RestController
 @AllArgsConstructor
 public class ReponseReportController {

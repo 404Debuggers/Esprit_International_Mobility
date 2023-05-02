@@ -1,0 +1,52 @@
+<app-header></app-header>
+<app-sidebar></app-sidebar>
+<main id="main" class="main">
+  <section class="section">
+    <div class="row">
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">All Report</h5>
+            <!-- Table with stripped rows -->
+            <table class="table datatable">
+              <thead>
+                <tr>
+                  <th scope="col">First Name</th>
+                  <th scope="col">Last Name</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Description</th>
+                  <th scope="col">Action</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor='let r of listReport'>
+                  <td>{{r.user.firstName}}</td>
+                  <td>{{r.user.lastName}}</td>
+                  <td class="badge bg-warning">{{r.status}}</td>
+                  <td>{{r.type}}</td>
+                  <td>{{r.description}}</td>
+                  <td> <a style="color: #EC3636;" class="action-icon" data-toggle="tooltip" title="" data-original-title="Modifier l'utilisateur  ">
+                    <i class="bi bi-archive"></i>
+                  </a>
+                  <a style="color: #EC3636;" class="action-icon" data-toggle="tooltip" title="" data-original-title="Modifier l'utilisateur  ">
+                    <i class="bi bi-arrow-counterclockwise"></i>
+                  </a>
+                  <a style="color: #EC3636;" class="action-icon" data-toggle="tooltip" title="" data-original-title="Modifier l'utilisateur  ">
+                    <i class="bi bi-trash"></i>
+                  </a>
+                </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- End Table with stripped rows -->
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>

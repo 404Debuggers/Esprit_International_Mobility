@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.Debuggers.MobiliteInternational.Entity.Post;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.List;
 
-
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
 public class PublicationController {
@@ -51,9 +53,9 @@ public class PublicationController {
 
 
 
-    @PostMapping("/POST/{id}")
-    public Post AddPost(@RequestBody Post post, @PathVariable(name = "id") long idUser) throws Exception {
-        return publicationService.addPostWithUser(post, idUser);
+    @PostMapping("/POST")
+    public Post AddPost(@RequestBody Post post , Principal principal) throws Exception {
+        return publicationService.addPostWithUser(post, principal);
 
     }
     @PutMapping("/LikePost/{idPost}/{id}")

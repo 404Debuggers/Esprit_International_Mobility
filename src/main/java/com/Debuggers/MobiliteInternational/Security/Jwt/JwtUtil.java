@@ -4,8 +4,10 @@ import com.Debuggers.MobiliteInternational.Security.Services.UserDetailsImpl;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.impl.crypto.MacProvider;
+import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 
@@ -22,6 +24,7 @@ import java.util.Date;
 import java.util.Random;
 
 @Component
+@NoArgsConstructor
 public class JwtUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtil.class);

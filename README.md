@@ -1,52 +1,27 @@
-# Esprit Mobility
-_(International Maobility platform )_
+# MobiliteInternational
 
-![Version](https://img.shields.io/badge/version-1.0-blue.svg?cacheSeconds=2592000)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](#)
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.10.
 
-<p align="center">
-  <img width="600" height="600" src="https://user-images.githubusercontent.com/98457890/224183862-04788ad1-4c56-4bd6-bcb3-810441646022.png">
- </p>
+## Development server
 
-Web Application for ESPRIT to help Administration, Student and partner for mobility managment
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-### Requirement
+## Code scaffolding
 
-- Java 8
-- SpringBoot
-- Angular
-- MySQL 5.+.
-You can check each repository for more details
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Execute
+## Build
 
-You can check each repository for more details 
-* [Esprit_International_Mobility](https://github.com/404Debuggers/Esprit_International_Mobility) 
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## Contributing
+## Running unit tests
 
-If you want to contribute, Please feel free to contact us at [Esprit Mobility Email](mailto:mobilityinternational29@gmail.com)
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Versions
+## Running end-to-end tests
 
-**Dernière version stable :**  1.0
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
 
-**Dernière version stable :** 1.0
+## Further help
 
-## Auteurs
-
-* **Marwen Yakoubi** [Marwen](https://github.com/marw19)
-* **Bayrem Hamdi** [Bayrem](https://github.com/bayrem999)
-* **AbdelAzyz Elloumi** [Abdelazzyz](https://github.com/Ellouminati)
-* **Mohamed amine Aouini** [Amine](https://github.com/medamineaouinii)
-* **Firas Dridi** [Firas](https://github.com/FirasDridi)
-* **Aziz Awadhi** [Aziz](https://github.com/azizhhhh)
-* **Zied Harzallah** [Zied](https://github.com/ZiedHarzallah)
-
-## License
-
-Ce projet est sous licence ``ESPRIT:PiDEV`` - voir le fichier [LICENSE.md](LICENSE.md) pour plus d'informations
-
-## Show your support
-
-Give a ⭐️ if this project helped you!
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

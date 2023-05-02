@@ -44,6 +44,11 @@ public class CandidacyServiceImpl implements CandidacyService {
         return candidacyRepository.findAll();
     }
     @Override
+    public List<Candidacy> getAllArchivedCandidancy() {
+
+        return candidacyRepository.findAllArchived();
+    }
+    @Override
     public Candidacy getCandidancyById(Long id) {
         return candidacyRepository.findCandidaciesByCandidatureIdAndArchiveTrue(id);
     }
@@ -186,7 +191,9 @@ public class CandidacyServiceImpl implements CandidacyService {
     }
     @Override
     public void deleteCandidacyFromDB(long candidatureId) {
+        System.out.println("3asbbaa");
         candidacyRepository.deleteById(candidatureId);
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface PublicationService {
@@ -18,7 +19,7 @@ public interface PublicationService {
     public void deletePublication(Long id);
 
     public void deletePostLikes(long postId);
-    public Post addPostWithUser(Post post, Long userId) throws IOException;
+    public Post addPostWithUser(Post post, Principal principal) throws IOException;
     public void likeAPost(long idPost , long id);
     public void DislikeAPost(long idPost , long id);
     public BestPost best();
