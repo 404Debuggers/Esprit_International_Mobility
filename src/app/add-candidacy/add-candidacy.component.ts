@@ -22,7 +22,8 @@ export class AddCandidacyComponent implements OnInit {
   constructor(private route: ActivatedRoute,
     private router: Router,
     private candidacyService: CandidacyService,
-    private offerService: OfferService) {}
+    private offerService: OfferService,
+    ) {}
 
   ngOnInit(): void {
     this.candidacy = {
@@ -102,6 +103,9 @@ export class AddCandidacyComponent implements OnInit {
         console.error('Upload error',error);
       }
     );
-this.router.navigate(['/dashboard']);
+
+    localStorage.setItem('candidacy', "1");
+  this.router.navigate(['/candidacy']);
+
 }
 }

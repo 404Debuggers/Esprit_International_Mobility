@@ -32,6 +32,6 @@ public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
 
 
     List<Candidacy> findByOffer(Offer offer);
-    List<Candidacy> findByUserEmail(String email);
+    List<Candidacy> findByUserEmailAndArchiveTrue(String email);
 
 }

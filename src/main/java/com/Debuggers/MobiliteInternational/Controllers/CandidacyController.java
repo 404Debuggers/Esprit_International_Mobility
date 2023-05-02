@@ -164,7 +164,7 @@ public class CandidacyController {
     public ResponseEntity<List<Candidacy>> getCurrentUserCandidacy(Principal principal) {
         String email = principal.getName();
 
-        List<Candidacy> candidacies = candidacyRepository.findByUserEmail(email);
+        List<Candidacy> candidacies = candidacyRepository.findByUserEmailAndArchiveTrue(email);
         return ResponseEntity.ok(candidacies);
 
 

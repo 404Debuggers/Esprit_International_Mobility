@@ -3,7 +3,7 @@
 <main id="main" class="main">
 
 
-  <div class="card">
+  <div class="card" *ngIf="role == 'ROLE_ADMIN'">
     <div class="card-body pt-3">
       <!-- Bordered Tabs -->
       <ul class="nav nav-tabs nav-tabs-bordered">
@@ -27,7 +27,7 @@
               <div class="card">
                 <div class="card-body">
 
-                  <!-- Table with stripped rows -->
+                  <!-- Table with stripped rows-->
                   <table class="table datatable">
                     <thead>
                       <tr>
@@ -56,7 +56,7 @@
                       </tr>
                     </tbody>
                   </table>
-                  <!-- End Table with stripped rows -->
+                  <!-- End Table with stripped rows-->
 
                 </div>
               </div>
@@ -73,7 +73,7 @@
             <div class="card">
               <div class="card-body">
 
-                <!-- Table with stripped rows -->
+                <!-- Table with stripped rows-->
                 <table class="table datatable">
                   <thead>
                     <tr>
@@ -103,7 +103,73 @@
                     </tr>
                   </tbody>
                 </table>
-                <!-- End Table with stripped rows -->
+                <!-- End Table with stripped rows-->
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+      </div><!-- End Bordered Tabs-->
+
+    </div>
+  </div>
+
+  <div class="card" *ngIf="role == 'ROLE_STUDENT'" >
+    <div class="card-body pt-3">
+      <!-- Bordered Tabs -->
+      <div class="tab-content pt-2">
+
+        <div class="tab-pane fade show active profile-overview" id="profile-overview">
+
+          <div class="row">
+            <div class="col-lg-12">
+
+              <div class="card">
+                <div class="card-body">
+
+                  <!-- Table with stripped rows -->
+                  <table class="table datatable">
+                    <thead>
+                      <tr>
+                        <th scope="col">Offer title</th>
+                        <th scope="col">Marks</th>
+                        <th scope="col">B2 English</th>
+                        <th scope="col">B2 French</th>
+                        <th scope="col">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor=' let candidacy of candidacies'>
+                        <td>{{candidacy.offer.title}}</td>
+                        <td>{{candidacy.marks}}</td>
+                        <td>{{candidacy.levelEng}}</td>
+                        <td>{{candidacy.levelFr}}</td>
+                        <td class="badge bg-warning">{{candidacy.status}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!-- End Table with stripped rows -->
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+          <div class="col-lg-12">
+
+            <div class="card">
+              <div class="card-body">
+
 
               </div>
             </div>
@@ -118,6 +184,5 @@
 
     </div>
   </div>
-
 </main>
 

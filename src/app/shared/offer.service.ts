@@ -15,5 +15,4 @@ export class OfferService {
   getOfferById(id: number): Observable<Offer> {
     return this.httpClient.get<Offer>(`${this.API_URL}/${id}`);
   }
-
 }

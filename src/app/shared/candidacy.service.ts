@@ -1,5 +1,5 @@
 import { Injectable, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Candidacy } from '../class/candidacy';
 import { Offer } from '../class/offer';
@@ -22,6 +22,11 @@ getAllCandidacy(): Observable<Candidacy[]> {
 getAllArchivedCandidancy(): Observable<Candidacy[]> {
   return this.httpClient.get<Candidacy[]>(`${this.candidacyURL}/AllArchivedCandidancy`);
 }
+getCurrentUserCandidacy(): Observable<Candidacy[]> {
+  const token = sessionStorage.getItem('Token');
+   const headers = { 'Authorization': `Bearer ${token}` };
+  return this.httpClient.get<Candidacy[]>(`${this.candidacyURL}/current-user/candidacies`, { headers: headers });
+}
  addCandidacy( id:Number,attachments: any, B2Fr: any, B2Eng: any) : Observable<any>{
    const formData = new FormData();
    formData.append('attachments', attachments);
@@ -37,6 +42,7 @@ getAllArchivedCandidancy(): Observable<Candidacy[]> {
  getCandidacyByOfferid(id:any):Observable<Object>{
   return this.httpClient.get(`${this.candidacyURL}/getCandidancyByOfferid/${id}`)
  }
+
  deleteCandidacyFromDb(id:any):Observable<Object>{
   return this.httpClient.delete(`${this.candidacyURL}/deleteCandidacyFromDb/${id}`)
  }

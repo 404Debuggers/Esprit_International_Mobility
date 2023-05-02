@@ -13,12 +13,20 @@ import { ThisReceiver } from '@angular/compiler';
 export class CandidacyComponent implements OnInit  {
   listCandidacy:any;
   archivedlistCandidacy: any;
+  candidacies: any;
   form : boolean = true;
   candidacy! : Candidacy;
+  role:string | undefined;
   constructor(private candidacyService: CandidacyService) { }
   ngOnInit(): void {
+    let x=localStorage.getItem("candidacy");
+    if(x=="1"){
+      localStorage.setItem('candidacy', "0");
+      window.location.reload();
+    }
     this.getAllCandidacy();
     this.getAllArchivedCandidancy();
+    this.getCurrentUserCandidacy();
       this.candidacy = {
       candidatureId:null,
       CoverLettre:null,
@@ -38,16 +46,20 @@ export class CandidacyComponent implements OnInit  {
       email:null,
 
     }
+    this.role = ""+sessionStorage.getItem("Role");
   }
   getAllCandidacy() {
     this.candidacyService.getAllCandidacy().subscribe((res:any) => this.listCandidacy = res)
   }
   getAllArchivedCandidancy(){
-    console.log("hh ")
     this.candidacyService.getAllArchivedCandidancy().subscribe((res:any) => {this.archivedlistCandidacy = res;
-      console.log(this.archivedlistCandidacy);
     });
   }
+  getCurrentUserCandidacy(){
+    this.candidacyService.getCurrentUserCandidacy().subscribe((res:any) => this.candidacies = res)
+  }
+
+
 
   deleteCandidacyFromDb(id:any){
     console.log(id);
