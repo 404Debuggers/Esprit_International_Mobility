@@ -10,6 +10,7 @@ import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.Impl.CandidacyServiceImpl;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.ast.Var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,6 +27,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/test")
 @AllArgsConstructor
@@ -47,7 +49,7 @@ public class CandidacyController {
     private CandidacyRepository candidacyRepository;
 
     @PostMapping(value = "/addCandidancy/{offerId}")
-    @PreAuthorize("hasRole('STUDENT') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('STUDENT') ")
     @ResponseBody
     public Candidacy addCandidancy(@ModelAttribute Candidacy c,
                                    @RequestParam("attachments") MultipartFile attachment,
@@ -55,31 +57,46 @@ public class CandidacyController {
                                    @RequestParam("B2Anglais") MultipartFile B2Eng,
                                    @PathVariable("offerId") Long offerId,
                                    Principal principal) throws IOException {
-        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\ReleveDeNote" + attachment.getOriginalFilename();
+        System.out.println("ridha ya miboun");
+        String attachmentPath = "C:\\Users\\Marwen\\Desktop\\projet PI push\\Esprit_International_Mobility\\upload\\documents" + attachment.getName();
         Path path = Paths.get(attachmentPath);
+        System.out.println("ridha ya miboun");
+        System.out.println(path);
         Files.copy(attachment.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-
-        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documents\\B2Francais" + B2Fr.getOriginalFilename();
+        String B2FrPath = "C:\\Users\\Marwen\\Desktop\\projet PI push\\Esprit_International_Mobility\\upload\\documents" + B2Fr.getName();
         Path p = Paths.get(B2FrPath);
-        Files.copy(attachment.getInputStream(), p, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(B2Fr.getInputStream(), p, StandardCopyOption.REPLACE_EXISTING);
 
-        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\user\\Esprit_International_Mobility\\upload\\documentsB2Anglais" + B2Eng.getOriginalFilename();
+        String B2EngPath = "C:\\Users\\Marwen\\Desktop\\projet PI push\\Esprit_International_Mobility\\upload\\documents" + B2Eng.getName();
         Path pp = Paths.get(B2EngPath);
-        Files.copy(attachment.getInputStream(), pp, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(B2Eng.getInputStream(), pp, StandardCopyOption.REPLACE_EXISTING);
 
 
         return icandidacyService.addCandidature(c,offerId,attachment,B2Fr,B2Eng,principal);
     }
+//@PostMapping(value = "/addCandidancy")
+//   public Candidacy addCandidancy(@ModelAttribute Candidacy c){
+//    System.out.println("hhhhhhh");
+//    return c;
+//}
+
     @GetMapping("/AllCandidancy")
     @ResponseBody
     public List<Candidacy> getAllCandidancy(){
         return icandidacyService.getAllCandidancy();
     }
+    @GetMapping("/AllArchivedCandidancy")
+    @ResponseBody
+    public List<Candidacy> getAllArchivedCandidancy(){
+        return icandidacyService.getAllArchivedCandidancy();
+    }
+
     @GetMapping("/getCandidancyById/{id}")
     @ResponseBody
     public Candidacy getCandidacyById(@PathVariable("id")Long id){
         return icandidacyService.getCandidancyById(id);
     }
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping("/getCandidancyByOfferid/{idOffer}")
     @ResponseBody
     public List<Candidacy> getCandidacyByOfferid(@PathVariable("idOffer")Long idOffer){
@@ -102,14 +119,14 @@ public class CandidacyController {
 
 
     }
-    @PutMapping ("/deleteCandidancy/{id}")
+    @GetMapping  ("/deleteCandidancy/{id}")
     @ResponseBody
     public ResponseEntity<String> deleteCandidancy(@PathVariable("id")Long id){
         icandidacyService.deleteCandidacy(id);
         return ResponseEntity.ok("Votre Candidature est archivé");
     }
 
-    @PutMapping ("/restoreCandidancy/{id}")
+    @GetMapping ("/restoreCandidancy/{id}")
     @ResponseBody
     public ResponseEntity RestoreCandidancy(@PathVariable("id")Long id){
         icandidacyService.RestoreCandidacy(id);
@@ -117,9 +134,11 @@ public class CandidacyController {
     }
 
     @DeleteMapping("/deleteCandidacyFromDb/{id}")
-    public ResponseEntity deleteCandidacyFromDb(@PathVariable("id")Long candidatureId){
+    @ResponseBody
+    public void deleteCandidacyFromDb(@PathVariable("id")Long candidatureId){
         icandidacyService.deleteCandidacyFromDB(candidatureId);
-        return ResponseEntity.ok("Votre candidature est supprimé définitivement");
+        System.out.println("Votre candidature est supprimé définitivement");
+        //return ResponseEntity.ok("Votre candidature est supprimé définitivement");
     }
 
     @GetMapping("/getstatus/{status}/{userId}/{offerId}")

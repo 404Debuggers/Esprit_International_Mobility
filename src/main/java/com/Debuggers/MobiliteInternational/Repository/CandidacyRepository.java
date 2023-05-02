@@ -15,8 +15,11 @@ public interface CandidacyRepository extends JpaRepository<Candidacy ,Long> {
 
     @Query("SELECT c FROM Candidacy c WHERE c.archive = true")
     List<Candidacy> findAll();
+    @Query("SELECT c FROM Candidacy c WHERE c.archive = false")
+    List<Candidacy> findAllArchived();
     @Query("SELECT c from Candidacy c WHERE c.candidatureId = ?1 AND c.archive=true ")
     Candidacy findCandidaciesByCandidatureIdAndArchiveTrue(long id);
+
     List<Candidacy> findCandidaciesByOfferAndArchive(Offer offer,boolean archive);
     @Query("SELECT c FROM Candidacy c WHERE c.offer = ?1 AND c.archive = true ORDER BY c.marks DESC")
     List<Candidacy> findCandidaciesByOfferOrderedByMarksDescWhereArchiveIsTrue(Offer o);

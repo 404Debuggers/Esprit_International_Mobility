@@ -18,6 +18,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -71,17 +72,18 @@ public class PublicationServiceImp implements PublicationService {
     }
 
 
-    @Override
-    public Post addPostWithUser(Post post, Long userId) throws IOException {
+    public Post addPostWithUser(Post post, Principal principal) throws IOException {
 
-        User user = userRepository.findById(userId).orElse(null);
+        String email = principal.getName();
+
+        User user = userRepository.findByEmail(email);
         post.setUser(user);
         user.getPosts().add(post);
 
         post.setDescription(PostUtils.filterBadWords(post.getDescription()));
         post.setTitle(PostUtils.filterBadWords(post.getTitle()));
-
         return publicationRepository.save(post);
+
     }
 
 

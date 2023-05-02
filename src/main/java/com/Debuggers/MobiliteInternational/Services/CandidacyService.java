@@ -17,6 +17,9 @@ import java.util.List;
 
 public interface CandidacyService {
     List<Candidacy> getAllCandidancy();
+
+    List<Candidacy> getAllArchivedCandidancy();
+
     public Candidacy getCandidancyById(Long id);
 
 
@@ -29,7 +32,7 @@ public interface CandidacyService {
     public Candidacy updateCandidancy(Candidacy c, Long idCandidacy);
     void deleteCandidacy(Long id);
     void RestoreCandidacy(Long id);
-    void deleteCandidacyFromDB(long candidatureId);
+    public void deleteCandidacyFromDB(long candidatureId);
     public List<Candidacy> getCandidacyByOffer(Long idOffer);
     public List<Candidacy> getCandiacyByUser(Long idUser);
     public List<Candidacy> getCandiacyByUserAndOffer(Long idUser,Long idOffer);

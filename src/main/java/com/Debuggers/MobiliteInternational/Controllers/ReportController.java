@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
-@org.springframework.web.bind.annotation.RestController
+@RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
 public class ReportController {
     @Autowired
     ReportServiceImpl iReportService;
