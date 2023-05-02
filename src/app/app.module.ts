@@ -43,7 +43,7 @@ import { ViewCandidacyByofferComponent } from './view-candidacy-byoffer/view-can
     ForbiddenComponent,
     RegisterComponent,
     AddCandidacyComponent,
-    ViewCandidacyByofferComponent
+    ViewCandidacyByofferComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,8 +52,6 @@ import { ViewCandidacyByofferComponent } from './view-candidacy-byoffer/view-can
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-
-
   ],
   providers: [],
   bootstrap: [AppComponent]

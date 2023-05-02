@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
 export class LoginComponent implements OnInit {
 
   isLoginFailed= false ;
-  isLoggedIn = false; 
+  isLoggedIn = false;
   errorMessage='';
   username : string | undefined;
   password : string | undefined;
@@ -41,10 +41,11 @@ export class LoginComponent implements OnInit {
         this.router.navigate(['dashboard']);
         sessionStorage.setItem('Token', response.token);
         sessionStorage.setItem('Role', response.roles[0]);
+        sessionStorage.setItem('Username', response.email);
 
         this.isLoggedIn = true;
         this.isLoginFailed = false;
-      
+
 
       },
       (error) => {
