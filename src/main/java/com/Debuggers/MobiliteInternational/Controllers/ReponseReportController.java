@@ -4,20 +4,28 @@ package com.Debuggers.MobiliteInternational.Controllers;
 import com.Debuggers.MobiliteInternational.Entity.Enum.StatusReport;
 import com.Debuggers.MobiliteInternational.Entity.ReponseReport;
 import com.Debuggers.MobiliteInternational.Entity.Report;
+import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.ReponseReportRepository;
 import com.Debuggers.MobiliteInternational.Repository.ReportRepository;
+import com.Debuggers.MobiliteInternational.Repository.UserRepository;
 import com.Debuggers.MobiliteInternational.Services.Impl.ReponseReportImpl;
 import com.Debuggers.MobiliteInternational.Services.NotificationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
+import java.security.Principal;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
-@org.springframework.web.bind.annotation.RestController
+@RequestMapping("/api/test")
+@RestController
 @AllArgsConstructor
 public class ReponseReportController {
+
+  UserRepository userRepository;
     @Autowired
     private NotificationService notificationService;
     @Autowired
@@ -57,6 +65,9 @@ public class ReponseReportController {
         return reponseReport.addReponse(r,reportId);
 
     }
+
+
+
 
 
 

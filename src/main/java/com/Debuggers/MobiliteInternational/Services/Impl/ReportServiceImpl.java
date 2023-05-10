@@ -1,4 +1,5 @@
 package com.Debuggers.MobiliteInternational.Services.Impl;
+import com.Debuggers.MobiliteInternational.Entity.Enum.StatusReport;
 import com.Debuggers.MobiliteInternational.Entity.Report;
 import com.Debuggers.MobiliteInternational.Entity.User;
 import com.Debuggers.MobiliteInternational.Repository.ReportRepository;
@@ -8,9 +9,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -25,17 +28,22 @@ public class ReportServiceImpl implements ReportService {
     public List<Report> getAllReport() {
         return reportRepository.findAll();
     }
+    @Override
+    public List<Report> getAllArchivedReport() {
 
+    return reportRepository.findAllArchived();
+  }
     @Override
     public Report getReportById(long id) {
         return reportRepository.findById(id).orElse(null);
     }
 
     @Override
-    public Report addReport(Report r,Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
+    public Report addReport(Report r, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName());
 
         r.setUser(user);
+        r.setStatus(StatusReport.NOT_TREATED);
         user.getReportSet().add(r);
 
         return reportRepository.save(r);
@@ -81,6 +89,28 @@ public class ReportServiceImpl implements ReportService {
         }
         return percentages;
     }
+  @Override
+  public void ArchiveReport(Long id) {
+    Optional<Report> ReportOptional = reportRepository.findById(id);
+    if (ReportOptional.isPresent()) {
+      Report r = ReportOptional.get();
+      r.setArchive(false);
+      reportRepository.save(r);
+    } else {
+      // handle candidacy not found error
+    }
+  }
+  @Override
+  public void RestoreReport(Long id) {
+    Optional<Report> reportOptional = reportRepository.findById(id);
+    if (reportOptional.isPresent()) {
+      Report r = reportOptional.get();
+      r.setArchive(true);
+      reportRepository.save(r);
+    } else {
+      // handle candidacy not found error
+    }
+  }
 
 
 

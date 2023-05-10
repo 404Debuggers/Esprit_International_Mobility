@@ -6,6 +6,7 @@ import com.Debuggers.MobiliteInternational.Entity.Offer;
 import com.Debuggers.MobiliteInternational.Repository.OfferRepository;
 import com.Debuggers.MobiliteInternational.Services.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -76,7 +77,7 @@ public class OfferController {
 
     @PostMapping("/offersaddwithdate")
     public ResponseEntity<Offer> addOfferAtSpecificTime(@RequestBody Offer offer, @RequestHeader("X-Offer-Time") String offerTime) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
         LocalDateTime dateTime = LocalDateTime.parse(offerTime, formatter);
         offerService.addOfferAtSpecificTime(offer, dateTime);
         return ResponseEntity.ok(offer);
@@ -94,5 +95,14 @@ public class OfferController {
             return ResponseEntity.notFound().build();
         }
     }
+  @DeleteMapping("/users/{userId}/favorites/{offerId}")
+  public ResponseEntity<String> deleteFavorite(@PathVariable("userId") Long userId, @PathVariable("offerId") Long offerId) {
+    try {
+      offerService.deleteFavandRemoveFromUser(userId, offerId);
+      return ResponseEntity.ok("Favorite successfully deleted and removed from user");
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting favorite: " + e.getMessage());
+    }
+  }
 
 }

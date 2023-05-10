@@ -25,6 +25,7 @@ public class Report implements Serializable {
     private StatusReport status;
     private String type;
     private String description;
+    private Boolean archive;
     @ManyToOne(fetch = FetchType.EAGER)
 
     private User user;

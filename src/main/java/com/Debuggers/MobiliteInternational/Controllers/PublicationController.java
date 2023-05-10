@@ -13,6 +13,7 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/test")
 public class PublicationController {
 
     PublicationService publicationService;

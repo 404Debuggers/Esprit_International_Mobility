@@ -47,6 +47,7 @@ public interface OfferService {
 
 
     //public List<Offer> findSimilarOffersForUser(Long userId);
+    public void deleteFavandRemoveFromUser(Long user_Id, Long offerId);
 
 
 }
