@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -30,19 +31,21 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public Blog addBlogWithUser(Blog blog, Long userId) {
-
-        User user = userRepository.findById(userId).orElse(null);
-        if(user.getAlumni()) {
+    public Blog addBlogWithUser(Blog blog, Principal principal) {
+        String email = principal.getName();
+        User user = userRepository.findByEmail(email);
+        if(user != null && user.getAlumni()) {
             blog.setAuthor(user);
             user.getBlogSet().add(blog);
             return blogRepository.save(blog);
         }
-
-        else{
+        else {
             return null;
         }
     }
+
+
+
 
 
 
@@ -97,3 +100,4 @@ public class BlogServiceImpl implements BlogService {
     }
 
 }
+

@@ -24,7 +24,9 @@ public class Blog implements Serializable {
     private String title;
     private String description;
     private Double rating;
-
+    private int nbrlove;
+    private int nbrjaime ;
+    private int nbrjaimepas ;
     private String image;
     private  Boolean archive;
     @ManyToOne

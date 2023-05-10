@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -23,15 +24,18 @@ public class CommentServiceImpl implements CommentService {
     PublicationRepository publicationRepository;
     UserRepository userRepository;
 
+
+
+
     @Override
-    public Comment Addcoment(Comment comment, long idPost, long idUser) throws IOException {
+    public Comment Addcoment(Comment comment, long idPost, Principal principal) throws IOException {
         comment.setPost(publicationRepository.findById(idPost).orElseGet(null));
-        comment.setUser(userRepository.findById(idUser).orElseGet(null));
+        comment.setUser(userRepository.findByEmail(principal.getName()));
         comment.setDate(new Date());
 
         comment.setDescription(PostUtils.filterBadWords(comment.getDescription()));
 
-        return commentRepository.save(comment)  ;
+        return commentRepository.save(comment);
     }
 
     @Override

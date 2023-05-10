@@ -25,11 +25,15 @@ public class Comment implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date date;
     @ManyToOne
-    @JsonIgnore
+
     private User user;
     @ManyToOne
     @JsonIgnore
     private Post post;
+
+    @OneToMany(mappedBy="comment",cascade = CascadeType.ALL)
+    Set<Reply> reply;
+
 
 
 

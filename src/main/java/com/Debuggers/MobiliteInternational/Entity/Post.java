@@ -21,12 +21,14 @@ public class Post implements Serializable {
     private long postId;
     private String description;
     private String title;
-  @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.DATE)
     private Date date;
     private Boolean archive;
+    private int nbrLike ;
+    private int nbrDislike ;
+
 
     @ManyToMany
-    @JsonIgnore
     private Set<User> userLikes;
 
     @ManyToMany
@@ -36,7 +38,6 @@ public class Post implements Serializable {
 
     private User user;
     @OneToMany(mappedBy = "post",cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<Comment>commentSet;
 
 

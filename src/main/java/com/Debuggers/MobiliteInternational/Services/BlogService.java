@@ -7,12 +7,13 @@ import java.io.IOException;
 import com.Debuggers.MobiliteInternational.Entity.Blog;
 import com.Debuggers.MobiliteInternational.Entity.Comment;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface BlogService {
     public List<Blog> getAllBlogs();
     public   Blog getBlogById(Long id);
-    public Blog addBlogWithUser(Blog blog, Long userId) ;
+    public Blog addBlogWithUser(Blog blog, Principal principal) ;
 
 
     public Blog updateBlog(Long userId , Blog blog  ) throws IOException;
@@ -23,4 +24,3 @@ public interface BlogService {
     public Double calculateRatingForBlog(Long blogId);
     public Double getRatingForBlog(Long blogId);
 }
-

@@ -10,12 +10,15 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @AllArgsConstructor
+@RequestMapping("/api/test")
 public class CommentController {
     CommentService commentService;
+    @CrossOrigin(origins = "http://localhost:4200")
 
     @GetMapping("/GET")
     public List<Comment> listdesComments()
@@ -24,9 +27,9 @@ public class CommentController {
     }
 
 
-    @PostMapping("/Comm/{id}/{idUser}")
-    public Comment CommentPost(@RequestBody Comment comment ,@PathVariable(name = "id") long idPost , @PathVariable(name = "idUser") long idUser) throws IOException {
-        return commentService.Addcoment(comment, idPost,idUser);
+    @PostMapping("/Comm/{id}")
+    public Comment CommentPost(@RequestBody Comment comment ,@PathVariable(name = "id") long idPost , Principal principal) throws IOException {
+        return commentService.Addcoment(comment, idPost,principal);
 
     }
     @DeleteMapping("/DELETE/{id}")
