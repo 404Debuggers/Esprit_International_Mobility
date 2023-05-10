@@ -64,15 +64,25 @@ public class DormServiceImpl implements DormService {
 
     @Override
     public Dormitories UpdateDorm(Dormitories d, Long DormId) {
-        Dormitories dorm = dormRepository.findById(DormId).orElse(null);
-        dorm.setDormType(d.getDormType());
-        dorm.setDormstatus(d.getDormstatus());
-        dorm.setNbPlaces(d.getNbPlaces());
-        dorm.setDormType(d.getDormType());
-        dorm.setLocation(d.getLocation());
-        dorm.setPrix(d.getPrix());
-        dorm.setRent(d.getRent());
-        return dormitoriesRepository.save(dorm);
+      Dormitories dorm = dormRepository.findById(DormId).orElse(null);
+      if(d.getDormType()== DormType.Single){
+        dorm.setNbPlaces(1);
+      }
+      if(d.getDormType()== DormType.Double){
+        dorm.setNbPlaces(2);
+      }
+      if(d.getDormType()== DormType.ThreeBedRoom){
+        dorm.setNbPlaces(3);
+      }
+      if(d.getDormType()== DormType.FourBedRoom){
+        dorm.setNbPlaces(4);
+      }
+      dorm.setDormType(d.getDormType());
+      dorm.setDormType(d.getDormType());
+      dorm.setLocation(d.getLocation());
+      dorm.setPrix(d.getPrix());
+      dorm.setRent(d.getRent());
+      return dormitoriesRepository.save(dorm);
     }
 
     @Override

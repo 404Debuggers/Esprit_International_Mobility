@@ -20,6 +20,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api/test")
 public class DormController {
 
     DormService dormitoriesService;

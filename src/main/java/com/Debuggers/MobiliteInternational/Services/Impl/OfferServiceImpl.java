@@ -297,6 +297,24 @@ public class OfferServiceImpl implements OfferService {
             }
         }
     }
+  @Override
+  public void deleteFavandRemoveFromUser(Long user_Id, Long offerId) {
+
+    User user = userRepository.findById(user_Id).orElseThrow(null);
+    Offer offer = offerRepository.findById(offerId).orElseThrow(null);
+
+    // find the favorite and remove it from the user's favorites
+    Optional<UserOfferFav> favoriteOptional = user.getUserFavOffers().stream()
+      .filter(fav -> fav.getOffer().getOfferId().equals(offerId))
+      .findFirst();
+    favoriteOptional.ifPresent(favorite -> {
+      user.getUserFavOffers().remove(favorite);
+      userRepository.save(user);
+    });
+
+    // delete the favorite
+    favoriteOptional.ifPresent(userOfferFavRepository::delete);
+  }
 
 
 }

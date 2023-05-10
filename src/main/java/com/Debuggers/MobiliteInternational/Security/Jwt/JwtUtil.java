@@ -38,7 +38,7 @@ public class JwtUtil {
 
     private long jwtExpirationTime = 3600000;
 
-    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS256);
+    private static final Key secret = MacProvider.generateKey(SignatureAlgorithm.HS512);
 
 
     private static final byte[] secretBytes = secret.getEncoded();
@@ -54,7 +54,7 @@ public class JwtUtil {
                 .setSubject((userPrincipal.getUsername()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS256, base64SecretBytes)
+                .signWith(SignatureAlgorithm.HS512, base64SecretBytes)
                 .compact();
     }
 
