@@ -15,8 +15,12 @@ import lombok.AllArgsConstructor;
 
 import java.security.Principal;
 import java.util.List;
+
+import org.hibernate.cfg.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +37,17 @@ public class UserController {
     OfferRepository offerRepository;
     CandidacyRepository candidacyRepository;
     UserService userService;
-    private final UserRepository userRepository;
+
+    UserRepository userRepository;
+
+    JavaMailSender mailSender;
 
 
-    @GetMapping("")
+
+
+
+
+    @GetMapping("/getAllUsers")
     @ResponseBody
     public ResponseEntity<List<User>> getAllUsers(){
 
@@ -44,6 +55,29 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
+
+//    @GetMapping("/me")
+//    public String getCurrentUser(HttpServletRequest request, Authentication authentication) {
+//        UserDetailsImpl userDetails = (UserDetailsImpl) JwtUtil.getCurrentUser(request);
+//        String firstName =  userDetails.getEmail();
+//        return firstName;
+//    }
+
+
+//    @GetMapping("/current-user")
+//    public ResponseEntity<UserDetailsImpl> getCurrentUser(@RequestHeader("Authorization") String authorizationHeader) {
+//        String jwtToken = authorizationHeader.substring(7); // Remove the "Bearer " prefix
+//        UserDetailsImpl userDetails = JwtUtil.getUserDetailsFromJwtToken(jwtToken);
+//
+//        return ResponseEntity.ok(userDetails);
+//    }
+
+    @GetMapping("/currentUser")
+    public User profile(Principal principal){
+        //Principal utilsateur username
+        return userService.loadUserByEmail(principal.getName());
+
+    }
 
     @PostMapping("/{idRole}")
 
@@ -103,22 +137,16 @@ public class UserController {
         return ResponseEntity.ok(posts);
     }
 
+
+
     @GetMapping("/current-university/offers")
     @PreAuthorize("hasRole('PARTNER')")
     public ResponseEntity<List<Offer>> getCurrentUniversityOffer(Principal principal) {
         String email = principal.getName();
-
         List<Offer> offers = offerRepository.findByUniversityUserEmail(email);
         return ResponseEntity.ok(offers);
 
-
-
     }
-
-
-
-
-
 
     @GetMapping("/emails")
     public List<String> getAllUserEmails() {

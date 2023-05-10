@@ -16,6 +16,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -95,9 +96,9 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public void addFavandAssigntouser(Long user_Id, Long offerId) {
+    public void addFavandAssigntouser(Principal p , Long offerId) {
 
-        User user = userRepository.findById(user_Id).orElseThrow(null);
+        User user = userRepository.findUserByEmail(p.getName()).orElseThrow(null);
         Offer offer = offerRepository.findById(offerId).orElseThrow(null);
         UserOfferFav favorite = new UserOfferFav();
         favorite.setIsFavorite(Boolean.TRUE);
@@ -113,9 +114,10 @@ public class OfferServiceImpl implements OfferService {
     }
 
     @Override
-    public List<Offer> getFavOffers(Long user_Id) {
-
-        User user = userRepository.findById(user_Id).orElseThrow(null);
+    public List<Offer> getFavOffers(Principal principal) {
+        String username= principal.getName();
+        System.out.println(username);
+        User user = userRepository.findUserByEmail(username).orElseThrow(null);
         List<UserOfferFav> listfav = user.getUserFavOffers();
         List<Offer> favoriteOffers = new ArrayList<>();
         for (UserOfferFav uof: listfav
@@ -128,17 +130,17 @@ public class OfferServiceImpl implements OfferService {
         return favoriteOffers ;
     }
 
-    public List<StudyField> extractPropertiesFromOffers(Long user_Id) {
-        List<Offer> offer = (List<Offer>) getFavOffers(user_Id);
-        List<StudyField> properties = new ArrayList<>();
-        for (Offer offers : offer) {
-            properties.add(offers.getFieldOfStudy());
-            //properties.add(offer.getFieldOfStudy());
+        public List<StudyField> extractPropertiesFromOffers(Principal p) {
+            List<Offer> offer = (List<Offer>) getFavOffers(p);
+            List<StudyField> properties = new ArrayList<>();
+            for (Offer offers : offer) {
+                properties.add(offers.getFieldOfStudy());
+                //properties.add(offer.getFieldOfStudy());
 
-            // Add more properties as needed
+                // Add more properties as needed
+            }
+            return properties;
         }
-        return properties;
-    }
 
 
   /*public List<Offer> findOffersWithSimilarProperties(Long user_Id) {
@@ -174,11 +176,12 @@ public class OfferServiceImpl implements OfferService {
     }
 */
 
-    public List<Offer>  findOffersWithSimilarProperties(Long user_Id) {
+    public List<Offer>  findOffersWithSimilarProperties(Principal principal) {
+
         List<Offer> similarOffers = new ArrayList<>();
         List<Offer> dissimilarOffers = new ArrayList<>();
         int var = 0 ;
-        List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(user_Id);
+        List<StudyField> properties = (List<StudyField>) extractPropertiesFromOffers(principal);
         List<Offer> offers = offerRepository.findAll();
         for (Offer offer : offers) {
             var = 0 ;
@@ -298,9 +301,9 @@ public class OfferServiceImpl implements OfferService {
         }
     }
   @Override
-  public void deleteFavandRemoveFromUser(Long user_Id, Long offerId) {
+  public void deleteFavandRemoveFromUser(Principal p, Long offerId) {
 
-    User user = userRepository.findById(user_Id).orElseThrow(null);
+    User user = userRepository.findUserByEmail(p.getName()).orElseThrow(null);
     Offer offer = offerRepository.findById(offerId).orElseThrow(null);
 
     // find the favorite and remove it from the user's favorites
@@ -310,6 +313,7 @@ public class OfferServiceImpl implements OfferService {
     favoriteOptional.ifPresent(favorite -> {
       user.getUserFavOffers().remove(favorite);
       userRepository.save(user);
+        System.out.println(user);
     });
 
     // delete the favorite

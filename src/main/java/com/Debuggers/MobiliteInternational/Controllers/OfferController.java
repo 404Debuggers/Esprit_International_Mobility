@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -49,16 +51,16 @@ public class OfferController {
         return  offerService.updateOffer(offer);
     }
 
-    @GetMapping("/addfavofferandAssignToUser/{user_Id}/{offerId}")
-    public void addFavandAssigntouser(@PathVariable Long user_Id,@PathVariable Long offerId) {
-        offerService.addFavandAssigntouser(user_Id,offerId);
+    @GetMapping("/addfavofferandAssignToUser/{offerId}")
+    public void addFavandAssigntouser(Principal p ,@PathVariable Long offerId) {
+        offerService.addFavandAssigntouser(p,offerId);
 
     }
 
-    @GetMapping("/getfavoffer/{user_Id}")
-    public List<Offer> getFavOffers(@PathVariable Long user_Id)
+    @GetMapping("/getfavoffer")
+    public List<Offer> getFavOffers(Principal principal)
     {
-        return offerService.getFavOffers(user_Id);
+        return offerService.getFavOffers(principal);
     }
 
    /*@GetMapping("/getSmilarFavOffers/{user_Id}")
@@ -66,13 +68,13 @@ public class OfferController {
         return offerService.findSimilarOffersForUser(userId);
     }*/
 
-    @GetMapping("/getprop/{user_Id}")
+    @GetMapping("/getprop/")
 
-    public List<StudyField> extractPropertiesFromOffers(@PathVariable Long user_Id )
-    { return offerService.extractPropertiesFromOffers(user_Id);}
+    public List<StudyField> extractPropertiesFromOffers(Principal p)
+    { return offerService.extractPropertiesFromOffers(p);}
 
-    @GetMapping("/findOffersWithS/{user_Id}")
-    public List<Offer> findOffersWithSimilarProperties(@PathVariable Long user_Id){ return offerService.findOffersWithSimilarProperties(user_Id);}
+    @GetMapping("/findOffersWithS")
+    public List<Offer> findOffersWithSimilarProperties(Principal p){ return offerService.findOffersWithSimilarProperties(p);}
 
 
     @PostMapping("/offersaddwithdate")
@@ -95,10 +97,10 @@ public class OfferController {
             return ResponseEntity.notFound().build();
         }
     }
-  @DeleteMapping("/users/{userId}/favorites/{offerId}")
-  public ResponseEntity<String> deleteFavorite(@PathVariable("userId") Long userId, @PathVariable("offerId") Long offerId) {
+  @DeleteMapping("/users/favorites/{offerId}")
+  public ResponseEntity<String> deleteFavorite(Principal p, @PathVariable("offerId") Long offerId) {
     try {
-      offerService.deleteFavandRemoveFromUser(userId, offerId);
+      offerService.deleteFavandRemoveFromUser(p, offerId);
       return ResponseEntity.ok("Favorite successfully deleted and removed from user");
     } catch (Exception e) {
       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error deleting favorite: " + e.getMessage());

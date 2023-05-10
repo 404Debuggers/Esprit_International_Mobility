@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 public class ReminderEventImpl implements Runnable {
 
-    @Autowired
+
     private  EmailSenderService emailSenderService;
     private Event event;
     private Interview interview;

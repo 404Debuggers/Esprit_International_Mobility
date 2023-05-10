@@ -35,7 +35,12 @@ public class User implements Serializable {
     private boolean enabled;
 
 
-    private String token;
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     @ManyToMany(fetch= FetchType.LAZY)
     @JoinTable(  name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -85,4 +90,3 @@ public class User implements Serializable {
     }
 
 }
-

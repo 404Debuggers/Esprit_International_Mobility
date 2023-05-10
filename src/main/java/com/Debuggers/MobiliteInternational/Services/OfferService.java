@@ -1,6 +1,8 @@
 package com.Debuggers.MobiliteInternational.Services;
 import com.Debuggers.MobiliteInternational.Entity.Enum.StudyField;
 import com.Debuggers.MobiliteInternational.Entity.Offer;
+
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +28,13 @@ public interface OfferService {
 
     void sendEmail(List<String> to, String subject, String body);
 
-    public void addFavandAssigntouser(Long user_Id , Long offerId);
+    public void addFavandAssigntouser(Principal p  , Long offerId);
 
-    public List<Offer> getFavOffers(Long user_Id);
+    public List<Offer> getFavOffers(Principal p);
 
-    public List<StudyField> extractPropertiesFromOffers(Long user_Id);
+    public List<StudyField> extractPropertiesFromOffers(Principal p);
 
-    public List<Offer> findOffersWithSimilarProperties(Long user_Id);
+    public List<Offer> findOffersWithSimilarProperties(Principal p);
 
     Offer addOfferAtSpecificTime(Offer offer, LocalDateTime time);
 
@@ -47,7 +49,7 @@ public interface OfferService {
 
 
     //public List<Offer> findSimilarOffersForUser(Long userId);
-    public void deleteFavandRemoveFromUser(Long user_Id, Long offerId);
+    public void deleteFavandRemoveFromUser(Principal p, Long offerId);
 
 
 }

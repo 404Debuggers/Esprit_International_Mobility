@@ -13,9 +13,11 @@ import com.Debuggers.MobiliteInternational.Response.MessageResponse;
 import com.Debuggers.MobiliteInternational.Security.Jwt.JwtUtil;
 import com.Debuggers.MobiliteInternational.Security.Services.IMailService;
 import com.Debuggers.MobiliteInternational.Security.Services.UserDetailsImpl;
+import com.Debuggers.MobiliteInternational.Services.Impl.EmailSenderService;
 import com.Debuggers.MobiliteInternational.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +25,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +34,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -48,16 +52,26 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @Autowired
+    private JavaMailSender mailSender;
+
+    @Autowired
     JwtUtil jwtUtils;
 
     @Autowired
     UserService userService;
 
+    static String tokenn;
+
+
+    EmailSenderService service;
 
 
 
-    @Autowired
-    IMailService mailService;
+
+
+
+
+
 
 
 
@@ -87,8 +101,9 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @CrossOrigin(origins = "http://localhost:4200")
 
-    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) throws MessagingException {
 
 
         if (userRepository.existsByEmail(signUpRequest.getEmail())) {
@@ -134,7 +149,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        user.setToken(token); // Save the verification token with the user details
+        user.setVerificationCode(token); // Save the verification token with the user details
 
         userRepository.save(user);
 
@@ -142,13 +157,12 @@ public class AuthController {
         String subject = "Verify your email address";
         String confirmationUrl = "http://localhost:8080/verify-email?token=" + token; // Replace with your verification URL
         String message = "Please click the link below to verify your email address:\n" + confirmationUrl;
-        mailService.sendEmail(user.getEmail(), subject, message);
+        service.sendSimpleEmail(user.getEmail(),message,subject);
 
         user.setEnabled(true);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
-
 
 
     @CrossOrigin(origins = "*")
